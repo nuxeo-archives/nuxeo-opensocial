@@ -7,7 +7,7 @@
   <parent>
     <artifactId>nuxeo-opensocial-parent</artifactId>
     <groupId>org.nuxeo.ecm.opensocial</groupId>
-    <version>5.4.2.1-SNAPSHOT</version>
+    <version>5.4.2-HF08</version>
   </parent>
 
   <artifactId>nuxeo-gwt-richtexteditor</artifactId>

@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -210,29 +207,26 @@
             <phase>process-classes</phase>
             <configuration>
               <tasks>
-                <property name="compile_classpath"
-                  refid="maven.compile.classpath"/>
-                <property name="runtime_classpath"
-                  refid="maven.runtime.classpath"/>
-                <java failonerror="true" fork="true"
-                  classname="com.google.gwt.dev.Compiler">
+                <property name="compile_classpath" refid="maven.compile.classpath"></property>
+                <property name="runtime_classpath" refid="maven.runtime.classpath"></property>
+                <java classname="com.google.gwt.dev.Compiler" failonerror="true" fork="true">
 
                   <classpath>
-                    <pathelement location="${project.build.outputDirectory}"/>
-                    <pathelement path="${compile_classpath}"/>
-                    <pathelement path="${runtime_classpath}"/>
+                    <pathelement location="${project.build.outputDirectory}"></pathelement>
+                    <pathelement path="${compile_classpath}"></pathelement>
+                    <pathelement path="${runtime_classpath}"></pathelement>
                   </classpath>
 
-                  <jvmarg value="-Xmx256M"/>
+                  <jvmarg value="-Xmx256M"></jvmarg>
                   <!-- jvmarg value="${gwt.arg}" / -->
-                  <arg value="-style"/>
-                  <arg value="PRETTY"/>
+                  <arg value="-style"></arg>
+                  <arg value="PRETTY"></arg>
 
                   <!-- to speed up compiler <arg value="-draftCompile" / -->
-                  <arg value="-draftCompile"/>
-                  <arg value="-war"/>
-                  <arg value="${project.build.outputDirectory}/gwt-war"/>
-                  <arg value="${gwt.module}"/>
+                  <arg value="-draftCompile"></arg>
+                  <arg value="-war"></arg>
+                  <arg value="${project.build.outputDirectory}/gwt-war"></arg>
+                  <arg value="${gwt.module}"></arg>
                 </java>
               </tasks>
             </configuration>
@@ -245,4 +239,3 @@
     </plugins>
   </build>
 </project>
-

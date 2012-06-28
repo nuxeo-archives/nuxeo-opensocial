@@ -1,3 +1,5 @@
+var prefs = new gadgets.Prefs();
+
 // insert the whole table, as stupid IE can't do a tbody.innerHtml
 function tableStart(jsonObject, nxParams) {
   var html = "";
@@ -150,6 +152,18 @@ function mkCell(colDef, dashBoardItem) {
             html += dashBoardItem.title;
             html += "</a></td>";
         }
+    } else if (colDef.type == 'system') {
+        html += "<td>";
+        if (colDef.i18n) {
+            var  text = prefs.getMsg(dashBoardItem[colDef.field]);
+            if (text == "") {
+                text = dashBoardItem[colDef.field];
+            }
+            html += text;
+        } else {
+            html += dashBoardItem[colDef.field];
+        }
+        html += "</td>";
     } else {
         html += "<td>";
         if (colDef.type == 'date') {

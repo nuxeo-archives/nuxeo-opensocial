@@ -132,14 +132,14 @@ function mkCell(colDef, dashBoardItem) {
         }
         else if (colDef.field == "titleWithLink") {
             html += "<td><a target = \"_top\" title=\"";
-            html += dashBoardItem.title;
+            html += gadgets.util.escapeString(dashBoardItem.title);
             html += "\" href=\"";
             html += NXGadgetContext.clientSideBaseUrl;
             html += "nxpath/default";
             html += dashBoardItem.path;
             html += "@view_documents";
             html += "\" />";
-            html += dashBoardItem.title;
+            html += gadgets.util.escapeString(dashBoardItem.title);
             html += "</a></td>";
         }
     } else {
@@ -147,7 +147,7 @@ function mkCell(colDef, dashBoardItem) {
         if (colDef.type == 'date') {
             html += getDateForDisplay(dashBoardItem.properties[colDef.field]);
         } else {
-            html += dashBoardItem.properties[colDef.field];
+            html += gadgets.util.escapeString(dashBoardItem.properties[colDef.field]);
         }
         html += "</td>";
     }

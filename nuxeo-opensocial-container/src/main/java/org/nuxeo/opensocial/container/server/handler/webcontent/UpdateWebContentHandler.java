@@ -17,11 +17,13 @@
 
 package org.nuxeo.opensocial.container.server.handler.webcontent;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.spaces.api.Space;
@@ -79,7 +81,13 @@ public class UpdateWebContentHandler extends
                  UploadedFile uploadedFile = (UploadedFile) mgr.get(fileId);
                  if (uploadedFile != null) {
                      mgr.remove(fileId);
-                     webContent.addFile((Serializable) getBlob(uploadedFile.getFile()));
+                         Blob blob = getBlob(uploadedFile.getFile());
+                	 try {
+                	     blob.persist();
+                	 } catch (IOException e) {
+                	     throw new ClientException("Unable to persist blob.", e);
+                	 }
+                	 webContent.addFile((Serializable) blob);
                  } else {
                      // TODO a file has been uploaded but is not in the http
                      // session

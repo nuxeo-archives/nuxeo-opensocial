@@ -147,7 +147,9 @@ function mkCell(colDef, dashBoardItem) {
         if (colDef.type == 'date') {
             html += getDateForDisplay(dashBoardItem.properties[colDef.field]);
         } else {
-            html += gadgets.util.escapeString(dashBoardItem.properties[colDef.field]);
+            if (!!dashBoardItem.properties[colDef.field]) {
+                html += gadgets.util.escapeString(dashBoardItem.properties[colDef.field]);
+            }
         }
         html += "</td>";
     }

@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.shindig.gadgets.spec.GadgetSpec;
 import org.junit.Before;
-import org.junit.After;
 import org.junit.Test;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.storage.sql.DatabaseHelper;
@@ -56,13 +55,6 @@ public class TestGadgetService extends NXRuntimeTestCase {
         "OSGI-INF/directory-test-config.xml");
 
         Framework.getProperties().put(NUXEO_LOOPBACK_URL, "http://localhost:8080/nuxeo");
-    }
-
-    @Override
-    @After
-    public void tearDown() throws Exception {
-        DatabaseHelper.DATABASE.tearDown();
-        super.tearDown();
     }
 
     @Test
@@ -121,7 +113,7 @@ public class TestGadgetService extends NXRuntimeTestCase {
 
 
     }
-    
+
     @Test
     public void testGadgetCategories() throws Exception {
         GadgetService service = Framework.getService(GadgetService.class);

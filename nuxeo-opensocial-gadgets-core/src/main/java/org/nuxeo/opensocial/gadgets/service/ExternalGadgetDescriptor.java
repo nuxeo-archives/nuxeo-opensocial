@@ -19,7 +19,6 @@ package org.nuxeo.opensocial.gadgets.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
@@ -56,7 +55,7 @@ public class ExternalGadgetDescriptor extends BaseGadgetDescriptor implements
         return disabled;
     }
 
-    public URL getGadgetDefinition() throws MalformedURLException {
+    public URL getGadgetDefinition() {
         return gadgetDefinition;
     }
 

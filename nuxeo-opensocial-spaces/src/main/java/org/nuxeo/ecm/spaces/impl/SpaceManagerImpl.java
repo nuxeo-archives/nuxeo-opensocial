@@ -58,13 +58,13 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
     protected List<String> spacePermissions;
 
     @Override
-    public void activate(ComponentContext context) throws Exception {
+    public void activate(ComponentContext context) {
         spaceProviders = new HashMap<String, SpaceProvider>();
         spacePermissions = new ArrayList<String>();
     }
 
     @Override
-    public void deactivate(ComponentContext context) throws Exception {
+    public void deactivate(ComponentContext context) {
         spaceProviders = null;
         spacePermissions = null;
     }
@@ -134,8 +134,7 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
 
     @Override
     public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
         if (SPACE_PROVIDER_EP.equals(extensionPoint)) {
             SpaceProviderDescriptor descriptor = (SpaceProviderDescriptor) contribution;
             String name = descriptor.getName();
@@ -170,8 +169,7 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
 
     @Override
     public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
         if (SPACE_PROVIDER_EP.equals(extensionPoint)) {
             SpaceProviderDescriptor descriptor = (SpaceProviderDescriptor) contribution;
             String name = descriptor.getName();

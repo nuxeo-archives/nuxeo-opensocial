@@ -121,11 +121,7 @@ public class WebContentHelper {
 
         for (GadgetDeclaration gadgetDef : gs.getGadgetList()) {
             if (gadgetDef.getName().equals(name)) {
-                try {
-                    return gadgetDef.getGadgetDefinition().toString();
-                } catch (MalformedURLException e) {
-                    return null;
-                }
+                return gadgetDef.getGadgetDefinition().toString();
             }
         }
 

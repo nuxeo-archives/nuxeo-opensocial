@@ -20,7 +20,6 @@ package org.nuxeo.opensocial.gadgets.service.api;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 
@@ -48,7 +47,7 @@ public interface GadgetDeclaration {
 
     InputStream getResourceAsStream(String resourcePath) throws IOException;
 
-    URL getGadgetDefinition() throws MalformedURLException;
+    URL getGadgetDefinition();
 
     /**
      * Returns the public URL of the gadget spec. That URL can be used to add
@@ -56,7 +55,7 @@ public interface GadgetDeclaration {
      *
      * @since 5.4.2
      */
-    String getPublicGadgetDefinition() throws MalformedURLException;
+    String getPublicGadgetDefinition();
 
     boolean isExternal();
 

@@ -187,12 +187,15 @@ public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
         return gadgetURL;
     }
 
-    public URL getGadgetDefinition() throws MalformedURLException {
-        return new URL(getGadgetDefinition(false));
+    public URL getGadgetDefinition() {
+        try {
+            return new URL(getGadgetDefinition(false));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected String getGadgetDefinition(boolean relativeUrl)
-            throws MalformedURLException {
+    protected String getGadgetDefinition(boolean relativeUrl) {
         StringBuilder sb = getUrlPrefix(relativeUrl);
         sb.append(getMountPoint());
         sb.append(URL_SEPARATOR);
@@ -201,7 +204,7 @@ public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
     }
 
     @Override
-    public String getPublicGadgetDefinition() throws MalformedURLException {
+    public String getPublicGadgetDefinition() {
         return getGadgetDefinition(true);
     }
 
@@ -235,7 +238,7 @@ public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
      * Shindig always prepend the beginning of the Spec URL if it gets a
      * relative URL for Thumbnail or Screenshot in the gadget spec, but we need
      * a relative URL.
-     * 
+     *
      */
     protected String rewriteURL(String url) {
         if (url != null) {

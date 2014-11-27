@@ -1,7 +1,6 @@
 package org.nuxeo.opensocial.gadgets.service;
 
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
@@ -111,7 +110,7 @@ public abstract class BaseGadgetDescriptor implements Serializable,
     }
 
     @Override
-    public String getPublicGadgetDefinition() throws MalformedURLException {
+    public String getPublicGadgetDefinition() {
         return getGadgetDefinition().toString();
     }
 

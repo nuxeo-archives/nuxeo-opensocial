@@ -80,8 +80,7 @@ public class OpenSocialServiceImpl extends DefaultComponent implements
 
     @Override
     public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
         if (XP_OPENSOCIAL.equals(extensionPoint)) {
             os = (OpenSocialDescriptor) contribution;
         }
@@ -108,7 +107,7 @@ public class OpenSocialServiceImpl extends DefaultComponent implements
     }
 
     @Override
-    public void activate(ComponentContext context) throws Exception {
+    public void activate(ComponentContext context) {
         LOG.info("Activate component OpenSocial service");
         if (injector == null) {
             injector = GuiceContextListener.guiceInjector;

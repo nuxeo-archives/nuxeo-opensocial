@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shindig.gadgets.GadgetException;
 import org.apache.shindig.gadgets.spec.GadgetSpec;
 
 public interface GadgetService {
@@ -86,17 +87,17 @@ public interface GadgetService {
      *
      * @param gadgetName the gadget symbolic name
      * @return
-     * @throws Exception
      */
-    GadgetSpec getGadgetSpec(String gadgetName) throws Exception;
+    GadgetSpec getGadgetSpec(String gadgetName) throws IOException,
+            GadgetException;
 
     /**
      * Return the parsed Gadget Spec (may require an http fetch)
      *
      * @param declaration
      * @return
-     * @throws Exception
      */
-    GadgetSpec getGadgetSpec(GadgetDeclaration declaration) throws Exception;
+    GadgetSpec getGadgetSpec(GadgetDeclaration declaration) throws IOException,
+            GadgetException;
 
 }

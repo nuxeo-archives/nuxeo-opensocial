@@ -36,6 +36,7 @@ import org.apache.shindig.common.cache.NullCache;
 import org.apache.shindig.common.uri.Uri;
 import org.apache.shindig.gadgets.DefaultGadgetSpecFactory;
 import org.apache.shindig.gadgets.GadgetContext;
+import org.apache.shindig.gadgets.GadgetException;
 import org.apache.shindig.gadgets.GadgetSpecFactory;
 import org.apache.shindig.gadgets.http.BasicHttpFetcher;
 import org.apache.shindig.gadgets.http.DefaultHttpCache;
@@ -80,8 +81,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
 
     @Override
     public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
 
         if (GADGET_XP.equals(extensionPoint)) {
             InternalGadgetDescriptor gadget = (InternalGadgetDescriptor) contribution;
@@ -93,8 +93,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
 
     @Override
     public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
         if (GADGET_XP.equals(extensionPoint)) {
             InternalGadgetDescriptor gadget = (InternalGadgetDescriptor) contribution;
             unregisterNewGadget(gadget, contributor);
@@ -134,13 +133,14 @@ public class GadgetServiceImpl extends DefaultComponent implements
 
     }
 
-    public GadgetSpec getGadgetSpec(String name) throws Exception {
+    public GadgetSpec getGadgetSpec(String name) throws IOException,
+            GadgetException {
         GadgetDeclaration dec = getGadget(name);
         return getGadgetSpec(dec);
     }
 
     public GadgetSpec getGadgetSpec(GadgetDeclaration declaration)
-            throws Exception {
+            throws IOException, GadgetException {
         if (declaration == null) {
             return null;
         }
@@ -238,13 +238,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
             log.warn("Unable to find gadget" + gadgetName);
             return null;
         }
-        try {
-            return gadget.getGadgetDefinition();
-        } catch (MalformedURLException e) {
-            log.error(e, e);
-        }
-
-        return null;
+        return gadget.getGadgetDefinition();
     }
 
     public List<String> getGadgetCategory() {

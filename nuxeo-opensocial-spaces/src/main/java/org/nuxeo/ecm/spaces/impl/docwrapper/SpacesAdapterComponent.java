@@ -45,8 +45,7 @@ public class SpacesAdapterComponent extends DefaultComponent implements
 
     @Override
     public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
         if ("factory".equals(extensionPoint)) {
             SpaceFactoryDescriptor desc = (SpaceFactoryDescriptor) contribution;
             factories.put(desc.getType(), desc.getKlass());
@@ -55,8 +54,7 @@ public class SpacesAdapterComponent extends DefaultComponent implements
 
     @Override
     public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor)
-            throws Exception {
+            String extensionPoint, ComponentInstance contributor) {
         if ("factory".equals(extensionPoint)) {
             SpaceFactoryDescriptor desc = (SpaceFactoryDescriptor) contribution;
             if (factories.containsKey(desc.getType())) {

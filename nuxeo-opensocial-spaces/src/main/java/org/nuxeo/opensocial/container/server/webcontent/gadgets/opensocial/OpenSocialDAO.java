@@ -10,8 +10,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.OpenSocialData;
 public class OpenSocialDAO extends AbstractWebContentDAO<OpenSocialData> {
 
     @Override
-    public OpenSocialData create(OpenSocialData data, String parentId,
-            CoreSession session) throws Exception {
+    public OpenSocialData create(OpenSocialData data, String parentId, CoreSession session) throws Exception {
         return super.create(data, data.getGadgetName(), parentId, session);
     }
 

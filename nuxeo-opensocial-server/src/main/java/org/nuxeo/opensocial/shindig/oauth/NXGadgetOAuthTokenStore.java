@@ -38,14 +38,10 @@ import net.oauth.OAuth;
 import net.oauth.OAuthConsumer;
 
 /**
- * Override the default GadgetOAuthTokenStore to add management for Shindig to
- * Nuxeo local communication.
- *
- * Basically if no OAuth config was found for a local request, we use the shared
- * key between Shindig and Nuxeo to do Sign Fetch
+ * Override the default GadgetOAuthTokenStore to add management for Shindig to Nuxeo local communication. Basically if
+ * no OAuth config was found for a local request, we use the shared key between Shindig and Nuxeo to do Sign Fetch
  *
  * @author tiry
- *
  */
 public class NXGadgetOAuthTokenStore extends GadgetOAuthTokenStore {
 
@@ -54,8 +50,7 @@ public class NXGadgetOAuthTokenStore extends GadgetOAuthTokenStore {
     protected OAuthServerKeyManager okm;
 
     @Inject
-    public NXGadgetOAuthTokenStore(OAuthStore store,
-            GadgetSpecFactory specFactory) {
+    public NXGadgetOAuthTokenStore(OAuthStore store, GadgetSpecFactory specFactory) {
         super(store, specFactory);
         os = Framework.getLocalService(OpenSocialService.class);
         okm = Framework.getLocalService(OAuthServerKeyManager.class);
@@ -77,22 +72,18 @@ public class NXGadgetOAuthTokenStore extends GadgetOAuthTokenStore {
     protected boolean isInternalRequest(OAuthArguments arguments) {
         // At this point we don't have the information about the requestURI
         // ==> we have to rely on a flag that is set by the caller
-        return arguments.getRequestOption(
-                NuxeoOAuthRequest.NUXEO_INTERNAL_REQUEST, "false").equals(
-                "true");
+        return arguments.getRequestOption(NuxeoOAuthRequest.NUXEO_INTERNAL_REQUEST, "false").equals("true");
     }
 
     @Override
-    public AccessorInfo getOAuthAccessor(SecurityToken securityToken,
-            OAuthArguments arguments, OAuthClientState clientState,
-            OAuthResponseParams responseParams, OAuthFetcherConfig fetcherConfig)
+    public AccessorInfo getOAuthAccessor(SecurityToken securityToken, OAuthArguments arguments,
+            OAuthClientState clientState, OAuthResponseParams responseParams, OAuthFetcherConfig fetcherConfig)
             throws OAuthRequestException {
 
-        AccessorInfo accessorInfo = super.getOAuthAccessor(securityToken,
-                arguments, clientState, responseParams, fetcherConfig);
+        AccessorInfo accessorInfo = super.getOAuthAccessor(securityToken, arguments, clientState, responseParams,
+                fetcherConfig);
 
-        if (isConsumerEmpty(accessorInfo.getConsumer())
-                && isInternalRequest(arguments)
+        if (isConsumerEmpty(accessorInfo.getConsumer()) && isInternalRequest(arguments)
                 && !os.propagateJSESSIONIDToTrustedHosts()) {
             AccessorInfoBuilder accessorBuilder = new AccessorInfoBuilder();
             accessorBuilder.setParameterLocation(AccessorInfo.OAuthParamLocation.URI_QUERY);
@@ -102,12 +93,10 @@ public class NXGadgetOAuthTokenStore extends GadgetOAuthTokenStore {
             String consumerKey = okm.getInternalKey();
             String secret = okm.getInternalSecret();
 
-            OAuthConsumer consumer = new OAuthConsumer(callBack, consumerKey,
-                    secret, null);
+            OAuthConsumer consumer = new OAuthConsumer(callBack, consumerKey, secret, null);
             consumer.setProperty(OAuth.OAUTH_SIGNATURE_METHOD, OAuth.HMAC_SHA1);
 
-            ConsumerInfo ci = new ConsumerInfo(consumer,
-                    arguments.getServiceName(), callBack);
+            ConsumerInfo ci = new ConsumerInfo(consumer, arguments.getServiceName(), callBack);
             accessorBuilder.setConsumer(ci);
 
             return accessorBuilder.create(responseParams);

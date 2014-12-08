@@ -51,8 +51,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class ContainerBuilderWidget extends DialogBox implements
-        ContainerBuilderPresenter.Display {
+public class ContainerBuilderWidget extends DialogBox implements ContainerBuilderPresenter.Display {
 
     private ContainerConstants constants = AppPresenter.containerConstants;
 
@@ -224,8 +223,7 @@ public class ContainerBuilderWidget extends DialogBox implements
             properties.put("cellIndex", cell.getRowIndex());
             properties.put("rowIndex", cell.getCellIndex());
             properties.put("template",
-                    (((CustomListBox) listOfZoneDesigner.getWidget(
-                            cell.getRowIndex(), 1)).getValue()));
+                    (((CustomListBox) listOfZoneDesigner.getWidget(cell.getRowIndex(), 1)).getValue()));
         }
 
         return properties;
@@ -283,8 +281,7 @@ public class ContainerBuilderWidget extends DialogBox implements
 
     @SuppressWarnings("unchecked")
     public HasMultipleValue<String> getZone(int index) {
-        return (HasMultipleValue<String>) listOfZoneDesigner.getWidget(
-                index + 1, 1);
+        return (HasMultipleValue<String>) listOfZoneDesigner.getWidget(index + 1, 1);
     }
 
     public void showHTMLCode(String codeSource) {
@@ -306,20 +303,16 @@ public class ContainerBuilderWidget extends DialogBox implements
                 }
             }
             maLigne = maLigne.replace("<", "&lt;");
-            maLigne = maLigne.replace("div",
-                    "<span style='color: blue;'>div</span>");
-            maLigne = maLigne.replace("id=",
-                    "<span style='color: red;'>id</span>=");
-            maLigne = maLigne.replace("class",
-                    "<span style='color: red;'>class</span>");
+            maLigne = maLigne.replace("div", "<span style='color: blue;'>div</span>");
+            maLigne = maLigne.replace("id=", "<span style='color: red;'>id</span>=");
+            maLigne = maLigne.replace("class", "<span style='color: red;'>class</span>");
 
             int commentBegin = maLigne.indexOf("&lt;!--");
 
             if (commentBegin != -1) {
                 int commentEnd = maLigne.indexOf("-->");
                 String comment = maLigne.substring(commentBegin, commentEnd + 3);
-                maLigne = maLigne.replace(comment,
-                        "<span style='color: #008000;'>" + comment + "</span>");
+                maLigne = maLigne.replace(comment, "<span style='color: #008000;'>" + comment + "</span>");
             }
 
             HTML htmlLine = new HTML(maLigne);
@@ -334,8 +327,7 @@ public class ContainerBuilderWidget extends DialogBox implements
         });
 
         tab.add(closeButton);
-        tab.setCellHorizontalAlignment(closeButton,
-                HasHorizontalAlignment.ALIGN_CENTER);
+        tab.setCellHorizontalAlignment(closeButton, HasHorizontalAlignment.ALIGN_CENTER);
 
         codePopup.add(tab);
         codePopup.center();

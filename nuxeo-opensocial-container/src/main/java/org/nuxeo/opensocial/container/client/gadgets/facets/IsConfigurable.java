@@ -26,7 +26,6 @@ import org.nuxeo.opensocial.container.client.presenter.AppPresenter;
  */
 public class IsConfigurable extends Facet {
     public IsConfigurable() {
-        super(AppPresenter.containerConstants.configure(), "facet-configure",
-                new SetPreferencesPortletEvent());
+        super(AppPresenter.containerConstants.configure(), "facet-configure", new SetPreferencesPortletEvent());
     }
 }

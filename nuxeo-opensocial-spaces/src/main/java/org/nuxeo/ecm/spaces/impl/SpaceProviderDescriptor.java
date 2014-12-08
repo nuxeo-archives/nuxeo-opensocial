@@ -50,8 +50,7 @@ public class SpaceProviderDescriptor {
     }
 
     /**
-     * Create the {@code SpaceProvider} instance and initialize it with this
-     * {@code SpaceProviderDescriptor} attributes.
+     * Create the {@code SpaceProvider} instance and initialize it with this {@code SpaceProviderDescriptor} attributes.
      *
      * @return a {@code SpaceProvider} instance.
      */
@@ -67,13 +66,11 @@ public class SpaceProviderDescriptor {
 
     /*
      * (non-Javadoc)
-     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "SpaceProviderDescriptor [klass=" + klass + ", name=" + name
-                + "]";
+        return "SpaceProviderDescriptor [klass=" + klass + ", name=" + name + "]";
     }
 
 }

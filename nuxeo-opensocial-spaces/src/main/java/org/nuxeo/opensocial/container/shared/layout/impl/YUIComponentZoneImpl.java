@@ -11,8 +11,7 @@ import org.nuxeo.opensocial.container.shared.layout.enume.YUITemplate;
 /**
  * @author Stéphane Fourrier
  */
-public class YUIComponentZoneImpl extends YUIAbstractComponent implements
-        Serializable, YUIComponentZone {
+public class YUIComponentZoneImpl extends YUIAbstractComponent implements Serializable, YUIComponentZone {
     private static String FIRST_COMPONENT_CSS_CLASS = " first";
 
     private static final long serialVersionUID = 1L;
@@ -36,8 +35,7 @@ public class YUIComponentZoneImpl extends YUIAbstractComponent implements
     }
 
     public void clearComponents() {
-        listComponents = new ArrayList<YUIComponent>(
-                template.getNumberOfComponents());
+        listComponents = new ArrayList<YUIComponent>(template.getNumberOfComponents());
     }
 
     public void removeComponent(int index) {
@@ -46,8 +44,7 @@ public class YUIComponentZoneImpl extends YUIAbstractComponent implements
 
     public void addComponent(YUIComponent component) {
         if (listComponents.size() == 0) {
-            ((YUIComponent) component).setCSS(component.getCSS()
-                    + FIRST_COMPONENT_CSS_CLASS);
+            ((YUIComponent) component).setCSS(component.getCSS() + FIRST_COMPONENT_CSS_CLASS);
         }
 
         if (listComponents.size() < this.template.getNumberOfComponents()) {

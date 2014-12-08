@@ -84,8 +84,8 @@ public class Facet extends Composite implements HasClickHandlers {
         this.eventToFireOnState1 = eventToFireOnState1;
     }
 
-    public Facet(String title1, String cssClassForState1, GwtEvent<?> eventToFireOnState1,
-            String title2, String cssClassForState2, GwtEvent<?> eventToFireOnState2) {
+    public Facet(String title1, String cssClassForState1, GwtEvent<?> eventToFireOnState1, String title2,
+            String cssClassForState2, GwtEvent<?> eventToFireOnState2) {
         this(title1, cssClassForState1, eventToFireOnState1);
 
         this.title2 = title2;

@@ -41,8 +41,7 @@ public class UpdateYUIZone extends AbstractAction<UpdateYUIZoneResult> {
         super();
     }
 
-    public UpdateYUIZone(ContainerContext containerContext,
-            final YUIComponentZone zone, int zoneIndex,
+    public UpdateYUIZone(ContainerContext containerContext, final YUIComponentZone zone, int zoneIndex,
             final YUITemplate template) {
         super(containerContext);
         this.zone = zone;

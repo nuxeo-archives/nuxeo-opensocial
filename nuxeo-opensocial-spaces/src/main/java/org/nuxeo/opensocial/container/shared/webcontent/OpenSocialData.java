@@ -105,8 +105,7 @@ public class OpenSocialData extends AbstractWebContentData {
 
     @Override
     public boolean initPrefs(Map<String, String> params) {
-        if (params.get(URL_PREFERENCE) == null
-                || params.get(NAME_PREFERENCE) == null) {
+        if (params.get(URL_PREFERENCE) == null || params.get(NAME_PREFERENCE) == null) {
             return false;
         } else {
             setGadgetDef(params.get(URL_PREFERENCE));

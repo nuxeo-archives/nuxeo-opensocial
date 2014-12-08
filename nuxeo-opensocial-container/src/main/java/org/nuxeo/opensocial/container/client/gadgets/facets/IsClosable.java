@@ -26,7 +26,6 @@ import org.nuxeo.opensocial.container.client.presenter.AppPresenter;
  */
 public class IsClosable extends Facet {
     public IsClosable() {
-        super(AppPresenter.containerConstants.close(), "facet-close",
-                new ClosePortletEvent());
+        super(AppPresenter.containerConstants.close(), "facet-close", new ClosePortletEvent());
     }
 }

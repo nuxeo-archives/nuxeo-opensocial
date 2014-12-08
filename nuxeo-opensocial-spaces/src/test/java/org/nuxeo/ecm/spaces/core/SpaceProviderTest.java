@@ -36,8 +36,7 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)
-@Deploy({ "org.nuxeo.ecm.opensocial.spaces",
-        "org.nuxeo.ecm.platform.picture.core",
+@Deploy({ "org.nuxeo.ecm.opensocial.spaces", "org.nuxeo.ecm.platform.picture.core",
         "org.nuxeo.ecm.opensocial.spaces.test:OSGI-INF/test1-spaces-contrib.xml" })
 public class SpaceProviderTest {
 
@@ -53,10 +52,10 @@ public class SpaceProviderTest {
     @Test
     public void spaceProviderCanBeRetrievedByName() throws Exception {
         SpaceProvider provider = sm.getSpaceProvider("homeSpace");
-        assertThat(provider, is (notNullValue()));
+        assertThat(provider, is(notNullValue()));
     }
 
-    @Test(expected=SpaceException.class)
+    @Test(expected = SpaceException.class)
     public void exceptionShouldBeThrownWhenProviderNotFound() throws Exception {
         sm.getSpaceProvider("spaceThatDoesNotExists");
     }

@@ -47,8 +47,8 @@ public interface WebContentData extends Serializable {
     public Map<String, String> getPreferences();
 
     /**
-     * Returns the additional preferences of that {@code WebContent}. Those
-     * preferences are not stored in the associated Document.
+     * Returns the additional preferences of that {@code WebContent}. Those preferences are not stored in the associated
+     * Document.
      */
     public Map<String, String> getAdditionalPreferences();
 

@@ -24,8 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * @author Stéphane Fourrier
  */
-public class MinimizePortletEvent extends GwtEvent<MinimizePortletEventHandler>
-        implements HasId {
+public class MinimizePortletEvent extends GwtEvent<MinimizePortletEventHandler> implements HasId {
     public static Type<MinimizePortletEventHandler> TYPE = new Type<MinimizePortletEventHandler>();
 
     private String webContentId;

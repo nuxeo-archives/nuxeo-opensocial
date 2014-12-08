@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.api.adapter.DocumentAdapterFactory;
 public class YUILayoutAdapterFactory implements DocumentAdapterFactory {
 
     public static final String YUILAYOUT_SCHEMA = "yuilayout";
+
     @SuppressWarnings("unchecked")
     public Object getAdapter(DocumentModel doc, Class itf) {
         if (doc.hasSchema(YUILAYOUT_SCHEMA)) {

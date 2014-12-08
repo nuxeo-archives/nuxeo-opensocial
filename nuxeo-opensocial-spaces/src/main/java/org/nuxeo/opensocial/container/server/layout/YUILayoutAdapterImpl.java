@@ -79,8 +79,7 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
                 DocumentModel sideBarDoc = session().getDocument(sidebarRef);
                 return new YUIUnitImpl(sideBarDoc.getId());
             } else {
-                DocumentModel sideBarDoc = session().createDocumentModel(
-                        doc.getPathAsString(), SIDEBAR,
+                DocumentModel sideBarDoc = session().createDocumentModel(doc.getPathAsString(), SIDEBAR,
                         Constants.UNIT_DOCUMENT_TYPE);
                 sideBarDoc = session().createDocument(sideBarDoc);
                 save();
@@ -98,8 +97,7 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
 
     public YUIUnit setHeader(YUIUnit header) throws ClientException {
         if (header != null) {
-            DocumentModel headerDoc = session().createDocumentModel(doc.getPathAsString(),
-                    HEADER, UNIT_DOCUMENT_TYPE);
+            DocumentModel headerDoc = session().createDocumentModel(doc.getPathAsString(), HEADER, UNIT_DOCUMENT_TYPE);
             headerDoc = session().createDocument(headerDoc);
             headerDoc = session().saveDocument(headerDoc);
             save();
@@ -117,8 +115,7 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
 
     public YUIUnit setFooter(YUIUnit footer) throws ClientException {
         if (footer != null) {
-            DocumentModel footerDoc = session().createDocumentModel(doc.getPathAsString(),
-                    FOOTER, UNIT_DOCUMENT_TYPE);
+            DocumentModel footerDoc = session().createDocumentModel(doc.getPathAsString(), FOOTER, UNIT_DOCUMENT_TYPE);
             footerDoc = session().createDocument(footerDoc);
             footerDoc = session().saveDocument(footerDoc);
             save();
@@ -135,14 +132,12 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    public YUIComponentZone createZone(YUIComponentZone zone, int zoneIndex)
-            throws ClientException {
+    public YUIComponentZone createZone(YUIComponentZone zone, int zoneIndex) throws ClientException {
         List<Map<String, Serializable>> properties = (List<Map<String, Serializable>>) doc.getPropertyValue(YUI_LAYOUT_ZONES_PROPERTY);
 
         Map<String, Serializable> property = new HashMap<String, Serializable>();
 
-        property.put("template", zone.getTemplate()
-                .toString());
+        property.put("template", zone.getTemplate().toString());
 
         properties.add(zoneIndex, property);
 
@@ -150,8 +145,7 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
 
         for (YUIComponent unitComponent : ((YUIComponent) zone).getComponents()) {
             String unitName = "unit" + unitIndex;
-            DocumentModel unitDoc = session().createDocumentModel(doc.getPathAsString(),
-                    unitName, UNIT_DOCUMENT_TYPE);
+            DocumentModel unitDoc = session().createDocumentModel(doc.getPathAsString(), unitName, UNIT_DOCUMENT_TYPE);
 
             unitDoc.setPropertyValue(YUI_UNIT_POSITION_PROPERTY, unitIndex);
             unitDoc.setPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY, zoneIndex);
@@ -163,30 +157,26 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
             unitIndex++;
         }
 
-        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY,
-                (Serializable) properties);
+        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY, (Serializable) properties);
         save();
         return zone;
     }
 
     @SuppressWarnings("unchecked")
-    public YUIComponentZone updateZone(YUIComponentZone zone, int zoneIndex,
-            YUITemplate template) throws ClientException {
-        int actualNumberOfUnits = zone.getTemplate()
-                .getNumberOfComponents();
+    public YUIComponentZone updateZone(YUIComponentZone zone, int zoneIndex, YUITemplate template)
+            throws ClientException {
+        int actualNumberOfUnits = zone.getTemplate().getNumberOfComponents();
         int wantedNumberOfUnits = template.getNumberOfComponents();
 
         zone.setTemplate(template);
 
         if (actualNumberOfUnits > wantedNumberOfUnits) {
             for (int i = actualNumberOfUnits - 1; i > wantedNumberOfUnits - 1; i--) {
-                YUIUnitImpl unit = (YUIUnitImpl) ((YUIAbstractComponent) zone).getComponents()
-                        .get(i);
+                YUIUnitImpl unit = (YUIUnitImpl) ((YUIAbstractComponent) zone).getComponents().get(i);
 
                 session().removeDocument(new IdRef(unit.getId()));
 
-                ((YUIAbstractComponent) zone).getComponents()
-                        .remove(i);
+                ((YUIAbstractComponent) zone).getComponents().remove(i);
             }
         } else if (actualNumberOfUnits < wantedNumberOfUnits) {
             for (int i = actualNumberOfUnits; i < wantedNumberOfUnits; i++) {
@@ -194,13 +184,11 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
                 zone.addComponent(unit);
 
                 String unitName = "unit" + i;
-                DocumentModel unitDoc = session().createDocumentModel(
-                        doc.getPathAsString(), unitName,
+                DocumentModel unitDoc = session().createDocumentModel(doc.getPathAsString(), unitName,
                         UNIT_DOCUMENT_TYPE);
 
                 unitDoc.setPropertyValue(YUI_UNIT_POSITION_PROPERTY, i);
-                unitDoc.setPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY,
-                        zoneIndex);
+                unitDoc.setPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY, zoneIndex);
 
                 unitDoc = session().createDocument(unitDoc);
 
@@ -213,31 +201,28 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
 
         property.put("template", template.toString());
 
-        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY,
-                (Serializable) properties);
+        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY, (Serializable) properties);
         save();
         return zone;
     }
 
-    @SuppressWarnings( { "serial", "unchecked" })
+    @SuppressWarnings({ "serial", "unchecked" })
     public void deleteZone(final int zoneIndex) throws ClientException {
-        for (DocumentModel unitDoc : session().getChildren(doc.getRef(),
-                UNIT_DOCUMENT_TYPE, new Filter() {
-                    public boolean accept(DocumentModel arg0) {
-                        try {
-                            return zoneIndex == ((Long) arg0.getPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY));
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    }
-                }, null)) {
+        for (DocumentModel unitDoc : session().getChildren(doc.getRef(), UNIT_DOCUMENT_TYPE, new Filter() {
+            public boolean accept(DocumentModel arg0) {
+                try {
+                    return zoneIndex == ((Long) arg0.getPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY));
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        }, null)) {
             session().removeDocument(unitDoc.getRef());
         }
 
         List<Map<String, Serializable>> properties = (List<Map<String, Serializable>>) doc.getPropertyValue(YUI_LAYOUT_ZONES_PROPERTY);
         properties.remove(zoneIndex);
-        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY,
-                (Serializable) properties);
+        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY, (Serializable) properties);
         save();
     }
 
@@ -254,8 +239,7 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
         setSideBar(layout.getSidebarStyle());
 
         int zoneIndex = 0;
-        for (YUIComponent zone : layout.getContent()
-                .getComponents()) {
+        for (YUIComponent zone : layout.getContent().getComponents()) {
             createZone((YUIComponentZone) zone, zoneIndex);
             zoneIndex++;
         }
@@ -266,13 +250,12 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
     private void cleanLayout() throws ClientException {
         List<Map<String, Serializable>> properties = (List<Map<String, Serializable>>) doc.getPropertyValue(YUI_LAYOUT_ZONES_PROPERTY);
         properties.clear();
-        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY,
-                (Serializable) properties);
+        doc.setPropertyValue(YUI_LAYOUT_ZONES_PROPERTY, (Serializable) properties);
 
         session().removeChildren(doc.getRef());
     }
 
-    @SuppressWarnings( { "unchecked", "serial" })
+    @SuppressWarnings({ "unchecked", "serial" })
     public YUILayout getLayout() throws ClientException {
         YUILayout layout = new YUILayoutImpl();
         String headerPath = doc.getPathAsString() + '/' + HEADER;
@@ -328,33 +311,27 @@ public class YUILayoutAdapterImpl implements YUILayoutAdapter {
         for (Map<String, Serializable> property : properties) {
             YUITemplate template = YUITemplate.valueOf((String) property.get("template"));
             final YUIComponentZoneImpl zone = new YUIComponentZoneImpl(template);
-            layout.getContent()
-                    .addComponent(zone);
+            layout.getContent().addComponent(zone);
 
-            for (DocumentModel unitDoc : session().getChildren(doc.getRef(),
-                    UNIT_DOCUMENT_TYPE, new Filter() {
-                        public boolean accept(DocumentModel doc) {
-                            List<String> specialUnits = Arrays.asList(HEADER,
-                                    FOOTER, SIDEBAR);
-                            return !specialUnits.contains(doc.getName());
-                        }
-                    }, new Sorter() {
-                        public int compare(DocumentModel doc1,
-                                DocumentModel doc2) {
-                            Long pos1;
-                            Long pos2;
-                            try {
-                                pos1 = (Long) doc1.getPropertyValue(YUI_UNIT_POSITION_PROPERTY);
-                                pos2 = (Long) doc2.getPropertyValue(YUI_UNIT_POSITION_PROPERTY);
-                                return pos1.compareTo(pos2);
-                            } catch (Exception e) {
-                                return 0;
-                            }
-                        }
-                    })) {
-                if (layout.getContent()
-                        .getComponents()
-                        .indexOf(zone) == ((Long) unitDoc.getPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY))) {
+            for (DocumentModel unitDoc : session().getChildren(doc.getRef(), UNIT_DOCUMENT_TYPE, new Filter() {
+                public boolean accept(DocumentModel doc) {
+                    List<String> specialUnits = Arrays.asList(HEADER, FOOTER, SIDEBAR);
+                    return !specialUnits.contains(doc.getName());
+                }
+            }, new Sorter() {
+                public int compare(DocumentModel doc1, DocumentModel doc2) {
+                    Long pos1;
+                    Long pos2;
+                    try {
+                        pos1 = (Long) doc1.getPropertyValue(YUI_UNIT_POSITION_PROPERTY);
+                        pos2 = (Long) doc2.getPropertyValue(YUI_UNIT_POSITION_PROPERTY);
+                        return pos1.compareTo(pos2);
+                    } catch (Exception e) {
+                        return 0;
+                    }
+                }
+            })) {
+                if (layout.getContent().getComponents().indexOf(zone) == ((Long) unitDoc.getPropertyValue(YUI_UNIT_ZONE_INDEX_PROPERTY))) {
                     zone.addComponent(new YUIUnitImpl(unitDoc.getId()));
                 }
             }

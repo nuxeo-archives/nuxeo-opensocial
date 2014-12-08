@@ -38,8 +38,7 @@ public class CreateYUIZone extends AbstractAction<CreateYUIZoneResult> {
         super();
     }
 
-    public CreateYUIZone(ContainerContext containerContext,
-            final YUIComponentZone zone, final int zoneIndex) {
+    public CreateYUIZone(ContainerContext containerContext, final YUIComponentZone zone, final int zoneIndex) {
         super(containerContext);
         this.zone = zone;
         this.zoneIndex = zoneIndex;

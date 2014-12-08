@@ -6,8 +6,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.SimpleFeature;
 
 @Features(CoreFeature.class)
-@Deploy({ "org.nuxeo.ecm.platform.picture.core",
-        "org.nuxeo.ecm.platform.htmlsanitizer",
+@Deploy({ "org.nuxeo.ecm.platform.picture.core", "org.nuxeo.ecm.platform.htmlsanitizer",
         "org.nuxeo.ecm.opensocial.spaces" })
 public class OpenSocialContainerFeature extends SimpleFeature {
 

@@ -49,13 +49,11 @@ import com.google.inject.tools.jmx.Manager;
 import com.google.inject.util.Modules;
 
 /**
- * Although this object says its a ServletContextListener, in fact it is not do
- * to order of initialization issues. This object uses Guice and we want to be
- * sure all the nuxeo initialization is finished prior to Guice being
- * initialized since the user might want to configure it.
+ * Although this object says its a ServletContextListener, in fact it is not do to order of initialization issues. This
+ * object uses Guice and we want to be sure all the nuxeo initialization is finished prior to Guice being initialized
+ * since the user might want to configure it.
  *
  * @See org.nuxeo.opensocial.servlet.ContextListenerDelayer
- *
  */
 public class GuiceContextListener implements ServletContextListener {
     public static final String INJECTOR_ATTRIBUTE = "guice-injector";
@@ -91,8 +89,7 @@ public class GuiceContextListener implements ServletContextListener {
             log.info("GuiceContextListener createInjector");
             // modules.add(Modules.override(new OAuthModule()).with(
             // new NuxeoRequestOverrides()));
-            modules.add(Modules.override(new OAuthModule()).with(
-                    new NuxeoOAuthOverrides()));
+            modules.add(Modules.override(new OAuthModule()).with(new NuxeoOAuthOverrides()));
 
             injector = Guice.createInjector(Stage.PRODUCTION, modules);
 
@@ -105,8 +102,7 @@ public class GuiceContextListener implements ServletContextListener {
             context.setAttribute(INJECTOR_ATTRIBUTE, injector);
 
         } catch (Exception e) {
-            log.error("GuiceContextListener caught"
-                    + " exception during injection process", e);
+            log.error("GuiceContextListener caught" + " exception during injection process", e);
             throw new RuntimeException(e);
         }
         try {
@@ -115,23 +111,19 @@ public class GuiceContextListener implements ServletContextListener {
                 jmxInitialized = true;
             }
         } catch (Exception e) {
-            log.error("GuiceContextListener caught exception "
-                    + "trying to init shindig guice context (JMX):", e);
+            log.error("GuiceContextListener caught exception " + "trying to init shindig guice context (JMX):", e);
         }
     }
 
-    private Module getModuleInstance(String moduleName)
-            throws InstantiationException {
+    private Module getModuleInstance(String moduleName) throws InstantiationException {
         try {
             return (Module) Class.forName(moduleName).newInstance();
         } catch (IllegalAccessException e) {
-            InstantiationException ie = new InstantiationException(
-                    "IllegalAccessException: " + e.getMessage());
+            InstantiationException ie = new InstantiationException("IllegalAccessException: " + e.getMessage());
             ie.setStackTrace(e.getStackTrace());
             throw ie;
         } catch (ClassNotFoundException e) {
-            InstantiationException ie = new InstantiationException(
-                    "ClassNotFoundException: " + e.getMessage());
+            InstantiationException ie = new InstantiationException("ClassNotFoundException: " + e.getMessage());
             ie.setStackTrace(e.getStackTrace());
             throw ie;
         }
@@ -167,8 +159,7 @@ class NuxeoOverridesRequestProvider implements Provider<OAuthRequest> {
     private final OAuthFetcherConfig config;
 
     @Inject
-    public NuxeoOverridesRequestProvider(HttpFetcher fetcher,
-            OAuthFetcherConfig config) {
+    public NuxeoOverridesRequestProvider(HttpFetcher fetcher, OAuthFetcherConfig config) {
         this.fetcher = fetcher;
         this.config = config;
     }
@@ -182,19 +173,16 @@ class NuxeoOverridesRequestProvider implements Provider<OAuthRequest> {
 class NuxeoRequestOverrides implements Module {
 
     public void configure(Binder binder) {
-        binder.bind(OAuthRequest.class).toProvider(
-                NuxeoOverridesRequestProvider.class);
+        binder.bind(OAuthRequest.class).toProvider(NuxeoOverridesRequestProvider.class);
     }
 }
 
 class NuxeoOAuthOverrides implements Module {
 
     public void configure(Binder binder) {
-        binder.bind(OAuthRequest.class).toProvider(
-                NuxeoOverridesRequestProvider.class);
+        binder.bind(OAuthRequest.class).toProvider(NuxeoOverridesRequestProvider.class);
         binder.bind(OAuthStore.class).toProvider(NXOAuthStoreProvider.class);
-        binder.bind(GadgetOAuthTokenStore.class).to(
-                NXGadgetOAuthTokenStore.class);
+        binder.bind(GadgetOAuthTokenStore.class).to(NXGadgetOAuthTokenStore.class);
     }
 
 }

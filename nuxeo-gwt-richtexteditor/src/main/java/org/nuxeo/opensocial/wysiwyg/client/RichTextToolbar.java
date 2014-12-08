@@ -49,6 +49,7 @@ public class RichTextToolbar extends Composite {
     /** Local CONSTANTS **/
     // ImageMap and CSS related
     private static final String CSS_ROOT_NAME = "RichTextToolbar";
+
     public static ImagesBundle images = GWT.create(ImagesBundle.class);
 
     // Color and Fontlists - First Value (key) is the Name to display, Second
@@ -87,12 +88,15 @@ public class RichTextToolbar extends Composite {
     /** Private Variables **/
     // The main (Vertical)-Panel and the two inner (Horizontal)-Panels
     private VerticalPanel outer;
+
     private FlowPanel topPanel;
+
     private FlowPanel bottomPanel;
 
     // The RichTextArea this Toolbar referes to and the Interfaces to access the
     // RichTextArea
     private RichTextArea styleText;
+
     private Formatter styleTextFormatter;
 
     // We use an internal class of the ClickHandler and the KeyUpHandler to be
@@ -101,20 +105,33 @@ public class RichTextToolbar extends Composite {
 
     // The Buttons of the Menubar
     private ToggleButton bold;
+
     private ToggleButton italic;
+
     private ToggleButton underline;
+
     private PushButton alignleft;
+
     private PushButton alignmiddle;
+
     private PushButton alignright;
+
     private PushButton orderlist;
+
     private PushButton unorderlist;
+
     private PushButton generatelink;
+
     private PushButton breaklink;
+
     private PushButton insertline;
+
     private PushButton insertimage;
 
     private ListBox fontlist;
+
     private ListBox colorlist;
+
     private ListBox fontsizelist;
 
     /** Constructor of the Toolbar **/
@@ -156,54 +173,39 @@ public class RichTextToolbar extends Composite {
     }
 
     /** Click Handler of the Toolbar **/
-    private class EventHandler implements ClickHandler, KeyUpHandler,
-            ChangeHandler {
+    private class EventHandler implements ClickHandler, KeyUpHandler, ChangeHandler {
         public void onClick(ClickEvent event) {
-            if (event.getSource()
-                    .equals(bold)) {
+            if (event.getSource().equals(bold)) {
                 styleTextFormatter.toggleBold();
-            } else if (event.getSource()
-                    .equals(italic)) {
+            } else if (event.getSource().equals(italic)) {
                 styleTextFormatter.toggleItalic();
-            } else if (event.getSource()
-                    .equals(underline)) {
+            } else if (event.getSource().equals(underline)) {
                 styleTextFormatter.toggleUnderline();
-            } else if (event.getSource()
-                    .equals(alignleft)) {
+            } else if (event.getSource().equals(alignleft)) {
                 styleTextFormatter.setJustification(RichTextArea.Justification.LEFT);
-            } else if (event.getSource()
-                    .equals(alignmiddle)) {
+            } else if (event.getSource().equals(alignmiddle)) {
                 styleTextFormatter.setJustification(RichTextArea.Justification.CENTER);
-            } else if (event.getSource()
-                    .equals(alignright)) {
+            } else if (event.getSource().equals(alignright)) {
                 styleTextFormatter.setJustification(RichTextArea.Justification.RIGHT);
-            } else if (event.getSource()
-                    .equals(orderlist)) {
+            } else if (event.getSource().equals(orderlist)) {
                 styleTextFormatter.insertOrderedList();
-            } else if (event.getSource()
-                    .equals(unorderlist)) {
+            } else if (event.getSource().equals(unorderlist)) {
                 styleTextFormatter.insertUnorderedList();
-            } else if (event.getSource()
-                    .equals(generatelink)) {
+            } else if (event.getSource().equals(generatelink)) {
                 String url = Window.prompt(constants.insertLinkUrl(), "http://");
                 if (url != null) {
                     styleTextFormatter.createLink(url);
                 }
-            } else if (event.getSource()
-                    .equals(breaklink)) {
+            } else if (event.getSource().equals(breaklink)) {
                 styleTextFormatter.removeLink();
-            } else if (event.getSource()
-                    .equals(insertimage)) {
-                String url = Window.prompt(constants.insertImageUrl(),
-                        "http://");
+            } else if (event.getSource().equals(insertimage)) {
+                String url = Window.prompt(constants.insertImageUrl(), "http://");
                 if (url != null) {
                     styleTextFormatter.insertImage(url);
                 }
-            } else if (event.getSource()
-                    .equals(insertline)) {
+            } else if (event.getSource().equals(insertline)) {
                 styleTextFormatter.insertHorizontalRule();
-            } else if (event.getSource()
-                    .equals(styleText)) {
+            } else if (event.getSource().equals(styleText)) {
                 // Change invoked by the richtextArea
             }
             updateStatus();
@@ -214,14 +216,11 @@ public class RichTextToolbar extends Composite {
         }
 
         public void onChange(ChangeEvent event) {
-            if (event.getSource()
-                    .equals(fontlist)) {
+            if (event.getSource().equals(fontlist)) {
                 styleTextFormatter.setFontName(fontlist.getValue(fontlist.getSelectedIndex()));
-            } else if (event.getSource()
-                    .equals(colorlist)) {
+            } else if (event.getSource().equals(colorlist)) {
                 styleTextFormatter.setForeColor(colorlist.getValue(colorlist.getSelectedIndex()));
-            } else if (event.getSource()
-                    .equals(fontsizelist)) {
+            } else if (event.getSource().equals(fontsizelist)) {
                 FontSize fontsize = GUI_FONTSIZELIST.get(fontsizelist.getValue(fontsizelist.getSelectedIndex()));
                 if (fontsize != null) {
                     styleTextFormatter.setFontSize(fontsize);
@@ -231,8 +230,7 @@ public class RichTextToolbar extends Composite {
     }
 
     /**
-     * Native JavaScript that returns the selected text and position of the
-     * start
+     * Native JavaScript that returns the selected text and position of the start
      **/
     public static native JsArrayString getSelection(Element elem) /*-{
                                                                   var txt = "";
@@ -260,8 +258,7 @@ public class RichTextToolbar extends Composite {
                                                                   }-*/;
 
     /**
-     * Private method to set the toggle buttons and disable/enable buttons which
-     * do not work in html-mode
+     * Private method to set the toggle buttons and disable/enable buttons which do not work in html-mode
      **/
     private void updateStatus() {
         if (styleTextFormatter != null) {
@@ -279,28 +276,17 @@ public class RichTextToolbar extends Composite {
     /** Initialize the options on the toolbar **/
     private void buildTools() {
         // Init the TOP Panel first
-        topPanel.add(bold = createToggleButton(images.icons(), 0, 0, 20, 20,
-                constants.bold()));
-        topPanel.add(italic = createToggleButton(images.icons(), 0, 60, 20, 20,
-                constants.italic()));
-        topPanel.add(underline = createToggleButton(images.icons(), 0, 140, 20,
-                20, constants.underline()));
-        topPanel.add(alignleft = createPushButton(images.icons(), 0, 460, 20,
-                20, constants.alignLeft()));
-        topPanel.add(alignmiddle = createPushButton(images.icons(), 0, 420, 20,
-                20, constants.alignCenter()));
-        topPanel.add(alignright = createPushButton(images.icons(), 0, 480, 20,
-                20, constants.alignRight()));
-        topPanel.add(orderlist = createPushButton(images.icons(), 0, 80, 20,
-                20, constants.orderList()));
-        topPanel.add(unorderlist = createPushButton(images.icons(), 0, 20, 20,
-                20, constants.unorderList()));
-        topPanel.add(generatelink = createPushButton(images.icons(), 0, 500,
-                20, 20, constants.link()));
-        topPanel.add(breaklink = createPushButton(images.icons(), 0, 640, 20,
-                20, constants.breakLine()));
-        topPanel.add(insertimage = createPushButton(images.icons(), 0, 380, 20,
-                20, constants.image()));
+        topPanel.add(bold = createToggleButton(images.icons(), 0, 0, 20, 20, constants.bold()));
+        topPanel.add(italic = createToggleButton(images.icons(), 0, 60, 20, 20, constants.italic()));
+        topPanel.add(underline = createToggleButton(images.icons(), 0, 140, 20, 20, constants.underline()));
+        topPanel.add(alignleft = createPushButton(images.icons(), 0, 460, 20, 20, constants.alignLeft()));
+        topPanel.add(alignmiddle = createPushButton(images.icons(), 0, 420, 20, 20, constants.alignCenter()));
+        topPanel.add(alignright = createPushButton(images.icons(), 0, 480, 20, 20, constants.alignRight()));
+        topPanel.add(orderlist = createPushButton(images.icons(), 0, 80, 20, 20, constants.orderList()));
+        topPanel.add(unorderlist = createPushButton(images.icons(), 0, 20, 20, 20, constants.unorderList()));
+        topPanel.add(generatelink = createPushButton(images.icons(), 0, 500, 20, 20, constants.link()));
+        topPanel.add(breaklink = createPushButton(images.icons(), 0, 640, 20, 20, constants.breakLine()));
+        topPanel.add(insertimage = createPushButton(images.icons(), 0, 380, 20, 20, constants.image()));
 
         // Init the BOTTOM Panel
         bottomPanel.add(fontlist = createFontList());
@@ -309,8 +295,8 @@ public class RichTextToolbar extends Composite {
     }
 
     /** Method to create a Toggle button for the toolbar **/
-    private ToggleButton createToggleButton(ImageResource resource,
-            Integer top, Integer left, Integer width, Integer height, String tip) {
+    private ToggleButton createToggleButton(ImageResource resource, Integer top, Integer left, Integer width,
+            Integer height, String tip) {
         Image extract = new Image(resource);
         extract.setVisibleRect(left, top, width, height);
         ToggleButton tb = new ToggleButton(extract);
@@ -324,8 +310,8 @@ public class RichTextToolbar extends Composite {
     }
 
     /** Method to create a Push button for the toolbar **/
-    private PushButton createPushButton(ImageResource resource, Integer top,
-            Integer left, Integer width, Integer height, String tip) {
+    private PushButton createPushButton(ImageResource resource, Integer top, Integer left, Integer width,
+            Integer height, String tip) {
         Image extract = new Image(resource);
         extract.setVisibleRect(left, top, width, height);
         PushButton tb = new PushButton(extract);
@@ -360,8 +346,7 @@ public class RichTextToolbar extends Composite {
 
         mylistBox.addItem(constants.fontsSizeListName());
         for (String name : GUI_FONTSIZELIST.keySet()) {
-            mylistBox.addItem(name, GUI_FONTSIZELIST.get(name)
-                    .toString());
+            mylistBox.addItem(name, GUI_FONTSIZELIST.get(name).toString());
         }
 
         return mylistBox;

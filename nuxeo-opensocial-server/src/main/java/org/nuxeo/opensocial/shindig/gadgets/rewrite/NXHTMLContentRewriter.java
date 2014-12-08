@@ -50,22 +50,18 @@ import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 /**
- * This class extends the vanilla HTMLContentRewriter by adding the INPUT tag to
- * replace its src property
+ * This class extends the vanilla HTMLContentRewriter by adding the INPUT tag to replace its src property
  *
  * @author dmetzler
- *
  */
 public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
 
     private final static String JS_MIME_TYPE = "text/javascript";
 
-    public final static Set<String> TAGS = ImmutableSet.of("img", "embed",
-            "link", "script", "style", "input");
+    public final static Set<String> TAGS = ImmutableSet.of("img", "embed", "link", "script", "style", "input");
 
-    private final static ImmutableMap<String, ImmutableSet<String>> LINKING_TAG_ATTRS = ImmutableMap.of(
-            "img", ImmutableSet.of("src"), "embed", ImmutableSet.of("src"),
-            "input", ImmutableSet.of("src"));
+    private final static ImmutableMap<String, ImmutableSet<String>> LINKING_TAG_ATTRS = ImmutableMap.of("img",
+            ImmutableSet.of("src"), "embed", ImmutableSet.of("src"), "input", ImmutableSet.of("src"));
 
     private final ContentRewriterFeatureFactory rewriterFeatureFactory;
 
@@ -76,23 +72,18 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
     private final ProxyingLinkRewriterFactory proxyingLinkRewriterFactory;
 
     @Inject
-    public NXHTMLContentRewriter(
-            ContentRewriterFeatureFactory rewriterFeatureFactory,
-            CssRequestRewriter cssRewriter,
-            ConcatLinkRewriterFactory concatLinkRewriterFactory,
-            ProxyingLinkRewriterFactory proxyingLinkRewriterFactory) {
+    public NXHTMLContentRewriter(ContentRewriterFeatureFactory rewriterFeatureFactory, CssRequestRewriter cssRewriter,
+            ConcatLinkRewriterFactory concatLinkRewriterFactory, ProxyingLinkRewriterFactory proxyingLinkRewriterFactory) {
         this.rewriterFeatureFactory = rewriterFeatureFactory;
         this.cssRewriter = cssRewriter;
         this.concatLinkRewriterFactory = concatLinkRewriterFactory;
         this.proxyingLinkRewriterFactory = proxyingLinkRewriterFactory;
     }
 
-    public boolean rewrite(HttpRequest request, HttpResponse original,
-            MutableContent content) {
+    public boolean rewrite(HttpRequest request, HttpResponse original, MutableContent content) {
         if (RewriterUtils.isHtml(request, original)) {
             ContentRewriterFeature feature = rewriterFeatureFactory.get(request);
-            return rewriteImpl(feature, request.getGadget(), request.getUri(),
-                    content, request.getContainer(), false,
+            return rewriteImpl(feature, request.getGadget(), request.getUri(), content, request.getContainer(), false,
                     request.getIgnoreCache());
         }
 
@@ -114,25 +105,20 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
             contentBase = view.getHref();
         }
 
-        rewriteImpl(feature, gadget.getSpec().getUrl(), contentBase, content,
-                gadget.getContext().getContainer(),
-                gadget.getContext().getDebug(),
-                gadget.getContext().getIgnoreCache());
+        rewriteImpl(feature, gadget.getSpec().getUrl(), contentBase, content, gadget.getContext().getContainer(),
+                gadget.getContext().getDebug(), gadget.getContext().getIgnoreCache());
     }
 
-    boolean rewriteImpl(ContentRewriterFeature feature, Uri gadgetUri,
-            Uri contentBase, MutableContent content, String container,
-            boolean debug, boolean ignoreCache) {
+    boolean rewriteImpl(ContentRewriterFeature feature, Uri gadgetUri, Uri contentBase, MutableContent content,
+            String container, boolean debug, boolean ignoreCache) {
         if (!feature.isRewriteEnabled() || content.getDocument() == null) {
             return false;
         }
 
         // Get ALL interesting tags
-        List<Element> tagList = DomUtil.getElementsByTagNameCaseInsensitive(
-                content.getDocument(), TAGS);
+        List<Element> tagList = DomUtil.getElementsByTagNameCaseInsensitive(content.getDocument(), TAGS);
 
-        Element head = (Element) DomUtil.getFirstNamedChildNode(
-                content.getDocument().getDocumentElement(), "head");
+        Element head = (Element) DomUtil.getFirstNamedChildNode(content.getDocument().getDocumentElement(), "head");
 
         boolean mutated = false;
 
@@ -140,14 +126,11 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
         // statements into
         // links and add them to the tag list.
         // Move all style and link tags into head and concat the link tags
-        mutated = rewriteStyleTags(head, tagList, feature, gadgetUri,
-                contentBase, container, debug, ignoreCache);
+        mutated = rewriteStyleTags(head, tagList, feature, gadgetUri, contentBase, container, debug, ignoreCache);
         // Concat script links
-        mutated |= rewriteJsTags(tagList, feature, gadgetUri, contentBase,
-                container, debug, ignoreCache);
+        mutated |= rewriteJsTags(tagList, feature, gadgetUri, contentBase, container, debug, ignoreCache);
         // Rewrite links in images, embeds etc
-        mutated |= rewriteContentReferences(tagList, feature, gadgetUri,
-                contentBase, container, debug, ignoreCache);
+        mutated |= rewriteContentReferences(tagList, feature, gadgetUri, contentBase, container, debug, ignoreCache);
 
         if (mutated) {
             MutableContent.notifyEdit(content.getDocument());
@@ -156,24 +139,22 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
         return mutated;
     }
 
-    protected boolean rewriteStyleTags(Element head, List<Element> elementList,
-            ContentRewriterFeature feature, Uri gadgetUri, Uri contentBase,
-            String container, boolean debug, boolean ignoreCache) {
+    protected boolean rewriteStyleTags(Element head, List<Element> elementList, ContentRewriterFeature feature,
+            Uri gadgetUri, Uri contentBase, String container, boolean debug, boolean ignoreCache) {
         if (!feature.getIncludedTags().contains("style")) {
             return false;
         }
         boolean mutated = false;
 
         // Filter to just style tags
-        Iterable<Element> styleTags = Lists.newArrayList(Iterables.filter(
-                elementList, new Predicate<Element>() {
-                    public boolean apply(Element element) {
-                        return element.getNodeName().equalsIgnoreCase("style");
-                    }
-                }));
+        Iterable<Element> styleTags = Lists.newArrayList(Iterables.filter(elementList, new Predicate<Element>() {
+            public boolean apply(Element element) {
+                return element.getNodeName().equalsIgnoreCase("style");
+            }
+        }));
 
-        LinkRewriter linkRewriter = proxyingLinkRewriterFactory.create(
-                gadgetUri, feature, container, debug, ignoreCache);
+        LinkRewriter linkRewriter = proxyingLinkRewriterFactory.create(gadgetUri, feature, container, debug,
+                ignoreCache);
 
         for (Element styleTag : styleTags) {
             mutated |= true;
@@ -182,8 +163,7 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
                 head.appendChild(styleTag);
             }
 
-            List<String> extractedUrls = cssRewriter.rewrite(styleTag,
-                    contentBase, linkRewriter, true);
+            List<String> extractedUrls = cssRewriter.rewrite(styleTag, contentBase, linkRewriter, true);
             for (String extractedUrl : extractedUrls) {
                 // Add extracted urls as link elements to head
                 Element newLink = head.getOwnerDocument().createElement("link");
@@ -196,41 +176,36 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
         }
 
         // Filter to just stylesheet link tags
-        List<Element> linkTags = Lists.newArrayList(Iterables.filter(
-                elementList, new Predicate<Element>() {
-                    public boolean apply(Element element) {
-                        return element.getNodeName().equalsIgnoreCase("link")
-                                && ("stylesheet".equalsIgnoreCase(element.getAttribute("rel")) || element.getAttribute(
-                                        "type").toLowerCase().contains("css"));
-                    }
-                }));
+        List<Element> linkTags = Lists.newArrayList(Iterables.filter(elementList, new Predicate<Element>() {
+            public boolean apply(Element element) {
+                return element.getNodeName().equalsIgnoreCase("link")
+                        && ("stylesheet".equalsIgnoreCase(element.getAttribute("rel")) || element.getAttribute("type").toLowerCase().contains(
+                                "css"));
+            }
+        }));
 
-        concatenateTags(feature, linkTags, gadgetUri, contentBase, "text/css",
-                "href", container, debug, ignoreCache);
+        concatenateTags(feature, linkTags, gadgetUri, contentBase, "text/css", "href", container, debug, ignoreCache);
 
         return mutated;
     }
 
-    protected boolean rewriteJsTags(List<Element> elementList,
-            ContentRewriterFeature feature, Uri gadgetUri, Uri contentBase,
-            String container, boolean debug, boolean ignoreCache) {
+    protected boolean rewriteJsTags(List<Element> elementList, ContentRewriterFeature feature, Uri gadgetUri,
+            Uri contentBase, String container, boolean debug, boolean ignoreCache) {
         if (!feature.getIncludedTags().contains("script")) {
             return false;
         }
         boolean mutated = false;
 
         // Filter to just script tags
-        List<Element> scriptTags = Lists.newArrayList(Iterables.filter(
-                elementList, new Predicate<Element>() {
-                    public boolean apply(Element node) {
-                        if (node.getNodeName().equalsIgnoreCase("script")) {
-                            String type = node.getAttribute("type");
-                            return type == null || type.length() == 0
-                                    || type.equalsIgnoreCase(JS_MIME_TYPE);
-                        }
-                        return false;
-                    }
-                }));
+        List<Element> scriptTags = Lists.newArrayList(Iterables.filter(elementList, new Predicate<Element>() {
+            public boolean apply(Element node) {
+                if (node.getNodeName().equalsIgnoreCase("script")) {
+                    String type = node.getAttribute("type");
+                    return type == null || type.length() == 0 || type.equalsIgnoreCase(JS_MIME_TYPE);
+                }
+                return false;
+            }
+        }));
 
         List<Element> concatenateable = Lists.newArrayList();
         for (int i = 0; i < scriptTags.size(); i++) {
@@ -239,47 +214,39 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
             if (i + 1 < scriptTags.size()) {
                 nextSciptTag = scriptTags.get(i + 1);
             }
-            if (scriptTag.hasAttribute("src")
-                    && feature.shouldRewriteURL(scriptTag.getAttribute("src"))) {
+            if (scriptTag.hasAttribute("src") && feature.shouldRewriteURL(scriptTag.getAttribute("src"))) {
                 mutated = true;
                 concatenateable.add(scriptTag);
-                if (nextSciptTag == null
-                        || !nextSciptTag.equals(getNextSiblingElement(scriptTag))) {
+                if (nextSciptTag == null || !nextSciptTag.equals(getNextSiblingElement(scriptTag))) {
                     // Next tag is not concatenateable
-                    concatenateTags(feature, concatenateable, gadgetUri,
-                            contentBase, JS_MIME_TYPE, "src", container, debug,
-                            ignoreCache);
+                    concatenateTags(feature, concatenateable, gadgetUri, contentBase, JS_MIME_TYPE, "src", container,
+                            debug, ignoreCache);
                     concatenateable.clear();
                 }
             } else {
-                concatenateTags(feature, concatenateable, gadgetUri,
-                        contentBase, JS_MIME_TYPE, "src", container, debug,
-                        ignoreCache);
+                concatenateTags(feature, concatenateable, gadgetUri, contentBase, JS_MIME_TYPE, "src", container,
+                        debug, ignoreCache);
                 concatenateable.clear();
             }
         }
-        concatenateTags(feature, concatenateable, gadgetUri, contentBase,
-                JS_MIME_TYPE, "src", container, debug, ignoreCache);
+        concatenateTags(feature, concatenateable, gadgetUri, contentBase, JS_MIME_TYPE, "src", container, debug,
+                ignoreCache);
         return mutated;
     }
 
-    protected boolean rewriteContentReferences(List<Element> elementList,
-            ContentRewriterFeature feature, Uri gadgetUri, Uri contentBase,
-            String container, boolean debug, boolean ignoreCache) {
+    protected boolean rewriteContentReferences(List<Element> elementList, ContentRewriterFeature feature,
+            Uri gadgetUri, Uri contentBase, String container, boolean debug, boolean ignoreCache) {
         boolean mutated = false;
-        LinkRewriter rewriter = proxyingLinkRewriterFactory.create(gadgetUri,
-                feature, container, debug, ignoreCache);
+        LinkRewriter rewriter = proxyingLinkRewriterFactory.create(gadgetUri, feature, container, debug, ignoreCache);
 
-        final Set<String> tagNames = Sets.intersection(
-                LINKING_TAG_ATTRS.keySet(), feature.getIncludedTags());
+        final Set<String> tagNames = Sets.intersection(LINKING_TAG_ATTRS.keySet(), feature.getIncludedTags());
 
         // Filter to just style tags
-        Iterable<Element> tags = Iterables.filter(elementList,
-                new Predicate<Element>() {
-                    public boolean apply(Element node) {
-                        return tagNames.contains(node.getNodeName().toLowerCase());
-                    }
-                });
+        Iterable<Element> tags = Iterables.filter(elementList, new Predicate<Element>() {
+            public boolean apply(Element node) {
+                return tagNames.contains(node.getNodeName().toLowerCase());
+            }
+        });
 
         for (Element node : tags) {
             NamedNodeMap attributes = node.getAttributes();
@@ -288,25 +255,21 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
                 Node attr = attributes.item(i);
                 if (rewriteable.contains(attr.getNodeName().toLowerCase())) {
                     mutated = true;
-                    attr.setNodeValue(rewriter.rewrite(attr.getNodeValue(),
-                            contentBase));
+                    attr.setNodeValue(rewriter.rewrite(attr.getNodeValue(), contentBase));
                 }
             }
         }
         return mutated;
     }
 
-    private void concatenateTags(final ContentRewriterFeature feature,
-            List<Element> tags, Uri gadgetUri, Uri contentBase,
-            String mimeType, final String attr, String container,
-            boolean debug, boolean ignoreCache) {
+    private void concatenateTags(final ContentRewriterFeature feature, List<Element> tags, Uri gadgetUri,
+            Uri contentBase, String mimeType, final String attr, String container, boolean debug, boolean ignoreCache) {
         // Filter out excluded URLs
-        tags = Lists.newArrayList(Iterables.filter(tags,
-                new Predicate<Element>() {
-                    public boolean apply(Element element) {
-                        return (element.hasAttribute(attr) && feature.shouldRewriteURL(element.getAttribute(attr)));
-                    }
-                }));
+        tags = Lists.newArrayList(Iterables.filter(tags, new Predicate<Element>() {
+            public boolean apply(Element element) {
+                return (element.hasAttribute(attr) && feature.shouldRewriteURL(element.getAttribute(attr)));
+            }
+        }));
 
         // Eliminate duplicates while maintaining order
         LinkedHashSet<Uri> nodeRefList = Sets.newLinkedHashSet();
@@ -320,9 +283,8 @@ public class NXHTMLContentRewriter implements GadgetRewriter, RequestRewriter {
             }
         }
 
-        List<Uri> concatented = concatLinkRewriterFactory.create(gadgetUri,
-                feature, container, debug, ignoreCache).rewrite(mimeType,
-                nodeRefList);
+        List<Uri> concatented = concatLinkRewriterFactory.create(gadgetUri, feature, container, debug, ignoreCache).rewrite(
+                mimeType, nodeRefList);
 
         for (int i = 0; i < tags.size(); i++) {
             if (i < concatented.size()) {

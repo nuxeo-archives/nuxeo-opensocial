@@ -66,13 +66,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /***
- * This is complete crap. I end up copying the class because the idiots made all
- * the implementation classes private for no reason.
- *
- * Look for the string "NUXEO NUXEO NUXEO CHANGE" to see my changes.
- *
- * irritated @author Ian Smith<ismith@nuxeo.com>
- *
+ * This is complete crap. I end up copying the class because the idiots made all the implementation classes private for
+ * no reason. Look for the string "NUXEO NUXEO NUXEO CHANGE" to see my changes. irritated @author Ian
+ * Smith<ismith@nuxeo.com>
  */
 public class NuxeoOAuthRequest extends OAuthRequest {
 
@@ -135,9 +131,8 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     protected OAuthResponseParams responseParams;
 
     /**
-     * The accessor we use for signing messages. This also holds metadata about
-     * the service provider, such as their URLs and the keys we use to access
-     * those URLs.
+     * The accessor we use for signing messages. This also holds metadata about the service provider, such as their URLs
+     * and the keys we use to access those URLs.
      */
     private AccessorInfo accessorInfo;
 
@@ -147,8 +142,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     private HttpRequest realRequest;
 
     /**
-     * Data returned along with OAuth access token, null if this is not an
-     * access token request
+     * Data returned along with OAuth access token, null if this is not an access token request
      */
     private Map<String, String> accessTokenData;
 
@@ -156,20 +150,17 @@ public class NuxeoOAuthRequest extends OAuthRequest {
      * @param fetcherConfig configuration options for the fetcher
      * @param fetcher fetcher to use for actually making requests
      */
-    public NuxeoOAuthRequest(OAuthFetcherConfig fetcherConfig,
-            HttpFetcher fetcher) {
+    public NuxeoOAuthRequest(OAuthFetcherConfig fetcherConfig, HttpFetcher fetcher) {
         this(fetcherConfig, fetcher, null);
     }
 
     /**
      * @param fetcherConfig configuration options for the fetcher
      * @param fetcher fetcher to use for actually making requests
-     * @param trustedParams additional parameters to include in all outgoing
-     *            OAuth requests, useful for client data that can't be pulled
-     *            from the security token but is still trustworthy.
+     * @param trustedParams additional parameters to include in all outgoing OAuth requests, useful for client data that
+     *            can't be pulled from the security token but is still trustworthy.
      */
-    public NuxeoOAuthRequest(OAuthFetcherConfig fetcherConfig,
-            HttpFetcher fetcher, List<Parameter> trustedParams) {
+    public NuxeoOAuthRequest(OAuthFetcherConfig fetcherConfig, HttpFetcher fetcher, List<Parameter> trustedParams) {
         super(fetcherConfig, fetcher, trustedParams);
         this.fetcherConfig = fetcherConfig;
         this.fetcher = fetcher;
@@ -184,15 +175,13 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         realRequest = request;
         clientState = new OAuthClientState(fetcherConfig.getStateCrypter(),
                 request.getOAuthArguments().getOrigClientState());
-        responseParams = new OAuthResponseParams(request.getSecurityToken(),
-                request, fetcherConfig.getStateCrypter());
+        responseParams = new OAuthResponseParams(request.getSecurityToken(), request, fetcherConfig.getStateCrypter());
         try {
             return fetchNoThrow();
         } catch (RuntimeException e) {
             // We log here to record the request/response pairs that created the
             // failure.
-            responseParams.logDetailedWarning(
-                    "OAuth fetch unexpected fatal error", e);
+            responseParams.logDetailedWarning("OAuth fetch unexpected fatal error", e);
             throw e;
         }
     }
@@ -210,10 +199,9 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Fetch data and build a response to return to the client. We try to always
-     * return something reasonable to the calling app no matter what kind of
-     * madness happens along the way. If an unchecked exception occurs, well,
-     * then the client is out of luck.
+     * Fetch data and build a response to return to the client. We try to always return something reasonable to the
+     * calling app no matter what kind of madness happens along the way. If an unchecked exception occurs, well, then
+     * the client is out of luck.
      */
     private HttpResponse fetchNoThrow() {
         HttpResponseBuilder response = null;
@@ -224,21 +212,18 @@ public class NuxeoOAuthRequest extends OAuthRequest {
                 oauthArgs.setRequestOption(NUXEO_INTERNAL_REQUEST, "true");
             }
 
-            accessorInfo = fetcherConfig.getTokenStore().getOAuthAccessor(
-                    realRequest.getSecurityToken(), oauthArgs, clientState,
-                    responseParams, fetcherConfig);
+            accessorInfo = fetcherConfig.getTokenStore().getOAuthAccessor(realRequest.getSecurityToken(), oauthArgs,
+                    clientState, responseParams, fetcherConfig);
             response = fetchWithRetry();
         } catch (OAuthRequestException e) {
             // No data for us.
-            if (OAuthError.UNAUTHENTICATED.toString().equals(
-                    responseParams.getError())) {
+            if (OAuthError.UNAUTHENTICATED.toString().equals(responseParams.getError())) {
                 responseParams.logDetailedInfo("Unauthenticated OAuth fetch", e);
             } else {
                 responseParams.logDetailedWarning("OAuth fetch fatal error", e);
             }
             responseParams.setSendTraceToClient(true);
-            response = new HttpResponseBuilder().setHttpStatusCode(
-                    HttpResponse.SC_FORBIDDEN).setStrictNoCache();
+            response = new HttpResponseBuilder().setHttpStatusCode(HttpResponse.SC_FORBIDDEN).setStrictNoCache();
             responseParams.addToResponse(response);
             return response.create();
         }
@@ -247,8 +232,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         if (response.getHttpStatusCode() >= 400) {
             responseParams.logDetailedWarning("OAuth fetch fatal error");
             responseParams.setSendTraceToClient(true);
-        } else if (responseParams.getAznUrl() != null
-                && responseParams.sawErrorResponse()) {
+        } else if (responseParams.getAznUrl() != null && responseParams.sawErrorResponse()) {
             responseParams.logDetailedWarning("OAuth fetch error, reprompting for user approval");
             responseParams.setSendTraceToClient(true);
         }
@@ -259,8 +243,8 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Fetch data, retrying in the event that that the service provider returns
-     * an error and we think we can recover by restarting the protocol flow.
+     * Fetch data, retrying in the event that that the service provider returns an error and we think we can recover by
+     * restarting the protocol flow.
      */
     private HttpResponseBuilder fetchWithRetry() throws OAuthRequestException {
         int attempts = 0;
@@ -275,12 +259,10 @@ public class NuxeoOAuthRequest extends OAuthRequest {
                 retry = handleProtocolException(pe, attempts);
                 if (!retry) {
                     if (pe.getProblemCode() != null) {
-                        throw responseParams.oauthRequestException(
-                                pe.getProblemCode(),
+                        throw responseParams.oauthRequestException(pe.getProblemCode(),
                                 "Service provider rejected request", pe);
                     } else {
-                        throw responseParams.oauthRequestException(
-                                OAuthError.UNKNOWN_PROBLEM,
+                        throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM,
                                 "Service provider rejected request", pe);
                     }
                 }
@@ -289,13 +271,11 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         return response;
     }
 
-    private boolean handleProtocolException(NXOAuthProtocolException pe,
-            int attempts) throws OAuthRequestException {
+    private boolean handleProtocolException(NXOAuthProtocolException pe, int attempts) throws OAuthRequestException {
         if (pe.canExtend()) {
             accessorInfo.setTokenExpireMillis(ACCESS_TOKEN_FORCE_EXPIRE);
         } else if (pe.startFromScratch()) {
-            fetcherConfig.getTokenStore().removeToken(
-                    realRequest.getSecurityToken(), accessorInfo.getConsumer(),
+            fetcherConfig.getTokenStore().removeToken(realRequest.getSecurityToken(), accessorInfo.getConsumer(),
                     realRequest.getOAuthArguments(), responseParams);
             accessorInfo.getAccessor().accessToken = null;
             accessorInfo.getAccessor().requestToken = null;
@@ -307,9 +287,8 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Does one of the following: 1) Sends a request token request, and returns
-     * an approval URL to the calling app. 2) Sends an access token request to
-     * swap a request token for an access token, and then asks for data from the
+     * Does one of the following: 1) Sends a request token request, and returns an approval URL to the calling app. 2)
+     * Sends an access token request to swap a request token for an access token, and then asks for data from the
      * service provider. 3) Asks for data from the service provider.
      */
     private HttpResponseBuilder attemptFetch() throws NXOAuthProtocolException,
@@ -323,8 +302,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
             buildAznUrl();
             // break out of the content fetching chain, we need permission from
             // the user to do this
-            return new HttpResponseBuilder().setHttpStatusCode(
-                    HttpResponse.SC_OK).setStrictNoCache();
+            return new HttpResponseBuilder().setHttpStatusCode(HttpResponse.SC_OK).setStrictNoCache();
         } else if (needAccessToken()) {
             // This is section 6.3 of the OAuth spec
             checkCanApprove();
@@ -339,40 +317,32 @@ public class NuxeoOAuthRequest extends OAuthRequest {
      * Do we need to get the user's approval to access the data?
      */
     private boolean needApproval() {
-        return (realRequest.getOAuthArguments().mustUseToken()
-                && accessorInfo.getAccessor().requestToken == null && accessorInfo.getAccessor().accessToken == null);
+        return (realRequest.getOAuthArguments().mustUseToken() && accessorInfo.getAccessor().requestToken == null && accessorInfo.getAccessor().accessToken == null);
     }
 
     /**
-     * Make sure the user is authorized to approve access tokens. At the moment
-     * we restrict this to page owner's viewing their own pages.
+     * Make sure the user is authorized to approve access tokens. At the moment we restrict this to page owner's viewing
+     * their own pages.
      */
-    private void checkCanApprove()
-            throws OAuthResponseParams.OAuthRequestException {
+    private void checkCanApprove() throws OAuthResponseParams.OAuthRequestException {
         String pageOwner = realRequest.getSecurityToken().getOwnerId();
         String pageViewer = realRequest.getSecurityToken().getViewerId();
         String stateOwner = clientState.getOwner();
         if (pageOwner == null || pageViewer == null) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.UNAUTHENTICATED, "Unauthenticated");
+            throw responseParams.oauthRequestException(OAuthError.UNAUTHENTICATED, "Unauthenticated");
         }
-        if (!fetcherConfig.isViewerAccessTokensEnabled()
-                && !pageOwner.equals(pageViewer)) {
+        if (!fetcherConfig.isViewerAccessTokensEnabled() && !pageOwner.equals(pageViewer)) {
             throw responseParams.oauthRequestException(OAuthError.NOT_OWNER,
                     "Non-Secure Owner Page -- Only page owners can grant OAuth approval");
         }
         if (stateOwner != null && !stateOwner.equals(pageViewer)) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.UNKNOWN_PROBLEM,
-                    "Client state belongs to a different person "
-                            + "(state owner=" + stateOwner + ", pageViewer="
+            throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM,
+                    "Client state belongs to a different person " + "(state owner=" + stateOwner + ", pageViewer="
                             + pageViewer + ')');
         }
     }
 
-    private void fetchRequestToken()
-            throws OAuthResponseParams.OAuthRequestException,
-            NXOAuthProtocolException {
+    private void fetchRequestToken() throws OAuthResponseParams.OAuthRequestException, NXOAuthProtocolException {
         OAuthAccessor accessor = accessorInfo.getAccessor();
         HttpRequest request = createRequestTokenRequest(accessor);
 
@@ -385,19 +355,16 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         OAuthMessage reply = sendOAuthMessage(signed);
 
         accessor.requestToken = OAuthUtil.getParameter(reply, OAuth.OAUTH_TOKEN);
-        accessor.tokenSecret = OAuthUtil.getParameter(reply,
-                OAuth.OAUTH_TOKEN_SECRET);
+        accessor.tokenSecret = OAuthUtil.getParameter(reply, OAuth.OAUTH_TOKEN_SECRET);
     }
 
     private HttpRequest createRequestTokenRequest(OAuthAccessor accessor)
             throws OAuthResponseParams.OAuthRequestException {
         if (accessor.consumer.serviceProvider.requestTokenURL == null) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.BAD_OAUTH_CONFIGURATION,
+            throw responseParams.oauthRequestException(OAuthError.BAD_OAUTH_CONFIGURATION,
                     "No request token URL specified");
         }
-        HttpRequest request = new HttpRequest(
-                Uri.parse(accessor.consumer.serviceProvider.requestTokenURL));
+        HttpRequest request = new HttpRequest(Uri.parse(accessor.consumer.serviceProvider.requestTokenURL));
         request.setMethod(accessorInfo.getHttpMethod().toString());
         if (accessorInfo.getHttpMethod() == HttpMethod.POST) {
             request.setHeader("Content-Type", OAuth.FORM_ENCODED);
@@ -405,17 +372,15 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         return request;
     }
 
-    private void addCallback(List<Parameter> requestTokenParams)
-            throws OAuthResponseParams.OAuthRequestException {
+    private void addCallback(List<Parameter> requestTokenParams) throws OAuthResponseParams.OAuthRequestException {
         // This will be either the consumer key callback URL or the global
         // callback URL.
         String baseCallback = StringUtils.trimToNull(accessorInfo.getConsumer().getCallbackUrl());
         if (baseCallback != null) {
-            String callbackUrl = fetcherConfig.getOAuthCallbackGenerator().generateCallback(
-                    fetcherConfig, baseCallback, realRequest, responseParams);
+            String callbackUrl = fetcherConfig.getOAuthCallbackGenerator().generateCallback(fetcherConfig,
+                    baseCallback, realRequest, responseParams);
             if (callbackUrl != null) {
-                requestTokenParams.add(new Parameter(OAuth.OAUTH_CALLBACK,
-                        callbackUrl));
+                requestTokenParams.add(new Parameter(OAuth.OAUTH_CALLBACK, callbackUrl));
             }
         }
     }
@@ -423,19 +388,15 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     /**
      * Strip out any owner or viewer identity information passed by the client.
      */
-    private List<Parameter> sanitize(List<Parameter> params)
-            throws OAuthResponseParams.OAuthRequestException {
+    private List<Parameter> sanitize(List<Parameter> params) throws OAuthResponseParams.OAuthRequestException {
         ArrayList<Parameter> list = Lists.newArrayList();
         for (Parameter p : params) {
             String name = p.getKey();
             if (allowParam(name)) {
                 list.add(p);
             } else {
-                throw responseParams.oauthRequestException(
-                        OAuthError.INVALID_REQUEST,
-                        "invalid parameter name "
-                                + name
-                                + ", applications may not override opensocial or oauth parameters");
+                throw responseParams.oauthRequestException(OAuthError.INVALID_REQUEST, "invalid parameter name " + name
+                        + ", applications may not override opensocial or oauth parameters");
             }
         }
         return list;
@@ -443,8 +404,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
 
     private boolean allowParam(String paramName) {
         String canonParamName = paramName.toLowerCase();
-        return (!(canonParamName.startsWith("oauth")
-                || canonParamName.startsWith("xoauth") || canonParamName.startsWith("opensocial")) && ALLOWED_PARAM_NAME.matcher(
+        return (!(canonParamName.startsWith("oauth") || canonParamName.startsWith("xoauth") || canonParamName.startsWith("opensocial")) && ALLOWED_PARAM_NAME.matcher(
                 canonParamName).matches());
     }
 
@@ -457,8 +417,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         // us be compatible with strict OAuth service providers that reject
         // extra parameters on
         // requests.
-        if (!realRequest.getOAuthArguments().getSignOwner()
-                && !realRequest.getOAuthArguments().getSignViewer()) {
+        if (!realRequest.getOAuthArguments().getSignOwner() && !realRequest.getOAuthArguments().getSignViewer()) {
             return;
         }
 
@@ -473,15 +432,10 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         }
 
         /*
-         * NUXEO NUXEO NUXEO CHANGE! We cannot reliably determine how to compute
-         * this so we just omit it.
-         *
-         * String app = realRequest.getSecurityToken().getAppId(); if (app !=
-         * null) { params.add(new Parameter(OPENSOCIAL_APPID, app)); }
-         *
-         * String appUrl = realRequest.getSecurityToken().getAppUrl(); if
-         * (appUrl != null) { params.add(new Parameter(OPENSOCIAL_APPURL,
-         * appUrl)); }
+         * NUXEO NUXEO NUXEO CHANGE! We cannot reliably determine how to compute this so we just omit it. String app =
+         * realRequest.getSecurityToken().getAppId(); if (app != null) { params.add(new Parameter(OPENSOCIAL_APPID,
+         * app)); } String appUrl = realRequest.getSecurityToken().getAppUrl(); if (appUrl != null) { params.add(new
+         * Parameter(OPENSOCIAL_APPURL, appUrl)); }
          */
 
         if (trustedParams != null) {
@@ -498,23 +452,18 @@ public class NuxeoOAuthRequest extends OAuthRequest {
      */
     private void addSignatureParams(List<Parameter> params) {
         if (accessorInfo.getConsumer().getConsumer().consumerKey == null) {
-            params.add(new Parameter(OAuth.OAUTH_CONSUMER_KEY,
-                    realRequest.getSecurityToken().getDomain()));
+            params.add(new Parameter(OAuth.OAUTH_CONSUMER_KEY, realRequest.getSecurityToken().getDomain()));
         }
         if (accessorInfo.getConsumer().getKeyName() != null) {
-            params.add(new Parameter(XOAUTH_PUBLIC_KEY_OLD,
-                    accessorInfo.getConsumer().getKeyName()));
-            params.add(new Parameter(XOAUTH_PUBLIC_KEY_NEW,
-                    accessorInfo.getConsumer().getKeyName()));
+            params.add(new Parameter(XOAUTH_PUBLIC_KEY_OLD, accessorInfo.getConsumer().getKeyName()));
+            params.add(new Parameter(XOAUTH_PUBLIC_KEY_NEW, accessorInfo.getConsumer().getKeyName()));
         }
         params.add(new Parameter(OAuth.OAUTH_VERSION, OAuth.VERSION_1_0));
-        params.add(new Parameter(
-                OAuth.OAUTH_TIMESTAMP,
+        params.add(new Parameter(OAuth.OAUTH_TIMESTAMP,
                 Long.toString(fetcherConfig.getClock().currentTimeMillis() / 1000)));
     }
 
-    static String getAuthorizationHeader(
-            List<Map.Entry<String, String>> oauthParams) {
+    static String getAuthorizationHeader(List<Map.Entry<String, String>> oauthParams) {
         StringBuilder result = new StringBuilder("OAuth ");
 
         boolean first = true;
@@ -531,13 +480,11 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Start with an HttpRequest. Throw if there are any attacks in the query.
-     * Throw if there are any attacks in the post body. Build up OAuth parameter
-     * list. Sign it. Add OAuth parameters to new request. Send it.
+     * Start with an HttpRequest. Throw if there are any attacks in the query. Throw if there are any attacks in the
+     * post body. Build up OAuth parameter list. Sign it. Add OAuth parameters to new request. Send it.
      */
     @Override
-    public HttpRequest sanitizeAndSign(HttpRequest base,
-            List<Parameter> params, boolean tokenEndpoint)
+    public HttpRequest sanitizeAndSign(HttpRequest base, List<Parameter> params, boolean tokenEndpoint)
             throws OAuthResponseParams.OAuthRequestException {
         if (params == null) {
             params = Lists.newArrayList();
@@ -547,8 +494,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         target.setQuery(null);
         params.addAll(sanitize(OAuth.decodeForm(query)));
 
-        switch (OAuthUtil.getSignatureType(tokenEndpoint,
-                base.getHeader("Content-Type"))) {
+        switch (OAuthUtil.getSignatureType(tokenEndpoint, base.getHeader("Content-Type"))) {
         case URL_ONLY:
             break;
         case URL_AND_FORM_PARAMS:
@@ -558,12 +504,10 @@ public class NuxeoOAuthRequest extends OAuthRequest {
             try {
                 byte[] body = IOUtils.toByteArray(base.getPostBody());
                 byte[] hash = DigestUtils.sha(body);
-                String b64 = new String(Base64.encodeBase64(hash),
-                        CharsetUtil.UTF8.name());
+                String b64 = new String(Base64.encodeBase64(hash), CharsetUtil.UTF8.name());
                 params.add(new Parameter(OAuthConstants.OAUTH_BODY_HASH, b64));
             } catch (IOException e) {
-                throw responseParams.oauthRequestException(
-                        OAuthError.UNKNOWN_PROBLEM, "Error taking body hash", e);
+                throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM, "Error taking body hash", e);
             }
             break;
         }
@@ -573,22 +517,18 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         addSignatureParams(params);
 
         try {
-            OAuthMessage signed = OAuthUtil.newRequestMessage(
-                    accessorInfo.getAccessor(), base.getMethod(),
+            OAuthMessage signed = OAuthUtil.newRequestMessage(accessorInfo.getAccessor(), base.getMethod(),
                     target.toString(), params);
-            HttpRequest oauthHttpRequest = createHttpRequest(base,
-                    selectOAuthParams(signed));
+            HttpRequest oauthHttpRequest = createHttpRequest(base, selectOAuthParams(signed));
             // Following 302s on OAuth responses is unlikely to be productive.
             oauthHttpRequest.setFollowRedirects(false);
             return oauthHttpRequest;
         } catch (OAuthException e) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.UNKNOWN_PROBLEM, "Error signing message", e);
+            throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM, "Error signing message", e);
         }
     }
 
-    private HttpRequest createHttpRequest(HttpRequest base,
-            List<Map.Entry<String, String>> oauthParams)
+    private HttpRequest createHttpRequest(HttpRequest base, List<Map.Entry<String, String>> oauthParams)
             throws OAuthResponseParams.OAuthRequestException {
 
         OAuthParamLocation paramLocation = accessorInfo.getParamLocation();
@@ -607,24 +547,20 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         // We opt to put them in the header, since that stands some chance of
         // working with some
         // OAuth service providers.
-        if (paramLocation == OAuthParamLocation.POST_BODY
-                && !result.getMethod().equals("POST")) {
+        if (paramLocation == OAuthParamLocation.POST_BODY && !result.getMethod().equals("POST")) {
             paramLocation = OAuthParamLocation.AUTH_HEADER;
         }
 
         switch (paramLocation) {
         case AUTH_HEADER:
-            result.addHeader("Authorization",
-                    getAuthorizationHeader(oauthParams));
+            result.addHeader("Authorization", getAuthorizationHeader(oauthParams));
             break;
 
         case POST_BODY:
             String contentType = result.getHeader("Content-Type");
             if (!OAuth.isFormEncoded(contentType)) {
-                throw responseParams.oauthRequestException(
-                        OAuthError.INVALID_REQUEST,
-                        "OAuth param location can only be post_body if post body if of "
-                                + "type x-www-form-urlencoded");
+                throw responseParams.oauthRequestException(OAuthError.INVALID_REQUEST,
+                        "OAuth param location can only be post_body if post body if of " + "type x-www-form-urlencoded");
             }
             String oauthData = OAuthUtil.formEncode(oauthParams);
             if (result.getPostBodyLength() == 0) {
@@ -635,8 +571,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
             break;
 
         case URI_QUERY:
-            result.setUri(Uri.parse(OAuthUtil.addParameters(
-                    result.getUri().toString(), oauthParams)));
+            result.setUri(Uri.parse(OAuthUtil.addParameters(result.getUri().toString(), oauthParams)));
             break;
         }
 
@@ -646,8 +581,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     /**
      * Sends OAuth request token and access token messages.
      */
-    private OAuthMessage sendOAuthMessage(HttpRequest request)
-            throws OAuthResponseParams.OAuthRequestException,
+    private OAuthMessage sendOAuthMessage(HttpRequest request) throws OAuthResponseParams.OAuthRequestException,
             NXOAuthProtocolException {
         HttpResponse response = fetchFromServer(request);
         checkForProtocolProblem(response);
@@ -656,21 +590,18 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         reply.addParameters(OAuth.decodeForm(response.getResponseAsString()));
         reply = parseAuthHeader(reply, response);
         if (OAuthUtil.getParameter(reply, OAuth.OAUTH_TOKEN) == null) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.UNKNOWN_PROBLEM,
+            throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM,
                     "No oauth_token returned from service provider");
         }
         if (OAuthUtil.getParameter(reply, OAuth.OAUTH_TOKEN_SECRET) == null) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.UNKNOWN_PROBLEM,
+            throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM,
                     "No oauth_token_secret returned from service provider");
         }
         return reply;
     }
 
     /**
-     * Parse OAuth WWW-Authenticate header and either add them to an existing
-     * message or create a new message.
+     * Parse OAuth WWW-Authenticate header and either add them to an existing message or create a new message.
      *
      * @param msg
      * @param resp
@@ -693,12 +624,9 @@ public class NuxeoOAuthRequest extends OAuthRequest {
      */
     private void buildClientApprovalState() {
         OAuthAccessor accessor = accessorInfo.getAccessor();
-        responseParams.getNewClientState().setRequestToken(
-                accessor.requestToken);
-        responseParams.getNewClientState().setRequestTokenSecret(
-                accessor.tokenSecret);
-        responseParams.getNewClientState().setOwner(
-                realRequest.getSecurityToken().getOwnerId());
+        responseParams.getNewClientState().setRequestToken(accessor.requestToken);
+        responseParams.getNewClientState().setRequestTokenSecret(accessor.tokenSecret);
+        responseParams.getNewClientState().setOwner(realRequest.getSecurityToken().getOwnerId());
     }
 
     /**
@@ -708,12 +636,10 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         // We add the token, gadget is responsible for the callback URL.
         OAuthAccessor accessor = accessorInfo.getAccessor();
         if (accessor.consumer.serviceProvider.userAuthorizationURL == null) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.BAD_OAUTH_CONFIGURATION,
+            throw responseParams.oauthRequestException(OAuthError.BAD_OAUTH_CONFIGURATION,
                     "No authorization URL specified");
         }
-        StringBuilder azn = new StringBuilder(
-                accessor.consumer.serviceProvider.userAuthorizationURL);
+        StringBuilder azn = new StringBuilder(accessor.consumer.serviceProvider.userAuthorizationURL);
         if (azn.indexOf("?") == -1) {
             azn.append('?');
         } else {
@@ -729,13 +655,11 @@ public class NuxeoOAuthRequest extends OAuthRequest {
      * Do we need to exchange a request token for an access token?
      */
     private boolean needAccessToken() {
-        if (realRequest.getOAuthArguments().mustUseToken()
-                && accessorInfo.getAccessor().requestToken != null
+        if (realRequest.getOAuthArguments().mustUseToken() && accessorInfo.getAccessor().requestToken != null
                 && accessorInfo.getAccessor().accessToken == null) {
             return true;
         }
-        return realRequest.getOAuthArguments().mayUseToken()
-                && accessTokenExpired();
+        return realRequest.getOAuthArguments().mayUseToken() && accessTokenExpired();
     }
 
     private boolean accessTokenExpired() {
@@ -745,9 +669,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     /**
      * Implements section 6.3 of the OAuth spec.
      */
-    private void exchangeRequestToken()
-            throws OAuthResponseParams.OAuthRequestException,
-            NXOAuthProtocolException {
+    private void exchangeRequestToken() throws OAuthResponseParams.OAuthRequestException, NXOAuthProtocolException {
         if (accessorInfo.getAccessor().accessToken != null) {
             // session extension per
             // http://oauth.googlecode.com/svn/spec/ext/session/1.0/drafts/1/spec.html
@@ -756,8 +678,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         }
         OAuthAccessor accessor = accessorInfo.getAccessor();
         if (accessor.consumer.serviceProvider.accessTokenURL == null) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.BAD_OAUTH_CONFIGURATION,
+            throw responseParams.oauthRequestException(OAuthError.BAD_OAUTH_CONFIGURATION,
                     "No access token URL specified.");
         }
         Uri accessTokenUri = Uri.parse(accessor.consumer.serviceProvider.accessTokenURL);
@@ -770,8 +691,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         List<Parameter> msgParams = Lists.newArrayList();
         msgParams.add(new Parameter(OAuth.OAUTH_TOKEN, accessor.requestToken));
         if (accessorInfo.getSessionHandle() != null) {
-            msgParams.add(new Parameter(OAuthConstants.OAUTH_SESSION_HANDLE,
-                    accessorInfo.getSessionHandle()));
+            msgParams.add(new Parameter(OAuthConstants.OAUTH_SESSION_HANDLE, accessorInfo.getSessionHandle()));
         }
         String receivedCallback = realRequest.getOAuthArguments().getReceivedCallbackUrl();
         if (!StringUtils.isBlank(receivedCallback)) {
@@ -779,12 +699,10 @@ public class NuxeoOAuthRequest extends OAuthRequest {
                 Uri parsed = Uri.parse(receivedCallback);
                 String verifier = parsed.getQueryParameter(OAuthConstants.OAUTH_VERIFIER);
                 if (verifier != null) {
-                    msgParams.add(new Parameter(OAuthConstants.OAUTH_VERIFIER,
-                            verifier));
+                    msgParams.add(new Parameter(OAuthConstants.OAUTH_VERIFIER, verifier));
                 }
             } catch (IllegalArgumentException e) {
-                throw responseParams.oauthRequestException(
-                        OAuthError.INVALID_REQUEST,
+                throw responseParams.oauthRequestException(OAuthError.INVALID_REQUEST,
                         "Invalid received callback URL: " + receivedCallback, e);
             }
         }
@@ -794,17 +712,13 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         OAuthMessage reply = sendOAuthMessage(signed);
 
         accessor.accessToken = OAuthUtil.getParameter(reply, OAuth.OAUTH_TOKEN);
-        accessor.tokenSecret = OAuthUtil.getParameter(reply,
-                OAuth.OAUTH_TOKEN_SECRET);
-        accessorInfo.setSessionHandle(OAuthUtil.getParameter(reply,
-                OAuthConstants.OAUTH_SESSION_HANDLE));
+        accessor.tokenSecret = OAuthUtil.getParameter(reply, OAuth.OAUTH_TOKEN_SECRET);
+        accessorInfo.setSessionHandle(OAuthUtil.getParameter(reply, OAuthConstants.OAUTH_SESSION_HANDLE));
         accessorInfo.setTokenExpireMillis(ACCESS_TOKEN_EXPIRE_UNKNOWN);
         if (OAuthUtil.getParameter(reply, OAuthConstants.OAUTH_EXPIRES_IN) != null) {
             try {
-                int expireSecs = Integer.parseInt(OAuthUtil.getParameter(reply,
-                        OAuthConstants.OAUTH_EXPIRES_IN));
-                long expireMillis = fetcherConfig.getClock().currentTimeMillis()
-                        + expireSecs * 1000;
+                int expireSecs = Integer.parseInt(OAuthUtil.getParameter(reply, OAuthConstants.OAUTH_EXPIRES_IN));
+                long expireMillis = fetcherConfig.getClock().currentTimeMillis() + expireSecs * 1000;
                 accessorInfo.setTokenExpireMillis(expireMillis);
             } catch (NumberFormatException e) {
                 // Hrm. Bogus server. We can safely ignore this, we'll just wait
@@ -846,15 +760,12 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     /**
      * Save off our new token and secret to the persistent store.
      */
-    private void saveAccessToken()
-            throws OAuthResponseParams.OAuthRequestException {
+    private void saveAccessToken() throws OAuthResponseParams.OAuthRequestException {
         OAuthAccessor accessor = accessorInfo.getAccessor();
-        TokenInfo tokenInfo = new TokenInfo(accessor.accessToken,
-                accessor.tokenSecret, accessorInfo.getSessionHandle(),
-                accessorInfo.getTokenExpireMillis());
-        fetcherConfig.getTokenStore().storeTokenKeyAndSecret(
-                realRequest.getSecurityToken(), accessorInfo.getConsumer(),
-                realRequest.getOAuthArguments(), tokenInfo, responseParams);
+        TokenInfo tokenInfo = new TokenInfo(accessor.accessToken, accessor.tokenSecret,
+                accessorInfo.getSessionHandle(), accessorInfo.getTokenExpireMillis());
+        fetcherConfig.getTokenStore().storeTokenKeyAndSecret(realRequest.getSecurityToken(),
+                accessorInfo.getConsumer(), realRequest.getOAuthArguments(), tokenInfo, responseParams);
     }
 
     /**
@@ -863,25 +774,18 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     private void buildClientAccessState() {
         OAuthAccessor accessor = accessorInfo.getAccessor();
         responseParams.getNewClientState().setAccessToken(accessor.accessToken);
-        responseParams.getNewClientState().setAccessTokenSecret(
-                accessor.tokenSecret);
-        responseParams.getNewClientState().setOwner(
-                realRequest.getSecurityToken().getOwnerId());
-        responseParams.getNewClientState().setSessionHandle(
-                accessorInfo.getSessionHandle());
-        responseParams.getNewClientState().setTokenExpireMillis(
-                accessorInfo.getTokenExpireMillis());
+        responseParams.getNewClientState().setAccessTokenSecret(accessor.tokenSecret);
+        responseParams.getNewClientState().setOwner(realRequest.getSecurityToken().getOwnerId());
+        responseParams.getNewClientState().setSessionHandle(accessorInfo.getSessionHandle());
+        responseParams.getNewClientState().setTokenExpireMillis(accessorInfo.getTokenExpireMillis());
     }
 
     /**
      * Get honest-to-goodness user data.
      *
-     * @throws NXOAuthProtocolException if the service provider returns an OAuth
-     *             related error instead of user data.
+     * @throws NXOAuthProtocolException if the service provider returns an OAuth related error instead of user data.
      */
-    private HttpResponseBuilder fetchData()
-            throws OAuthResponseParams.OAuthRequestException,
-            NXOAuthProtocolException {
+    private HttpResponseBuilder fetchData() throws OAuthResponseParams.OAuthRequestException, NXOAuthProtocolException {
         HttpResponseBuilder builder = null;
         if (accessTokenData != null) {
             // This is a request for access token data, return it.
@@ -897,28 +801,23 @@ public class NuxeoOAuthRequest extends OAuthRequest {
         return builder;
     }
 
-    private HttpResponse fetchFromServer(HttpRequest request)
-            throws OAuthResponseParams.OAuthRequestException {
+    private HttpResponse fetchFromServer(HttpRequest request) throws OAuthResponseParams.OAuthRequestException {
         HttpResponse response = null;
         try {
             response = fetcher.fetch(request);
             if (response == null) {
-                throw responseParams.oauthRequestException(
-                        OAuthError.UNKNOWN_PROBLEM, "No response from server");
+                throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM, "No response from server");
             }
             return response;
         } catch (GadgetException e) {
-            throw responseParams.oauthRequestException(
-                    OAuthError.UNKNOWN_PROBLEM, "No response from server", e);
+            throw responseParams.oauthRequestException(OAuthError.UNKNOWN_PROBLEM, "No response from server", e);
         } finally {
             responseParams.addRequestTrace(request, response);
         }
     }
 
     /**
-     * Access token data is returned to the gadget as json key/value pairs:
-     *
-     * { "user_id": "12345678" }
+     * Access token data is returned to the gadget as json key/value pairs: { "user_id": "12345678" }
      */
     private HttpResponseBuilder formatAccessTokenData() {
         HttpResponseBuilder builder = new HttpResponseBuilder();
@@ -934,22 +833,18 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Look for an OAuth protocol problem. For cases where no access token is in
-     * play
+     * Look for an OAuth protocol problem. For cases where no access token is in play
      *
      * @param response
      * @throws NXOAuthProtocolException
      */
-    private void checkForProtocolProblem(HttpResponse response)
-            throws NXOAuthProtocolException {
+    private void checkForProtocolProblem(HttpResponse response) throws NXOAuthProtocolException {
         if (couldBeFullOAuthError(response)) {
             // OK, might be OAuth related.
             OAuthMessage message = parseAuthHeader(null, response);
-            if (OAuthUtil.getParameter(message,
-                    OAuthProblemException.OAUTH_PROBLEM) != null) {
+            if (OAuthUtil.getParameter(message, OAuthProblemException.OAUTH_PROBLEM) != null) {
                 // SP reported extended error information
-                throw new NXOAuthProtocolException(
-                        response.getHttpStatusCode(), message);
+                throw new NXOAuthProtocolException(response.getHttpStatusCode(), message);
             }
             // No extended information, guess based on HTTP response code.
             if (response.getHttpStatusCode() == HttpResponse.SC_UNAUTHORIZED) {
@@ -959,9 +854,8 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Check if a response might be due to an OAuth protocol error. We don't
-     * want to intercept errors for signed fetch, we only care about places
-     * where we are dealing with OAuth request and/or access tokens.
+     * Check if a response might be due to an OAuth protocol error. We don't want to intercept errors for signed fetch,
+     * we only care about places where we are dealing with OAuth request and/or access tokens.
      */
     private boolean couldBeFullOAuthError(HttpResponse response) {
         // 400, 401 and 403 are likely to be authentication errors.
@@ -989,22 +883,17 @@ public class NuxeoOAuthRequest extends OAuthRequest {
     }
 
     /**
-     * Extracts only those parameters from an OAuthMessage that are
-     * OAuth-related. An OAuthMessage may hold a whole bunch of
-     * non-OAuth-related parameters because they were all needed for signing.
-     * But when constructing a request we need to be able to extract just the
-     * OAuth-related parameters because they, and only they, may have to be put
+     * Extracts only those parameters from an OAuthMessage that are OAuth-related. An OAuthMessage may hold a whole
+     * bunch of non-OAuth-related parameters because they were all needed for signing. But when constructing a request
+     * we need to be able to extract just the OAuth-related parameters because they, and only they, may have to be put
      * into an Authorization: header or some such thing.
      *
-     * @param message the OAuthMessage object, which holds non-OAuth parameters
-     *            such as foo=bar (which may have been in the original URI query
-     *            part, or perhaps in the POST body), as well as OAuth-related
-     *            parameters (such as oauth_timestamp or oauth_signature).
-     *
+     * @param message the OAuthMessage object, which holds non-OAuth parameters such as foo=bar (which may have been in
+     *            the original URI query part, or perhaps in the POST body), as well as OAuth-related parameters (such
+     *            as oauth_timestamp or oauth_signature).
      * @return a list that contains only the oauth_related parameters.
      */
-    static List<Map.Entry<String, String>> selectOAuthParams(
-            OAuthMessage message) {
+    static List<Map.Entry<String, String>> selectOAuthParams(OAuthMessage message) {
         List<Map.Entry<String, String>> result = Lists.newArrayList();
         for (Map.Entry<String, String> param : OAuthUtil.getParameters(message)) {
             if (isContainerInjectedParameter(param.getKey())) {
@@ -1016,8 +905,7 @@ public class NuxeoOAuthRequest extends OAuthRequest {
 
     private static boolean isContainerInjectedParameter(String key) {
         key = key.toLowerCase();
-        return key.startsWith("oauth") || key.startsWith("xoauth")
-                || key.startsWith("opensocial");
+        return key.startsWith("oauth") || key.startsWith("xoauth") || key.startsWith("opensocial");
     }
 
 }
@@ -1026,17 +914,15 @@ public class NuxeoOAuthRequest extends OAuthRequest {
 class NXOAuthProtocolException extends Exception {
 
     /**
-     * Problems that should force us to abort the protocol right away, and next
-     * time the user visits ask them for permission again.
+     * Problems that should force us to abort the protocol right away, and next time the user visits ask them for
+     * permission again.
      */
-    private static Set<String> fatalProblems = ImmutableSet.of(
-            "version_rejected", "signature_method_rejected",
-            "consumer_key_unknown", "consumer_key_rejected",
-            "timestamp_refused");
+    private static Set<String> fatalProblems = ImmutableSet.of("version_rejected", "signature_method_rejected",
+            "consumer_key_unknown", "consumer_key_rejected", "timestamp_refused");
 
     /**
-     * Problems that should force us to abort the protocol right away, but we
-     * can still try to use the access token again later.
+     * Problems that should force us to abort the protocol right away, but we can still try to use the access token
+     * again later.
      */
     private static Set<String> temporaryProblems = ImmutableSet.of("consumer_key_refused");
 
@@ -1054,8 +940,7 @@ class NXOAuthProtocolException extends Exception {
     private final String problemCode;
 
     public NXOAuthProtocolException(int status, OAuthMessage reply) {
-        String problem = OAuthUtil.getParameter(reply,
-                OAuthProblemException.OAUTH_PROBLEM);
+        String problem = OAuthUtil.getParameter(reply, OAuthProblemException.OAUTH_PROBLEM);
         if (problem == null) {
             throw new IllegalArgumentException(
                     "No problem reported for HorribleHackExceptionBecauseStupidClassIsPackagePrivate");
@@ -1087,11 +972,9 @@ class NXOAuthProtocolException extends Exception {
     }
 
     /**
-     * Handle OAuth protocol errors for SPs that don't support the problem
-     * reporting extension
+     * Handle OAuth protocol errors for SPs that don't support the problem reporting extension
      *
-     * @param status HTTP status code, assumed to be between 400 and 499
-     *            inclusive
+     * @param status HTTP status code, assumed to be between 400 and 499 inclusive
      */
     public NXOAuthProtocolException(int status) {
         if (status == HttpResponse.SC_UNAUTHORIZED) {
@@ -1106,24 +989,22 @@ class NXOAuthProtocolException extends Exception {
     }
 
     /**
-     * @return true if we've gotten confused to the point where we should give
-     *         up and ask the user for approval again.
+     * @return true if we've gotten confused to the point where we should give up and ask the user for approval again.
      */
     public boolean startFromScratch() {
         return startFromScratch;
     }
 
     /**
-     * @return true if we think we can make progress by attempting the protocol
-     *         flow again (which may require starting from scratch).
+     * @return true if we think we can make progress by attempting the protocol flow again (which may require starting
+     *         from scratch).
      */
     public boolean canRetry() {
         return canRetry;
     }
 
     /**
-     * @return true if we think we can make progress by attempting to extend the
-     *         lifetime of the access token.
+     * @return true if we think we can make progress by attempting to extend the lifetime of the access token.
      */
     public boolean canExtend() {
         return canExtend;

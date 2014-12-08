@@ -10,8 +10,7 @@ import org.nuxeo.common.xmap.annotation.XObject;
 public class WebContentSaverDescriptor {
 
     /**
-     * <webcontentsaver doctype="WCHTML"> <type>wchtml</type>
-     * <daoClass>HTMLWebContentDAO</daoClass>
+     * <webcontentsaver doctype="WCHTML"> <type>wchtml</type> <daoClass>HTMLWebContentDAO</daoClass>
      * <coreAdapter>HTMLAdapter</coreAdapter> </webcontentsaver>
      */
     @XNode("@docType")
@@ -29,8 +28,7 @@ public class WebContentSaverDescriptor {
     public WebContentSaverDescriptor() {
     }
 
-    public WebContentSaverDescriptor(String docType, String type,
-            Class<?> daoClass, Class<?> coreAdapter) {
+    public WebContentSaverDescriptor(String docType, String type, Class<?> daoClass, Class<?> coreAdapter) {
         setDocType(docType);
         setType(type);
         setDaoClass(daoClass);

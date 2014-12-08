@@ -39,13 +39,11 @@ public class ContainerDispatchAsync implements DispatchAsync {
     private static final String DISPATCH_URL_SUFFIX = "gwtContainer/dispatch";
 
     public ContainerDispatchAsync() {
-        String dispatchURL = ContainerConfiguration.getBaseUrl()
-                + DISPATCH_URL_SUFFIX;
+        String dispatchURL = ContainerConfiguration.getBaseUrl() + DISPATCH_URL_SUFFIX;
         ((ServiceDefTarget) realService).setServiceEntryPoint(dispatchURL);
     }
 
-    public <A extends Action<R>, R extends Result> void execute(final A action,
-            final AsyncCallback<R> callback) {
+    public <A extends Action<R>, R extends Result> void execute(final A action, final AsyncCallback<R> callback) {
         realService.execute(action, new AsyncCallback<Result>() {
             public void onFailure(Throwable caught) {
                 callback.onFailure(caught);

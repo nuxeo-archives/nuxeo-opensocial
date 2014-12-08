@@ -35,8 +35,7 @@ public class UrlPrefixTest {
     }
 
     @Test
-    public void urlIsCorrectlyGeneratedWithANonEmbeddedServer()
-            throws Exception {
+    public void urlIsCorrectlyGeneratedWithANonEmbeddedServer() throws Exception {
         InternalGadgetDescriptor gadget = new InternalGadgetDescriptor();
         OSGiRuntimeService service = (OSGiRuntimeService) Framework.getRuntime();
 

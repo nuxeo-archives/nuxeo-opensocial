@@ -12,8 +12,7 @@ import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetService;
 import org.nuxeo.runtime.api.Framework;
 
-public abstract class BaseGadgetDescriptor implements Serializable,
-        GadgetDeclaration {
+public abstract class BaseGadgetDescriptor implements Serializable, GadgetDeclaration {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,12 +26,9 @@ public abstract class BaseGadgetDescriptor implements Serializable,
             return cachedSpec;
         }
         try {
-            return Framework.getLocalService(GadgetService.class).getGadgetSpec(
-                    this);
+            return Framework.getLocalService(GadgetService.class).getGadgetSpec(this);
         } catch (Exception e) {
-            log.error(
-                    "Error while getting gadget spec for gadget " + getName(),
-                    e);
+            log.error("Error while getting gadget spec for gadget " + getName(), e);
             return null;
         }
     }
@@ -66,7 +62,7 @@ public abstract class BaseGadgetDescriptor implements Serializable,
     public String getDescription(Locale locale) {
         String name = getName();
         String description = GadgetI18nHelper.getI18nGadgetDescription(name, locale);
-        if(description.equals(name)) {
+        if (description.equals(name)) {
             return getDescription();
         }
         return description;

@@ -31,7 +31,7 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(OpenSocialContainerFeature.class)
-@RepositoryConfig(init=OpenSocialAdapterRepositoryInit.class, cleanup = Granularity.METHOD)
+@RepositoryConfig(init = OpenSocialAdapterRepositoryInit.class, cleanup = Granularity.METHOD)
 public class OpenSocialAdapterTest {
 
     @Inject

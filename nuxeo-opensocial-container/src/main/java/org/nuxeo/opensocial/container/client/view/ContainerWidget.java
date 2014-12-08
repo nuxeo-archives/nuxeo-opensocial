@@ -35,8 +35,7 @@ import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 /**
  * @author Stéphane Fourrier
  */
-public class ContainerWidget extends Composite implements
-        ContainerPresenter.Display {
+public class ContainerWidget extends Composite implements ContainerPresenter.Display {
     private static final long serialVersionUID = 1L;
 
     private FlowPanel GWTLayout;
@@ -118,8 +117,7 @@ public class ContainerWidget extends Composite implements
         GWTLayout.getElement().getStyle().clearWidth();
     }
 
-    public void setContainerSideBar(boolean hasSidebar, String cssStyle,
-            String sideBarId) {
+    public void setContainerSideBar(boolean hasSidebar, String cssStyle, String sideBarId) {
         sideBarPanel.setVisible(hasSidebar);
         GWTLayout.setStyleName(cssStyle);
         sideBarPanel.setId(sideBarId);
@@ -219,18 +217,16 @@ public class ContainerWidget extends Composite implements
         return null;
     }
 
-    public void moveWebContents(int fromZoneIndex, int fromUnitIndex,
-            int toZoneIndex, int toUnitIndex) {
+    public void moveWebContents(int fromZoneIndex, int fromUnitIndex, int toZoneIndex, int toUnitIndex) {
         for (Widget webContent : getUnit(fromZoneIndex, fromUnitIndex).getWebContents()) {
             webContent.removeFromParent();
             getUnit(toZoneIndex, toUnitIndex).addWebContent(webContent);
         }
     }
 
-    public void moveWebContent(String fromUnitName, int fromWebContentPosition,
-            String toUnitName, int toWebContentPosition) {
-        Widget webContent = getUnit(fromUnitName).getWebContent(
-                fromWebContentPosition);
+    public void moveWebContent(String fromUnitName, int fromWebContentPosition, String toUnitName,
+            int toWebContentPosition) {
+        Widget webContent = getUnit(fromUnitName).getWebContent(fromWebContentPosition);
         webContent.removeFromParent();
         getUnit(toUnitName).addWebContent(webContent, toWebContentPosition);
     }
@@ -250,8 +246,7 @@ public class ContainerWidget extends Composite implements
     }
 
     public boolean hasWebContentInUnit(int zoneIndex, int unitIndex) {
-        return ((ZoneWidget) subMainPanel.getWidget(zoneIndex)).getUnit(
-                unitIndex).hasWebContents();
+        return ((ZoneWidget) subMainPanel.getWidget(zoneIndex)).getUnit(unitIndex).hasWebContents();
     }
 
     public boolean hasWebContentInUnit(String unitName) {

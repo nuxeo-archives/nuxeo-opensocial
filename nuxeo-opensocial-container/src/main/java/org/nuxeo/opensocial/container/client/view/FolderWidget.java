@@ -25,8 +25,8 @@ import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 /**
  * @author Stéphane Fourrier
  */
-public interface FolderWidget extends HasClickHandlers, HasMouseOverHandlers,
-        HasMouseOutHandlers, HasDoubleClickHandlers {
+public interface FolderWidget extends HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers,
+        HasDoubleClickHandlers {
     void unHighLight();
 
     void highLight();

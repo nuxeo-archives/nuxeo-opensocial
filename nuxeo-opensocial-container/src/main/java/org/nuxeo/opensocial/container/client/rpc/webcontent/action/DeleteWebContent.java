@@ -38,8 +38,7 @@ public class DeleteWebContent extends AbstractAction<DeleteWebContentResult> {
         super();
     }
 
-    public DeleteWebContent(ContainerContext containerContext,
-            final WebContentData webContentData) {
+    public DeleteWebContent(ContainerContext containerContext, final WebContentData webContentData) {
         super(containerContext);
         this.data = webContentData;
     }

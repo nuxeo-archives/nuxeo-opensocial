@@ -38,7 +38,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 
-
 @Deploy("org.nuxeo.opensocial.service")
 @RunWith(FeaturesRunner.class)
 @Features(RuntimeFeature.class)
@@ -56,7 +55,6 @@ public class SecurityTokenDecoderTest {
         OpenSocialService os = Framework.getService(OpenSocialService.class);
         os.setInjector(injector);
     }
-
 
     @Test
     public void iCanGetTheSecurityTokenDecoder() throws Exception {

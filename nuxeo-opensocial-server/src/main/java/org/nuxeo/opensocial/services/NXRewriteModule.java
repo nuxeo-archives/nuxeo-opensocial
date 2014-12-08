@@ -41,11 +41,9 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 /**
- * This replaces the default RewriteModule by using our own
- * NXHTMLContentRewriter
+ * This replaces the default RewriteModule by using our own NXHTMLContentRewriter
  *
  * @author dmetzler
- *
  */
 public class NXRewriteModule extends AbstractModule {
 
@@ -56,24 +54,17 @@ public class NXRewriteModule extends AbstractModule {
         bind(new TypeLiteral<List<RequestRewriter>>() {
         }).toProvider(RequestRewritersProvider.class);
 
-        bind(ProxyingLinkRewriterFactory.class).to(
-                NXProxyingLinkRewriterFactory.class);
+        bind(ProxyingLinkRewriterFactory.class).to(NXProxyingLinkRewriterFactory.class);
     }
 
-    private static class GadgetRewritersProvider implements
-            Provider<List<GadgetRewriter>> {
+    private static class GadgetRewritersProvider implements Provider<List<GadgetRewriter>> {
         private final List<GadgetRewriter> rewriters;
 
         @Inject
-        public GadgetRewritersProvider(
-                PipelineDataGadgetRewriter pipelineRewriter,
-                TemplateRewriter templateRewriter,
-                NXHTMLContentRewriter optimizingRewriter,
-                CssRequestRewriter cssRewriter,
-                CajaContentRewriter cajaRewriter,
-                SanitizingGadgetRewriter sanitizedRewriter,
-                RenderingGadgetRewriter renderingRewriter,
-                OpenSocialI18NGadgetRewriter i18nRewriter) {
+        public GadgetRewritersProvider(PipelineDataGadgetRewriter pipelineRewriter, TemplateRewriter templateRewriter,
+                NXHTMLContentRewriter optimizingRewriter, CssRequestRewriter cssRewriter,
+                CajaContentRewriter cajaRewriter, SanitizingGadgetRewriter sanitizedRewriter,
+                RenderingGadgetRewriter renderingRewriter, OpenSocialI18NGadgetRewriter i18nRewriter) {
             rewriters = Lists.newArrayList();
             rewriters.add(pipelineRewriter);
             rewriters.add(templateRewriter);
@@ -89,13 +80,11 @@ public class NXRewriteModule extends AbstractModule {
         }
     }
 
-    private static class RequestRewritersProvider implements
-            Provider<List<RequestRewriter>> {
+    private static class RequestRewritersProvider implements Provider<List<RequestRewriter>> {
         private final List<RequestRewriter> rewriters;
 
         @Inject
-        public RequestRewritersProvider(HTMLContentRewriter optimizingRewriter,
-                CssRequestRewriter cssRewriter,
+        public RequestRewritersProvider(HTMLContentRewriter optimizingRewriter, CssRequestRewriter cssRewriter,
                 SanitizingRequestRewriter sanitizedRewriter) {
             rewriters = Lists.newArrayList();
             rewriters.add(optimizingRewriter);

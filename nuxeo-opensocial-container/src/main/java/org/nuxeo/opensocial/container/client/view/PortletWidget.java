@@ -41,8 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class PortletWidget extends Composite implements
-        PortletPresenter.Display {
+public class PortletWidget extends Composite implements PortletPresenter.Display {
 
     private static final String TITLE_COLOR_PREFIX_CSS = "title-color-";
 
@@ -107,8 +106,7 @@ public class PortletWidget extends Composite implements
 
     public void addTool(Widget widget) {
         headerContent.add(widget);
-        headerContent.setCellVerticalAlignment(widget,
-                HasVerticalAlignment.ALIGN_TOP);
+        headerContent.setCellVerticalAlignment(widget, HasVerticalAlignment.ALIGN_TOP);
     }
 
     public String getId() {
@@ -136,8 +134,7 @@ public class PortletWidget extends Composite implements
         if (color != null) {
             title.addStyleName(TITLE_COLOR_PREFIX_CSS + color);
         } else {
-            title.addStyleName(TITLE_COLOR_PREFIX_CSS
-                    + ColorsEnum.NONE.getCssColor());
+            title.addStyleName(TITLE_COLOR_PREFIX_CSS + ColorsEnum.NONE.getCssColor());
         }
     }
 

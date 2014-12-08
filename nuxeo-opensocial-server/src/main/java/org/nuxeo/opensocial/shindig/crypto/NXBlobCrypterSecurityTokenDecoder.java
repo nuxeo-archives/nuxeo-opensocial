@@ -34,61 +34,46 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.google.inject.Inject;
 
-public class NXBlobCrypterSecurityTokenDecoder extends
-        BlobCrypterSecurityTokenDecoder {
+public class NXBlobCrypterSecurityTokenDecoder extends BlobCrypterSecurityTokenDecoder {
 
     private static final Log log = LogFactory.getLog(NXBlobCrypterSecurityTokenDecoder.class);
 
     @Inject
-    public NXBlobCrypterSecurityTokenDecoder(ContainerConfig config,
-            OAuthStore store) {
+    public NXBlobCrypterSecurityTokenDecoder(ContainerConfig config, OAuthStore store) {
         super(config);
         try {
             OpenSocialService os = Framework.getService(OpenSocialService.class);
             for (String container : config.getContainers()) {
-                String key = IOUtils.toString(new FileReader(
-                        os.getSigningStateKeyFile()));
+                String key = IOUtils.toString(new FileReader(os.getSigningStateKeyFile()));
                 if (key != null) {
                     BlobCrypter crypter = new BasicBlobCrypter(key.getBytes());
                     crypters.put(container, crypter);
                 } else {
-                    log.error("Should not be able to run any opensocial instance "
-                            + "without a signing state key!");
+                    log.error("Should not be able to run any opensocial instance " + "without a signing state key!");
                 }
 
                 /*
                  * It's unclear that this is really the right place to do this
                  */
                 if (!(store instanceof BasicOAuthStore)) {
-                    log.warn("We expected to be able to use a BasicOAuthStore "
-                            + "to configure OAuth services!");
+                    log.warn("We expected to be able to use a BasicOAuthStore " + "to configure OAuth services!");
                 } else {
                     OAuthServiceProviderRegistry spr = Framework.getLocalService(OAuthServiceProviderRegistry.class);
 
                     for (OAuthServiceDescriptor descriptor : os.getOAuthServices()) {
 
-                        spr.addReadOnlyProvider(descriptor.gadgetUrl,
-                                descriptor.serviceName, descriptor.consumerKey,
+                        spr.addReadOnlyProvider(descriptor.gadgetUrl, descriptor.serviceName, descriptor.consumerKey,
                                 descriptor.consumerSecret, null);
 
                         /**
-                         * BasicOAuthStore oauthStore = (BasicOAuthStore) store;
-                         * BasicOAuthStoreConsumerIndex index = new
-                         * BasicOAuthStoreConsumerIndex();
-                         * index.setGadgetUri(descriptor.getGadgetUrl());
-                         * index.setServiceName(descriptor.getServiceName());
-                         * String oauthKey = IOUtils.toString(new FileReader(
-                         * os.getOAuthPrivateKeyFile())); if
-                         * (!StringUtils.isEmpty
-                         * (descriptor.getConsumerSecret())) { oauthKey =
-                         * descriptor.getConsumerSecret(); }
-                         * BasicOAuthStoreConsumerKeyAndSecret keyAndSecret =
-                         * new BasicOAuthStoreConsumerKeyAndSecret(
-                         * descriptor.getConsumerKey(), oauthKey,
-                         * KeyType.RSA_PRIVATE, os.getOAuthPrivateKeyName(),
-                         * os.getOAuthCallbackUrl());
-                         * oauthStore.setConsumerKeyAndSecret(index,
-                         * keyAndSecret);
+                         * BasicOAuthStore oauthStore = (BasicOAuthStore) store; BasicOAuthStoreConsumerIndex index =
+                         * new BasicOAuthStoreConsumerIndex(); index.setGadgetUri(descriptor.getGadgetUrl());
+                         * index.setServiceName(descriptor.getServiceName()); String oauthKey = IOUtils.toString(new
+                         * FileReader( os.getOAuthPrivateKeyFile())); if (!StringUtils.isEmpty
+                         * (descriptor.getConsumerSecret())) { oauthKey = descriptor.getConsumerSecret(); }
+                         * BasicOAuthStoreConsumerKeyAndSecret keyAndSecret = new BasicOAuthStoreConsumerKeyAndSecret(
+                         * descriptor.getConsumerKey(), oauthKey, KeyType.RSA_PRIVATE, os.getOAuthPrivateKeyName(),
+                         * os.getOAuthCallbackUrl()); oauthStore.setConsumerKeyAndSecret(index, keyAndSecret);
                          **/
                     }
                 }

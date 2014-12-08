@@ -25,8 +25,7 @@ import org.nuxeo.opensocial.container.shared.layout.api.YUIBodySize;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateYUILayoutBodySize extends
-        AbstractAction<UpdateYUILayoutBodySizeResult> {
+public class UpdateYUILayoutBodySize extends AbstractAction<UpdateYUILayoutBodySizeResult> {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +36,7 @@ public class UpdateYUILayoutBodySize extends
         super();
     }
 
-    public UpdateYUILayoutBodySize(ContainerContext containerContext,
-            final YUIBodySize size) {
+    public UpdateYUILayoutBodySize(ContainerContext containerContext, final YUIBodySize size) {
         super(containerContext);
         this.size = size;
     }

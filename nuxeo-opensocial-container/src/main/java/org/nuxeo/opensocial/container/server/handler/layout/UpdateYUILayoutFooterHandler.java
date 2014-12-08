@@ -29,15 +29,12 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateYUILayoutFooterHandler
-        extends
+public class UpdateYUILayoutFooterHandler extends
         AbstractActionHandler<UpdateYUILayoutFooter, UpdateYUILayoutFooterResult> {
 
-    protected UpdateYUILayoutFooterResult doExecute(
-            UpdateYUILayoutFooter action, ExecutionContext context,
+    protected UpdateYUILayoutFooterResult doExecute(UpdateYUILayoutFooter action, ExecutionContext context,
             CoreSession session) throws ClientException {
-        YUIUnit footer = getSpaceFromId(action.getSpaceId(), session).getLayout().setFooter(
-                action.getFooter());
+        YUIUnit footer = getSpaceFromId(action.getSpaceId(), session).getLayout().setFooter(action.getFooter());
         return new UpdateYUILayoutFooterResult(footer);
     }
 

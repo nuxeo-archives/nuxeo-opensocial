@@ -81,35 +81,29 @@ public class MessagePresenter extends WidgetPresenter<MessagePresenter.Display> 
     }
 
     private void registerMessageSending() {
-        registerHandler(eventBus.addHandler(SendMessageEvent.TYPE,
-                new SendMessageEventHandler() {
-                    public void onMessageSent(SendMessageEvent event) {
-                        float timeout = event.hasToBeKeptVisible() ? 0
-                                : TIMEOUT;
-                        showMessage(event.getMessage(),
-                                event.getSeverity().getAssociatedClassName(),
-                                timeout);
-                    }
-                }));
+        registerHandler(eventBus.addHandler(SendMessageEvent.TYPE, new SendMessageEventHandler() {
+            public void onMessageSent(SendMessageEvent event) {
+                float timeout = event.hasToBeKeptVisible() ? 0 : TIMEOUT;
+                showMessage(event.getMessage(), event.getSeverity().getAssociatedClassName(), timeout);
+            }
+        }));
     }
 
     private void registerMessageHide() {
-        registerHandler(eventBus.addHandler(HideMessageEvent.TYPE,
-                new HideMessageEventHandler() {
-                    public void onMessageHidden(HideMessageEvent event) {
-                        hideMessage();
-                    }
-                }));
+        registerHandler(eventBus.addHandler(HideMessageEvent.TYPE, new HideMessageEventHandler() {
+            public void onMessageHidden(HideMessageEvent event) {
+                hideMessage();
+            }
+        }));
     }
 
-    public static native void showMessage(String message, String className,
-            float timeout) /*-{
-                           $wnd.jQuery.ambiance({
-                           title: message,
-                           className: className,
-                           timeout: timeout
-                           });
-                           }-*/;
+    public static native void showMessage(String message, String className, float timeout) /*-{
+                                                                                           $wnd.jQuery.ambiance({
+                                                                                           title: message,
+                                                                                           className: className,
+                                                                                           timeout: timeout
+                                                                                           });
+                                                                                           }-*/;
 
     public static native void hideMessage() /*-{
                                             $wnd.jQuery(".ambiance").remove();

@@ -9,8 +9,7 @@ import org.nuxeo.opensocial.container.shared.layout.api.YUIUnit;
 /**
  * @author Stéphane Fourrier
  */
-public class YUIUnitImpl extends YUIAbstractComponent implements YUIUnit,
-        Serializable {
+public class YUIUnitImpl extends YUIAbstractComponent implements YUIUnit, Serializable {
     private static String UNIT_CSS_CLASS = "yui-u";
 
     private static final long serialVersionUID = 1L;
@@ -18,8 +17,7 @@ public class YUIUnitImpl extends YUIAbstractComponent implements YUIUnit,
     private String CSS;
 
     /**
-     * Constructeur de YUIUnit : permet de creer une unité qui sert de
-     * container aux contenu web
+     * Constructeur de YUIUnit : permet de creer une unité qui sert de container aux contenu web
      */
     public YUIUnitImpl(String id) {
         this();
@@ -27,8 +25,7 @@ public class YUIUnitImpl extends YUIAbstractComponent implements YUIUnit,
     }
 
     /**
-     * Constructeur de YUIUnit : permet de creer une unité qui sert de
-     * container aux contenu web
+     * Constructeur de YUIUnit : permet de creer une unité qui sert de container aux contenu web
      */
     public YUIUnitImpl() {
         setCSS(UNIT_CSS_CLASS);

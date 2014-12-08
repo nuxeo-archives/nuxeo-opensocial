@@ -27,23 +27,18 @@ import org.osgi.framework.FrameworkEvent;
 import org.osgi.framework.FrameworkListener;
 
 /**
- * We cannot have two bundle activators so we use this single bundle activator.
- * Further, this insures that the init sequence happens in the right order.
+ * We cannot have two bundle activators so we use this single bundle activator. Further, this insures that the init
+ * sequence happens in the right order.
  *
  * @author Ian Smith<ismith@nuxeo.com>
- *
  */
 public class Activator implements BundleActivator, FrameworkListener {
 
     private static final Log log = LogFactory.getLog(Activator.class);
 
     /*
-     * Called when our bundle is started. All we do is ask for an event when the
-     * entire Framework is ready.
-     *
-     * @see
-     * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-     * )
+     * Called when our bundle is started. All we do is ask for an event when the entire Framework is ready.
+     * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext )
      */
     public void start(BundleContext context) throws Exception {
         context.addFrameworkListener(this);
@@ -54,10 +49,9 @@ public class Activator implements BundleActivator, FrameworkListener {
     }
 
     /*
-     * This is the point where the initialization actually occurs. This is
-     * called by the framework when it's finished initializing and we echo that
-     * message first to the initialization of the OS service, then to the two
-     * objects that we have delayed.
+     * This is the point where the initialization actually occurs. This is called by the framework when it's finished
+     * initializing and we echo that message first to the initialization of the OS service, then to the two objects that
+     * we have delayed.
      */
     public void frameworkEvent(FrameworkEvent event) {
         try {
@@ -67,8 +61,7 @@ public class Activator implements BundleActivator, FrameworkListener {
                 AuthenticationFilterDelayer.activate(event);
             }
         } catch (Exception e) {
-            log.error("Unable to initialize/configure the open social "
-                    + "service", e);
+            log.error("Unable to initialize/configure the open social " + "service", e);
         }
     }
 

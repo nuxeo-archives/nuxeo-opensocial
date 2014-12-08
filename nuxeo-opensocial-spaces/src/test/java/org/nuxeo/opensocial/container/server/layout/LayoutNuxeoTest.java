@@ -46,8 +46,7 @@ public class LayoutNuxeoTest {
     }
 
     private DocumentModel createNxLayout() throws Exception {
-        DocumentModel createdDoc = session.createDocumentModel("/", "layout",
-                SPACE_DOCUMENT_TYPE);
+        DocumentModel createdDoc = session.createDocumentModel("/", "layout", SPACE_DOCUMENT_TYPE);
         return session.createDocument(createdDoc);
     }
 
@@ -71,10 +70,8 @@ public class LayoutNuxeoTest {
         YUILayoutAdapter layout = doc.getAdapter(YUILayoutAdapter.class);
         doc = session.saveDocument(doc);
 
-        assertEquals(
-                YUITemplate.YUI_ZT_33_33_33,
-                ((YUIComponentZone) layout.getLayout().getContent().getComponents().get(
-                        0)).getTemplate());
+        assertEquals(YUITemplate.YUI_ZT_33_33_33,
+                ((YUIComponentZone) layout.getLayout().getContent().getComponents().get(0)).getTemplate());
 
         DocumentModelList children = session.getChildren(createdDoc.getRef());
         assertEquals(3, children.size());
@@ -87,17 +84,14 @@ public class LayoutNuxeoTest {
         DocumentModel createdDoc = createNxZone(zone);
 
         YUILayoutAdapter adapter = createdDoc.getAdapter(YUILayoutAdapter.class);
-        adapter.updateZone((YUIComponentZone) zone, 0,
-                YUITemplate.YUI_ZT_33_33_33);
+        adapter.updateZone((YUIComponentZone) zone, 0, YUITemplate.YUI_ZT_33_33_33);
         createdDoc = session.saveDocument(createdDoc);
 
         DocumentModel doc = session.getDocument(createdDoc.getRef());
         YUILayoutAdapter layout = doc.getAdapter(YUILayoutAdapter.class);
 
-        YUIComponent firstZone = layout.getLayout().getContent().getComponents().get(
-                0);
-        assertEquals(YUITemplate.YUI_ZT_33_33_33,
-                ((YUIComponentZone) firstZone).getTemplate());
+        YUIComponent firstZone = layout.getLayout().getContent().getComponents().get(0);
+        assertEquals(YUITemplate.YUI_ZT_33_33_33, ((YUIComponentZone) firstZone).getTemplate());
 
         DocumentModelList children = session.getChildren(createdDoc.getRef());
         assertEquals(3, children.size());
@@ -128,18 +122,15 @@ public class LayoutNuxeoTest {
         DocumentModel doc = session.getDocument(createdDoc.getRef());
         YUILayoutAdapter layout = doc.getAdapter(YUILayoutAdapter.class);
 
-        YUIComponent firstZone = layout.getLayout().getContent().getComponents().get(
-                0);
-        assertEquals(YUITemplate.YUI_ZT_100,
-                ((YUIComponentZone) firstZone).getTemplate());
+        YUIComponent firstZone = layout.getLayout().getContent().getComponents().get(0);
+        assertEquals(YUITemplate.YUI_ZT_100, ((YUIComponentZone) firstZone).getTemplate());
 
         DocumentModelList children = session.getChildren(createdDoc.getRef());
         assertEquals(1, children.size());
 
         assertEquals(1, zone.getComponents().size());
 
-        assertEquals(children.get(0).getId(),
-                ((YUIUnitImpl) firstZone.getComponents().get(0)).getId());
+        assertEquals(children.get(0).getId(), ((YUIUnitImpl) firstZone.getComponents().get(0)).getId());
     }
 
     @Test
@@ -171,8 +162,7 @@ public class LayoutNuxeoTest {
         DocumentModel doc = session.getDocument(createdDoc.getRef());
         YUILayoutAdapter layout = doc.getAdapter(YUILayoutAdapter.class);
 
-        assertEquals(YUISize.YUI_BS_974_PX.getSize(),
-                layout.getLayout().getBodySize().getSize());
+        assertEquals(YUISize.YUI_BS_974_PX.getSize(), layout.getLayout().getBodySize().getSize());
     }
 
     @Test
@@ -187,8 +177,7 @@ public class LayoutNuxeoTest {
         DocumentModel doc = session.getDocument(createdDoc.getRef());
         YUILayoutAdapter layout = doc.getAdapter(YUILayoutAdapter.class);
 
-        assertEquals(YUISideBarStyle.YUI_SB_LEFT_180PX.toString(),
-                layout.getLayout().getSidebarStyle().toString());
+        assertEquals(YUISideBarStyle.YUI_SB_LEFT_180PX.toString(), layout.getLayout().getSidebarStyle().toString());
     }
 
     @Test

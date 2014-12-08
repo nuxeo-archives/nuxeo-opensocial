@@ -53,14 +53,11 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 /**
- * We have to copy BasicHttpFetcher because we must override the way proxy is
- * used (it's not handling authentication), and since the makeRespons method is
- * private, we cant' use it. Therefore, as there is only two methods in the base
- * class : the one we want to override and the one that is private, it makes non
- * sense to find a way to override it.
+ * We have to copy BasicHttpFetcher because we must override the way proxy is used (it's not handling authentication),
+ * and since the makeRespons method is private, we cant' use it. Therefore, as there is only two methods in the base
+ * class : the one we want to override and the one that is private, it makes non sense to find a way to override it.
  *
  * @author dmetzler
- *
  */
 public class NXHttpFetcher implements HttpFetcher {
     private static final int DEFAULT_CONNECT_TIMEOUT_MS = 5000;
@@ -75,12 +72,10 @@ public class NXHttpFetcher implements HttpFetcher {
     private volatile int connectionTimeoutMs;
 
     /**
-     * Creates a new fetcher for fetching HTTP objects. Not really suitable for
-     * production use. Use of an HTTP proxy for security is also necessary for
-     * production deployment.
+     * Creates a new fetcher for fetching HTTP objects. Not really suitable for production use. Use of an HTTP proxy for
+     * security is also necessary for production deployment.
      *
-     * @param maxObjSize Maximum size, in bytes, of the object we will fetch, 0
-     *            if no limit..
+     * @param maxObjSize Maximum size, in bytes, of the object we will fetch, 0 if no limit..
      * @param connectionTimeoutMs timeout, in milliseconds, for requests.
      */
     public NXHttpFetcher(int maxObjSize, int connectionTimeoutMs) {
@@ -89,8 +84,7 @@ public class NXHttpFetcher implements HttpFetcher {
     }
 
     /**
-     * Creates a new fetcher using the default maximum object size and timeout
-     * -- no limit and 5 seconds.
+     * Creates a new fetcher using the default maximum object size and timeout -- no limit and 5 seconds.
      */
     public NXHttpFetcher() {
         this(DEFAULT_MAX_OBJECT_SIZE, DEFAULT_CONNECT_TIMEOUT_MS);
@@ -99,12 +93,10 @@ public class NXHttpFetcher implements HttpFetcher {
     /**
      * Change the global maximum fetch size (in bytes) for all fetches.
      *
-     * @param maxObjectSizeBytes value for maximum number of bytes, or 0 for no
-     *            limit
+     * @param maxObjectSizeBytes value for maximum number of bytes, or 0 for no limit
      */
     @Inject(optional = true)
-    public void setMaxObjectSizeBytes(
-            @Named("shindig.http.client.max-object-size-bytes") int maxObjectSizeBytes) {
+    public void setMaxObjectSizeBytes(@Named("shindig.http.client.max-object-size-bytes") int maxObjectSizeBytes) {
         maxObjSize = maxObjectSizeBytes;
     }
 
@@ -114,22 +106,18 @@ public class NXHttpFetcher implements HttpFetcher {
      * @param connectionTimeoutMs new connection timeout in milliseconds
      */
     @Inject(optional = true)
-    public void setConnectionTimeoutMs(
-            @Named("shindig.http.client.connection-timeout-ms") int connectionTimeoutMs) {
-        Preconditions.checkArgument(connectionTimeoutMs > 0,
-                "connection-timeout-ms must be greater than 0");
+    public void setConnectionTimeoutMs(@Named("shindig.http.client.connection-timeout-ms") int connectionTimeoutMs) {
+        Preconditions.checkArgument(connectionTimeoutMs > 0, "connection-timeout-ms must be greater than 0");
         this.connectionTimeoutMs = connectionTimeoutMs;
     }
 
     /**
      * @param httpMethod
      * @param responseCode
-     * @return A HttpResponse object made by consuming the response of the given
-     *         HttpMethod.
+     * @return A HttpResponse object made by consuming the response of the given HttpMethod.
      * @throws java.io.IOException
      */
-    private HttpResponse makeResponse(HttpMethod httpMethod, int responseCode)
-            throws IOException {
+    private HttpResponse makeResponse(HttpMethod httpMethod, int responseCode) throws IOException {
         Map<String, String> headers = Maps.newHashMap();
 
         if (httpMethod.getResponseHeaders() != null) {
@@ -152,8 +140,7 @@ public class NXHttpFetcher implements HttpFetcher {
 
         if (responseBodyStream == null) {
             // Fall back to zero length response.
-            responseBodyStream = new ByteArrayInputStream(
-                    ArrayUtils.EMPTY_BYTE_ARRAY);
+            responseBodyStream = new ByteArrayInputStream(ArrayUtils.EMPTY_BYTE_ARRAY);
         }
 
         String encoding = headers.get("Content-Encoding");
@@ -182,13 +169,12 @@ public class NXHttpFetcher implements HttpFetcher {
                 IOUtils.closeQuietly(is);
                 IOUtils.closeQuietly(output);
                 // Exceeded max # of bytes
-                return HttpResponse.badrequest("Exceeded maximum number of bytes - "
-                        + maxObjSize);
+                return HttpResponse.badrequest("Exceeded maximum number of bytes - " + maxObjSize);
             }
         }
 
-        return new HttpResponseBuilder().setHttpStatusCode(responseCode).setResponse(
-                output.toByteArray()).addHeaders(headers).create();
+        return new HttpResponseBuilder().setHttpStatusCode(responseCode).setResponse(output.toByteArray()).addHeaders(
+                headers).create();
     }
 
     /** {@inheritDoc} */
@@ -205,14 +191,12 @@ public class NXHttpFetcher implements HttpFetcher {
         boolean requestCompressedContent = true;
 
         if ("POST".equals(methodType) || "PUT".equals(methodType)) {
-            EntityEnclosingMethod enclosingMethod = ("POST".equals(methodType)) ? new PostMethod(
-                    requestUri) : new PutMethod(requestUri);
+            EntityEnclosingMethod enclosingMethod = ("POST".equals(methodType)) ? new PostMethod(requestUri)
+                    : new PutMethod(requestUri);
 
             if (request.getPostBodyLength() > 0) {
-                enclosingMethod.setRequestEntity(new InputStreamRequestEntity(
-                        request.getPostBody()));
-                enclosingMethod.setRequestHeader("Content-Length",
-                        String.valueOf(request.getPostBodyLength()));
+                enclosingMethod.setRequestEntity(new InputStreamRequestEntity(request.getPostBody()));
+                enclosingMethod.setRequestHeader("Content-Length", String.valueOf(request.getPostBodyLength()));
             }
             httpMethod = enclosingMethod;
         } else if ("DELETE".equals(methodType)) {
@@ -232,8 +216,7 @@ public class NXHttpFetcher implements HttpFetcher {
         }
 
         for (Map.Entry<String, List<String>> entry : request.getHeaders().entrySet()) {
-            httpMethod.setRequestHeader(entry.getKey(),
-                    StringUtils.join(entry.getValue(), ','));
+            httpMethod.setRequestHeader(entry.getKey(), StringUtils.join(entry.getValue(), ','));
         }
 
         try {
@@ -263,8 +246,7 @@ public class NXHttpFetcher implements HttpFetcher {
             return makeResponse(httpMethod, statusCode);
 
         } catch (IOException e) {
-            if (e instanceof java.net.SocketTimeoutException
-                    || e instanceof java.net.SocketException) {
+            if (e instanceof java.net.SocketTimeoutException || e instanceof java.net.SocketException) {
                 return HttpResponse.timeout();
             }
 

@@ -28,8 +28,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateAllWebContents extends
-        AbstractAction<UpdateAllWebContentsResult> {
+public class UpdateAllWebContents extends AbstractAction<UpdateAllWebContentsResult> {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,8 +41,7 @@ public class UpdateAllWebContents extends
         super();
     }
 
-    public UpdateAllWebContents(ContainerContext containerContext,
-            final Map<String, List<WebContentData>> map) {
+    public UpdateAllWebContents(ContainerContext containerContext, final Map<String, List<WebContentData>> map) {
         super(containerContext);
         this.webContents = map;
     }

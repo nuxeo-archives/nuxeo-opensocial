@@ -32,18 +32,15 @@ public class SecureTokenBuilder {
 
     private static final Log log = LogFactory.getLog(SecureTokenBuilder.class);
 
-    public static String getSecureToken(String viewer, String owner,
-            String gadgetUrl, boolean encode) throws Exception {
+    public static String getSecureToken(String viewer, String owner, String gadgetUrl, boolean encode) throws Exception {
         OpenSocialService svc = Framework.getService(OpenSocialService.class);
         String container = "default";
         String domain = "localhost";
         if (svc.getPortalConfig() == null) {
-            log.warn("portal configuration suggests that there are "
-                    + svc.getPortalConfig().length
+            log.warn("portal configuration suggests that there are " + svc.getPortalConfig().length
                     + " choices but we don't know how to pick the correct configuration!");
         }
-        return getSecureToken(viewer, owner, gadgetUrl,
-                svc.getSigningStateKeyBytes(), container, domain, encode);
+        return getSecureToken(viewer, owner, gadgetUrl, svc.getSigningStateKeyBytes(), container, domain, encode);
     }
 
     /**
@@ -56,11 +53,9 @@ public class SecureTokenBuilder {
      * @throws Exception
      */
 
-    public static String getSecureToken(String viewer, String owner,
-            String gadgetUrl, byte[] key, String container, String domain,
-            boolean encode) throws Exception {
-        BlobCrypterSecurityToken st = new BlobCrypterSecurityToken(
-                new BasicBlobCrypter(key), container, domain);
+    public static String getSecureToken(String viewer, String owner, String gadgetUrl, byte[] key, String container,
+            String domain, boolean encode) throws Exception {
+        BlobCrypterSecurityToken st = new BlobCrypterSecurityToken(new BasicBlobCrypter(key), container, domain);
         st.setViewerId(viewer);
         st.setOwnerId(owner);
         st.setAppUrl(gadgetUrl);

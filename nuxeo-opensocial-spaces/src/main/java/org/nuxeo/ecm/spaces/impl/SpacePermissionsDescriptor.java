@@ -19,7 +19,8 @@ public class SpacePermissionsDescriptor {
         return CollectionUtils.asList(permissions);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see java.lang.Object#toString()
      */
     @Override

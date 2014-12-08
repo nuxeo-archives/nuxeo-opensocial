@@ -42,8 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class PreferencesWidget extends DialogBox implements
-        PreferencesPresenter.Display {
+public class PreferencesWidget extends DialogBox implements PreferencesPresenter.Display {
 
     private ColorsPanelWidget titleColors;
 
@@ -195,8 +194,7 @@ public class PreferencesWidget extends DialogBox implements
         return colorPanel;
     }
 
-    public HasMultipleValue<String> addEnumUserPref(String name,
-            String displayName) {
+    public HasMultipleValue<String> addEnumUserPref(String name, String displayName) {
         int preferenceIndex = preferencePanel.getRowCount();
 
         Label label = new Label(displayName + " :");

@@ -36,8 +36,7 @@ public class WebContentTest {
     WebContentSaverService service;
 
     public DocumentModel createNxUnit() throws ClientException {
-        DocumentModel unit = session.createDocumentModel("/", "unit",
-                UNIT_DOCUMENT_TYPE);
+        DocumentModel unit = session.createDocumentModel("/", "unit", UNIT_DOCUMENT_TYPE);
         unit = session.createDocument(unit);
         session.save();
 
@@ -70,8 +69,7 @@ public class WebContentTest {
         data = (HTMLData) service.create(data, unit.getId(), session);
         session.save();
 
-        WebContentData dataToTest = service.read(session.getDocument(new IdRef(
-                data.getId())), session);
+        WebContentData dataToTest = service.read(session.getDocument(new IdRef(data.getId())), session);
 
         assertNotNull(dataToTest.getId());
         assertEquals(data.getName(), dataToTest.getName());
@@ -81,8 +79,7 @@ public class WebContentTest {
         assertEquals(true, dataToTest.isInAPorlet());
         assertEquals(true, dataToTest.isCollapsed());
         assertEquals(1, dataToTest.getPreferences().size());
-        assertEquals("blue", dataToTest.getPreferences().get(
-                WebContentData.WC_TITLE_COLOR.toString()));
+        assertEquals("blue", dataToTest.getPreferences().get(WebContentData.WC_TITLE_COLOR.toString()));
         assertEquals(session.getPrincipal().getName(), data.getViewer());
     }
 
@@ -97,8 +94,7 @@ public class WebContentTest {
 
         data = (HTMLData) service.create(data, unit.getId(), session);
 
-        HTMLData dataToTest = (HTMLData) service.read(
-                session.getDocument(new IdRef(data.getId())), session);
+        HTMLData dataToTest = (HTMLData) service.read(session.getDocument(new IdRef(data.getId())), session);
 
         assertEquals("<div></div>", dataToTest.getHtml());
         assertEquals("test", dataToTest.getHtmlTitle());
@@ -116,8 +112,7 @@ public class WebContentTest {
 
         data = (PictureData) service.create(data, unit.getId(), session);
 
-        PictureData dataToTest = (PictureData) service.read(
-                session.getDocument(new IdRef(data.getId())), session);
+        PictureData dataToTest = (PictureData) service.read(session.getDocument(new IdRef(data.getId())), session);
 
         assertEquals("picture title", dataToTest.getPictureTitle());
         assertEquals("legend", dataToTest.getPictureLegend());

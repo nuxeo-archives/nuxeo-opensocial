@@ -25,8 +25,7 @@ import org.nuxeo.opensocial.container.shared.layout.api.YUIUnit;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateYUILayoutHeader extends
-        AbstractAction<UpdateYUILayoutHeaderResult> {
+public class UpdateYUILayoutHeader extends AbstractAction<UpdateYUILayoutHeaderResult> {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +36,7 @@ public class UpdateYUILayoutHeader extends
         super();
     }
 
-    public UpdateYUILayoutHeader(ContainerContext containerContext,
-            final YUIUnit header) {
+    public UpdateYUILayoutHeader(ContainerContext containerContext, final YUIUnit header) {
         super(containerContext);
         this.header = header;
     }

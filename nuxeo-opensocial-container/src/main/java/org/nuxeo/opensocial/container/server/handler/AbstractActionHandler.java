@@ -43,18 +43,17 @@ import org.nuxeo.runtime.services.streaming.StreamSource;
 import org.nuxeo.runtime.transaction.TransactionHelper;
 
 /**
- * This class abstracts all the job for getting the CoreSession, make sure
- * session is cleaned after being used and all Tx stuff goes well
+ * This class abstracts all the job for getting the CoreSession, make sure session is cleaned after being used and all
+ * Tx stuff goes well
  *
  * @author Stéphane Fourrier
  */
-public abstract class AbstractActionHandler<T extends AbstractAction<R>, R extends Result>
-        implements ActionHandler<T, R> {
+public abstract class AbstractActionHandler<T extends AbstractAction<R>, R extends Result> implements
+        ActionHandler<T, R> {
 
     private static final Log log = LogFactory.getLog(AbstractActionHandler.class);
 
-    public final R execute(T action, ExecutionContext context)
-            throws ActionException {
+    public final R execute(T action, ExecutionContext context) throws ActionException {
         try (CoreSession session = CoreInstance.openCoreSession(action.getRepositoryName())) {
             R result = doExecute(action, context, session);
             session.save();
@@ -64,8 +63,7 @@ public abstract class AbstractActionHandler<T extends AbstractAction<R>, R exten
         }
     }
 
-    public void rollback(T action, R result, ExecutionContext context)
-            throws ActionException {
+    public void rollback(T action, R result, ExecutionContext context) throws ActionException {
         TransactionHelper.setTransactionRollbackOnly();
     }
 
@@ -74,11 +72,9 @@ public abstract class AbstractActionHandler<T extends AbstractAction<R>, R exten
      *
      * @throws Exception
      */
-    protected abstract R doExecute(T action, ExecutionContext context,
-            CoreSession session) throws Exception;
+    protected abstract R doExecute(T action, ExecutionContext context, CoreSession session) throws Exception;
 
-    protected Space getSpaceFromId(String spaceId, CoreSession session)
-            throws ClientException {
+    protected Space getSpaceFromId(String spaceId, CoreSession session) throws ClientException {
         SpaceManager spaceManager = getSpaceManager();
         return spaceManager.getSpaceFromId(spaceId, session);
     }
@@ -91,7 +87,7 @@ public abstract class AbstractActionHandler<T extends AbstractAction<R>, R exten
         }
     }
 
-    protected static Blob getBlob(FileItem item)  {
+    protected static Blob getBlob(FileItem item) {
         StreamSource src;
         if (item.isInMemory()) {
             src = new ByteArraySource(item.get());
@@ -103,8 +99,7 @@ public abstract class AbstractActionHandler<T extends AbstractAction<R>, R exten
             }
         }
         String ctype = item.getContentType();
-        StreamingBlob blob = new StreamingBlob(src,
-                ctype == null ? "application/octet-stream" : ctype);
+        StreamingBlob blob = new StreamingBlob(src, ctype == null ? "application/octet-stream" : ctype);
         blob.setFilename(item.getName());
         try {
             blob.persist();

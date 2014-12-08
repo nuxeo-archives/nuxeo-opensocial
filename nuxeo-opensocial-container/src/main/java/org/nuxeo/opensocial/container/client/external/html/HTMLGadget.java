@@ -254,8 +254,7 @@ public class HTMLGadget extends AbstractGadget implements HTMLPresenter.Display 
         modifPanel.setWidget(previewIndex, 0, deletePictureImage);
         previewImage.setUrl(pictureUrl);
         modifPanel.setWidget(previewIndex, 1, previewImage);
-        modifPanel.getRowFormatter().setStyleName(previewIndex,
-                "gadget-form-line");
+        modifPanel.getRowFormatter().setStyleName(previewIndex, "gadget-form-line");
     }
 
     public Image getPreviewImage() {

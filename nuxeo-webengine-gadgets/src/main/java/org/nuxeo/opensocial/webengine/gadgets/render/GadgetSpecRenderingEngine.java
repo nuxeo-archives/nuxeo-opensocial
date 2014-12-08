@@ -25,7 +25,6 @@ import freemarker.cache.TemplateLoader;
  * Simple Freemarker wrapper
  * 
  * @author Tiry (tdelprat@nuxeo.com)
- * 
  */
 public class GadgetSpecRenderingEngine extends FreemarkerEngine {
 

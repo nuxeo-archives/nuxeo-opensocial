@@ -13,11 +13,9 @@ import org.nuxeo.runtime.api.Framework;
 /**
  * @author Stéphane Fourrier
  */
-public abstract class AbstractWebContentDAO<T extends WebContentData>
-        implements WebContentDAO<T> {
+public abstract class AbstractWebContentDAO<T extends WebContentData> implements WebContentDAO<T> {
 
-    public T create(T data, String parentId, CoreSession session)
-            throws Exception {
+    public T create(T data, String parentId, CoreSession session) throws Exception {
         return create(data, data.getName(), parentId, session);
     }
 
@@ -28,8 +26,7 @@ public abstract class AbstractWebContentDAO<T extends WebContentData>
 
         String unitPath = session.getDocument(new IdRef(parentId)).getPathAsString();
         // TODO data.getName() + date
-        DocumentModel doc = session.createDocumentModel(unitPath,
-                webContentName, service.getDocTypeFor(data));
+        DocumentModel doc = session.createDocumentModel(unitPath, webContentName, service.getDocTypeFor(data));
 
         doc = session.createDocument(doc);
 
@@ -42,8 +39,7 @@ public abstract class AbstractWebContentDAO<T extends WebContentData>
     }
 
     @SuppressWarnings("unchecked")
-    public T read(DocumentModel doc, CoreSession session)
-            throws ClientException {
+    public T read(DocumentModel doc, CoreSession session) throws ClientException {
         WebContentAdapter<T> adapter = doc.getAdapter(WebContentAdapter.class);
 
         return adapter.getData();
@@ -60,8 +56,7 @@ public abstract class AbstractWebContentDAO<T extends WebContentData>
         return webContent;
     }
 
-    public void delete(T webContent, CoreSession session)
-            throws ClientException {
+    public void delete(T webContent, CoreSession session) throws ClientException {
         session.removeDocument(new IdRef(webContent.getId()));
     }
 }

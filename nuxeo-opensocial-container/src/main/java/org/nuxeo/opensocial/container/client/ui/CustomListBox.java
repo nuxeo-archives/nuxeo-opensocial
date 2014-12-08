@@ -55,8 +55,7 @@ public class CustomListBox extends ListBox implements HasMultipleValue<String> {
             ValueChangeEvent.fire(this, value);
     }
 
-    public HandlerRegistration addValueChangeHandler(
-            ValueChangeHandler<String> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
         if (!valueChangeHandlerInitialized) {
             valueChangeHandlerInitialized = true;
             addChangeHandler(new ChangeHandler() {

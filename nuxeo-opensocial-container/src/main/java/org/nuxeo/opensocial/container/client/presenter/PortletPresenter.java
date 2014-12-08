@@ -45,9 +45,8 @@ import com.google.inject.Inject;
  * @author Stéphane Fourrier
  */
 public class PortletPresenter extends WidgetPresenter<PortletPresenter.Display> {
-    public interface Display extends WidgetDisplay, HasMouseDownHandlers,
-            HasMouseUpHandlers, HasMouseMoveHandlers, HasMouseOutHandlers,
-            HasId {
+    public interface Display extends WidgetDisplay, HasMouseDownHandlers, HasMouseUpHandlers, HasMouseMoveHandlers,
+            HasMouseOutHandlers, HasId {
         void showContent();
 
         void hideContent();
@@ -74,8 +73,8 @@ public class PortletPresenter extends WidgetPresenter<PortletPresenter.Display> 
     private Presenter contentPresenter;
 
     @Inject
-    public PortletPresenter(final Display display, final EventBus eventBus,
-            WebContentData data, Presenter contentPresenter) {
+    public PortletPresenter(final Display display, final EventBus eventBus, WebContentData data,
+            Presenter contentPresenter) {
         super(display, eventBus);
 
         this.data = data;
@@ -91,8 +90,7 @@ public class PortletPresenter extends WidgetPresenter<PortletPresenter.Display> 
     private void fetchLayoutContent() {
         display.addContent(((WidgetDisplay) getContentPresenter().getDisplay()).asWidget());
 
-        setTitleColor(data.getPreferences().get(
-                WebContentData.WC_TITLE_COLOR.toString()));
+        setTitleColor(data.getPreferences().get(WebContentData.WC_TITLE_COLOR.toString()));
 
         display.setId(data.getId());
 
@@ -128,8 +126,7 @@ public class PortletPresenter extends WidgetPresenter<PortletPresenter.Display> 
                                 }
                                 // If we maximize the gadget and if it is
                                 // collapsed we have to uncollapse it !
-                                if (f instanceof IsCollapsable
-                                        && !f.isInFirstState()) {
+                                if (f instanceof IsCollapsable && !f.isInFirstState()) {
                                     HasId eventToFire = (HasId) f.getEventToFire();
                                     eventToFire.setId(data.getId());
 
@@ -157,8 +154,7 @@ public class PortletPresenter extends WidgetPresenter<PortletPresenter.Display> 
     }
 
     public String getTitleColor() {
-        return data.getPreferences().get(
-                WebContentData.WC_TITLE_COLOR.toString());
+        return data.getPreferences().get(WebContentData.WC_TITLE_COLOR.toString());
     }
 
     public void setTitle(String title) {

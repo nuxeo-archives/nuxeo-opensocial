@@ -54,8 +54,8 @@ public interface GadgetService {
     List<GadgetDeclaration> getGadgetList(String category);
 
     /**
-     * Return a hashed map of all registered gadgets by category TODO: check if
-     * this is necessary in the API (perhaps a GWT tweak)
+     * Return a hashed map of all registered gadgets by category TODO: check if this is necessary in the API (perhaps a
+     * GWT tweak)
      */
     Map<String, ArrayList<String>> getGadgetNameByCategory();
 
@@ -65,8 +65,7 @@ public interface GadgetService {
      * @param gadgetName the symbolic name of the gadget
      * @param resourcePath the relative path to the resources
      */
-    InputStream getGadgetResource(String gadgetName, String resourcePath)
-            throws IOException;
+    InputStream getGadgetResource(String gadgetName, String resourcePath) throws IOException;
 
     /**
      * Returns a URL to the gadget definition
@@ -88,8 +87,7 @@ public interface GadgetService {
      * @param gadgetName the gadget symbolic name
      * @return
      */
-    GadgetSpec getGadgetSpec(String gadgetName) throws IOException,
-            GadgetException;
+    GadgetSpec getGadgetSpec(String gadgetName) throws IOException, GadgetException;
 
     /**
      * Return the parsed Gadget Spec (may require an http fetch)
@@ -97,7 +95,6 @@ public interface GadgetService {
      * @param declaration
      * @return
      */
-    GadgetSpec getGadgetSpec(GadgetDeclaration declaration) throws IOException,
-            GadgetException;
+    GadgetSpec getGadgetSpec(GadgetDeclaration declaration) throws IOException, GadgetException;
 
 }

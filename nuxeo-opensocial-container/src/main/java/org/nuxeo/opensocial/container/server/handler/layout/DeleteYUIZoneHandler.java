@@ -28,14 +28,11 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 /**
  * @author Stéphane Fourrier
  */
-public class DeleteYUIZoneHandler extends
-        AbstractActionHandler<DeleteYUIZone, DeleteYUIZoneResult> {
+public class DeleteYUIZoneHandler extends AbstractActionHandler<DeleteYUIZone, DeleteYUIZoneResult> {
 
-    protected DeleteYUIZoneResult doExecute(DeleteYUIZone action,
-            ExecutionContext context, CoreSession session)
+    protected DeleteYUIZoneResult doExecute(DeleteYUIZone action, ExecutionContext context, CoreSession session)
             throws ClientException {
-        getSpaceFromId(action.getSpaceId(), session).getLayout().deleteZone(
-                action.getZoneIndex());
+        getSpaceFromId(action.getSpaceId(), session).getLayout().deleteZone(action.getZoneIndex());
         return new DeleteYUIZoneResult();
     }
 

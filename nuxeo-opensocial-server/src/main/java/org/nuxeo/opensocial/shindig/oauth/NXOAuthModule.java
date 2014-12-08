@@ -31,14 +31,12 @@ import com.google.inject.name.Names;
  * Used to register {@link NXOAuthStoreProvider} in Shindig Stack
  *
  * @author tiry
- *
  */
 public class NXOAuthModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(BlobCrypter.class).annotatedWith(
-                Names.named(OAuthFetcherConfig.OAUTH_STATE_CRYPTER)).toProvider(
+        bind(BlobCrypter.class).annotatedWith(Names.named(OAuthFetcherConfig.OAUTH_STATE_CRYPTER)).toProvider(
                 OAuthCrypterProvider.class);
 
         // Use Nuxeo Store

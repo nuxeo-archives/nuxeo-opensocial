@@ -56,8 +56,7 @@ public class GadgetResource extends InputStreamResource {
 
     @GET
     @Path("{filename:.*}")
-    public Object getGadgetFile(@PathParam("filename")
-    String fileName) throws Exception {
+    public Object getGadgetFile(@PathParam("filename") String fileName) throws Exception {
 
         if (gadget.isExternal()) {
             return Response.seeOther(gadget.getGadgetDefinition().toURI()).build();
@@ -74,14 +73,11 @@ public class GadgetResource extends InputStreamResource {
         }
         if (in == null) {
             // tentative : forward to nxthemes lib
-            log.warn("Unable to find resource "
-                    + fileName
+            log.warn("Unable to find resource " + fileName
                     + " in Gadget, forwarding to nxthemes-lib to make compatibility easier.");
             String base = VirtualHostHelper.getServerURL(getContext().getRequest());
-            base += VirtualHostHelper.getContextPath(getContext().getRequest()).substring(
-                    1);
-            return Response.seeOther(
-                    new URI(base + "/nxthemes-lib/" + fileName)).build();
+            base += VirtualHostHelper.getContextPath(getContext().getRequest()).substring(1);
+            return Response.seeOther(new URI(base + "/nxthemes-lib/" + fileName)).build();
         }
         return getObject(in, fileName);
     }
@@ -101,8 +97,7 @@ public class GadgetResource extends InputStreamResource {
 
             if (is == null) {
                 // lookup in root bundle (global shared resource)
-                is = this.getClass().getClassLoader().getResourceAsStream(
-                        "skin/resources/" + suffix + fileName);
+                is = this.getClass().getClassLoader().getResourceAsStream("skin/resources/" + suffix + fileName);
             }
         }
         return is;

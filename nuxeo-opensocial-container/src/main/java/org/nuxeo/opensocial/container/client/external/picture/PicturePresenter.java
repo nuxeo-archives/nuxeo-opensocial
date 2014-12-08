@@ -85,8 +85,7 @@ public class PicturePresenter extends WidgetPresenter<PicturePresenter.Display> 
 
     private PictureModel model;
 
-    public PicturePresenter(Display display, EventBus eventBus,
-            PictureModel model) {
+    public PicturePresenter(Display display, EventBus eventBus, PictureModel model) {
         super(display, eventBus);
 
         this.model = model;
@@ -106,8 +105,7 @@ public class PicturePresenter extends WidgetPresenter<PicturePresenter.Display> 
     }
 
     private void setPictureLegend() {
-        display.getPicture().getElement().setTitle(
-                model.getData().getPictureLegend());
+        display.getPicture().getElement().setTitle(model.getData().getPictureLegend());
     }
 
     private void setPictureTitle() {
@@ -115,19 +113,16 @@ public class PicturePresenter extends WidgetPresenter<PicturePresenter.Display> 
     }
 
     private void setPictureStyle() {
-        if (model.getData().getPictureLink() != null
-                && !model.getData().getPictureLink().isEmpty()) {
-            display.getPicture().getElement().getStyle().setCursor(
-                    Style.Cursor.POINTER);
+        if (model.getData().getPictureLink() != null && !model.getData().getPictureLink().isEmpty()) {
+            display.getPicture().getElement().getStyle().setCursor(Style.Cursor.POINTER);
         } else {
-            display.getPicture().getElement().getStyle().setCursor(
-                    Style.Cursor.DEFAULT);
+            display.getPicture().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
         }
     }
 
     private void setPictureUrl() {
         display.getPicture().setUrl(
-                FileUtils.buildFileUrl(ContainerConfiguration.getRepositoryName(), model.getData().getId(),"content"));
+                FileUtils.buildFileUrl(ContainerConfiguration.getRepositoryName(), model.getData().getId(), "content"));
     }
 
     @Override
@@ -176,72 +171,63 @@ public class PicturePresenter extends WidgetPresenter<PicturePresenter.Display> 
     }
 
     private void registerModifyEvent() {
-        registerHandler(display.getModifyButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        display.getTitleTextBox().setText(
-                                model.getData().getPictureTitle());
-                        display.getLinkTextBox().setText(
-                                model.getData().getPictureLink());
-                        display.getLegendTextBox().setText(
-                                model.getData().getPictureLegend());
+        registerHandler(display.getModifyButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                display.getTitleTextBox().setText(model.getData().getPictureTitle());
+                display.getLinkTextBox().setText(model.getData().getPictureLink());
+                display.getLegendTextBox().setText(model.getData().getPictureLegend());
 
-                        display.switchToModifyPanel();
-                    }
-                }));
+                display.switchToModifyPanel();
+            }
+        }));
     }
 
     private void registerSaveButtonEvent() {
-        registerHandler(display.getSaveButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        PictureData picData = model.getData();
+        registerHandler(display.getSaveButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                PictureData picData = model.getData();
 
-                        List<FileRef> fileRefList = display.getUploadedFiles().getAddedFiles();
-                        List<String> files = new ArrayList<String>();
+                List<FileRef> fileRefList = display.getUploadedFiles().getAddedFiles();
+                List<String> files = new ArrayList<String>();
 
-                        for (FileRef ref : fileRefList) {
-                            files.add(ref.getId());
-                        }
+                for (FileRef ref : fileRefList) {
+                    files.add(ref.getId());
+                }
 
-                        picData.setPictureTitle(display.getTitleTextBox().getText());
-                        picData.setPictureLegend(display.getLegendTextBox().getText());
-                        String link = display.getLinkTextBox().getText();
-                        if (!link.isEmpty() && !link.startsWith(HTTP_PREFIX)) {
-                            link = HTTP_PREFIX + link;
-                        }
-                        picData.setPictureLink(link);
+                picData.setPictureTitle(display.getTitleTextBox().getText());
+                picData.setPictureLegend(display.getLegendTextBox().getText());
+                String link = display.getLinkTextBox().getText();
+                if (!link.isEmpty() && !link.startsWith(HTTP_PREFIX)) {
+                    link = HTTP_PREFIX + link;
+                }
+                picData.setPictureLink(link);
 
-                        display.initializeUploadSource(FileUtils.getBaseUrl());
+                display.initializeUploadSource(FileUtils.getBaseUrl());
 
-                        eventBus.fireEvent(new UpdateWebContentEvent(
-                                model.getData().getId(), files));
-                    }
-                }));
+                eventBus.fireEvent(new UpdateWebContentEvent(model.getData().getId(), files));
+            }
+        }));
     }
 
     private void registerPictureUpdate() {
-        eventBus.addHandler(WebContentUpdatedEvent.TYPE,
-                new WebContentUpdatedEventHandler() {
-                    public void onWebContentUpdated(WebContentUpdatedEvent event) {
-                        if (event.getWebContentId().equals(
-                                model.getData().getId())) {
-                            setPictureTitle();
-                            setPictureLegend();
-                            setPictureUrl();
-                            setPictureStyle();
-                            display.switchToMainPanel();
-                        }
-                    }
-                });
+        eventBus.addHandler(WebContentUpdatedEvent.TYPE, new WebContentUpdatedEventHandler() {
+            public void onWebContentUpdated(WebContentUpdatedEvent event) {
+                if (event.getWebContentId().equals(model.getData().getId())) {
+                    setPictureTitle();
+                    setPictureLegend();
+                    setPictureUrl();
+                    setPictureStyle();
+                    display.switchToMainPanel();
+                }
+            }
+        });
     }
 
     private void registerCancelButtonEvent() {
-        registerHandler(display.getCancelButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        display.switchToMainPanel();
-                    }
-                }));
+        registerHandler(display.getCancelButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                display.switchToMainPanel();
+            }
+        }));
     }
 }

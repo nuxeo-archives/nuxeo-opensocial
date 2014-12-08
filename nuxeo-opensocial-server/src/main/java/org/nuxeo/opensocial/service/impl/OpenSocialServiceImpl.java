@@ -46,8 +46,7 @@ import org.nuxeo.runtime.model.DefaultComponent;
 
 import com.google.inject.Injector;
 
-public class OpenSocialServiceImpl extends DefaultComponent implements
-        OpenSocialService {
+public class OpenSocialServiceImpl extends DefaultComponent implements OpenSocialService {
 
     private static final Log log = LogFactory.getLog(OpenSocialServiceImpl.class);
 
@@ -79,16 +78,14 @@ public class OpenSocialServiceImpl extends DefaultComponent implements
     }
 
     @Override
-    public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void registerContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if (XP_OPENSOCIAL.equals(extensionPoint)) {
             os = (OpenSocialDescriptor) contribution;
         }
     }
 
     @Override
-    public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void unregisterContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
     }
 
     @Override
@@ -150,22 +147,18 @@ public class OpenSocialServiceImpl extends DefaultComponent implements
         try {
             signingStateKeyFile = createTempFileForAKey(os.getSigningKey());
             // shindig doesn't make it's constants visible to us
-            System.setProperty("shindig.signing.state-key",
-                    signingStateKeyFile.getPath());
+            System.setProperty("shindig.signing.state-key", signingStateKeyFile.getPath());
         } catch (IOException e) {
-            log.warn("ignoring signing key " + os.getSigningKey()
-                    + " because we cannot write temp file!", e);
+            log.warn("ignoring signing key " + os.getSigningKey() + " because we cannot write temp file!", e);
         }
 
         // callback URL
         if (!StringUtils.isBlank(os.getCallbackUrl())) {
             // shindig doesn't make it's constants visible to us
-            System.setProperty("shindig.signing.global-callback-url",
-                    os.getCallbackUrl());
+            System.setProperty("shindig.signing.global-callback-url", os.getCallbackUrl());
         } else {
-            throw new Exception(
-                    "Unable to start because the global callback url"
-                            + " is not set.  See default-opensocial-config.xml");
+            throw new Exception("Unable to start because the global callback url"
+                    + " is not set.  See default-opensocial-config.xml");
         }
 
     }
@@ -217,17 +210,14 @@ public class OpenSocialServiceImpl extends DefaultComponent implements
     public byte[] getSigningStateKeyBytes() {
         try {
             if (signingStateKeyBytes == null) {
-                signingStateKeyBytes = IOUtils.toString(new FileReader(
-                        getSigningStateKeyFile()));
+                signingStateKeyBytes = IOUtils.toString(new FileReader(getSigningStateKeyFile()));
             }
             return signingStateKeyBytes.getBytes();
         } catch (FileNotFoundException e) {
-            log.error("Unable to find the signing key file! "
-                    + "Check default-opensocial-contrib.xml!", e);
+            log.error("Unable to find the signing key file! " + "Check default-opensocial-contrib.xml!", e);
             return null;
         } catch (IOException e) {
-            log.error("Unable to read the signing key file! "
-                    + "Check default-opensocial-contrib.xml!", e);
+            log.error("Unable to read the signing key file! " + "Check default-opensocial-contrib.xml!", e);
             return null;
         }
     }

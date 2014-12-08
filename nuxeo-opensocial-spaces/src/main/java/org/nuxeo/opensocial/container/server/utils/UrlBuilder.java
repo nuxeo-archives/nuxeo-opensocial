@@ -30,9 +30,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
 import org.nuxeo.runtime.api.Framework;
 
 /**
- * URlBuilder is builder of gadget url; Util for render of gadget into Shinding
- * opensocial server
- *
+ * URlBuilder is builder of gadget url; Util for render of gadget into Shinding opensocial server
  */
 public class UrlBuilder {
 
@@ -80,8 +78,7 @@ public class UrlBuilder {
 
     protected static int containerId = 0;
 
-    public static String buildShindigUrl(OpenSocialData data, String serverBase)
-            throws ClientException {
+    public static String buildShindigUrl(OpenSocialData data, String serverBase) throws ClientException {
         String gadgetDef = data.getGadgetDef();
         List<UserPref> userPrefs = data.getUserPrefs();
 
@@ -128,15 +125,12 @@ public class UrlBuilder {
     // name).toString();
     // }
 
-    private static String getSecurityToken(OpenSocialData data, String url)
-            throws Exception {
-        return SecureTokenBuilder.getSecureToken(data.getViewer(),
-                data.getOwner(), url, false);
+    private static String getSecurityToken(OpenSocialData data, String url) throws Exception {
+        return SecureTokenBuilder.getSecureToken(data.getViewer(), data.getOwner(), url, false);
     }
 
     /**
-     * Build parameters map with preferences of gadget Util for render
-     * gadget into Shinding opensocial server
+     * Build parameters map with preferences of gadget Util for render gadget into Shinding opensocial server
      *
      * @param prefs
      * @return Map<String, String> <up_key, value>...

@@ -42,8 +42,8 @@ public class UpdateWebContent extends AbstractAction<UpdateWebContentResult> {
         super();
     }
 
-    public UpdateWebContent(ContainerContext containerContext,
-            final WebContentData webContentData, final List<String> files) {
+    public UpdateWebContent(ContainerContext containerContext, final WebContentData webContentData,
+            final List<String> files) {
         super(containerContext);
         this.webContent = webContentData;
         this.files = files;

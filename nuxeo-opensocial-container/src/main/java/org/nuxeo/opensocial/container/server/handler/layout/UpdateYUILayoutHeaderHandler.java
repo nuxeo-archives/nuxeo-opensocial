@@ -29,15 +29,12 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateYUILayoutHeaderHandler
-        extends
+public class UpdateYUILayoutHeaderHandler extends
         AbstractActionHandler<UpdateYUILayoutHeader, UpdateYUILayoutHeaderResult> {
 
-    protected UpdateYUILayoutHeaderResult doExecute(
-            UpdateYUILayoutHeader action, ExecutionContext context,
+    protected UpdateYUILayoutHeaderResult doExecute(UpdateYUILayoutHeader action, ExecutionContext context,
             CoreSession session) throws ClientException {
-        YUIUnit header = getSpaceFromId(action.getSpaceId(), session).getLayout().setHeader(
-                action.getHeader());
+        YUIUnit header = getSpaceFromId(action.getSpaceId(), session).getLayout().setHeader(action.getHeader());
         return new UpdateYUILayoutHeaderResult(header);
     }
 

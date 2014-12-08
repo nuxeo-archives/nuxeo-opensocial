@@ -33,9 +33,8 @@ public class NXProxyHandler extends ProxyBase {
 
     private static final Logger logger = Logger.getLogger(ProxyHandler.class.getName());
 
-    private static final String[] INTEGER_RESIZE_PARAMS = new String[] {
-            PARAM_RESIZE_HEIGHT, PARAM_RESIZE_WIDTH, PARAM_RESIZE_QUALITY,
-            PARAM_NO_EXPAND };
+    private static final String[] INTEGER_RESIZE_PARAMS = new String[] { PARAM_RESIZE_HEIGHT, PARAM_RESIZE_WIDTH,
+            PARAM_RESIZE_QUALITY, PARAM_NO_EXPAND };
 
     static final String FALLBACK_URL_PARAM = "fallback_url";
 
@@ -46,8 +45,7 @@ public class NXProxyHandler extends ProxyBase {
     private final RequestRewriterRegistry contentRewriterRegistry;
 
     @Inject
-    public NXProxyHandler(RequestPipeline requestPipeline,
-            LockedDomainService lockedDomainService,
+    public NXProxyHandler(RequestPipeline requestPipeline, LockedDomainService lockedDomainService,
             RequestRewriterRegistry contentRewriterRegistry) {
         this.requestPipeline = requestPipeline;
         this.lockedDomainService = lockedDomainService;
@@ -55,11 +53,9 @@ public class NXProxyHandler extends ProxyBase {
     }
 
     /**
-     * Generate a remote content request based on the parameters sent from the
-     * client.
+     * Generate a remote content request based on the parameters sent from the client.
      */
-    private HttpRequest nxbuildHttpRequest(HttpServletRequest request,
-            String urlParam) throws GadgetException {
+    private HttpRequest nxbuildHttpRequest(HttpServletRequest request, String urlParam) throws GadgetException {
         String theUrl = request.getParameter(urlParam);
         if (theUrl == null) {
             return null;
@@ -109,20 +105,17 @@ public class NXProxyHandler extends ProxyBase {
         return req;
     }
 
-    private void copySanitizedIntegerParams(HttpServletRequest request,
-            HttpRequest req) {
+    private void copySanitizedIntegerParams(HttpServletRequest request, HttpRequest req) {
         for (String resizeParamName : INTEGER_RESIZE_PARAMS) {
             if (request.getParameter(resizeParamName) != null) {
-                req.setParam(
-                        resizeParamName,
-                        NumberUtils.createInteger(request.getParameter(resizeParamName)));
+                req.setParam(resizeParamName, NumberUtils.createInteger(request.getParameter(resizeParamName)));
             }
         }
     }
 
     @Override
-    protected void doFetch(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, GadgetException {
+    protected void doFetch(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            GadgetException {
         if (request.getHeader("If-Modified-Since") != null) {
             response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
             return;
@@ -133,12 +126,10 @@ public class NXProxyHandler extends ProxyBase {
             // Force embedded images and the like to their own domain to avoid
             // XSS
             // in gadget domains.
-            String msg = "Embed request for url "
-                    + getParameter(request, URL_PARAM, "")
-                    + " made to wrong domain " + host;
+            String msg = "Embed request for url " + getParameter(request, URL_PARAM, "") + " made to wrong domain "
+                    + host;
             logger.info(msg);
-            throw new GadgetException(GadgetException.Code.INVALID_PARAMETER,
-                    msg);
+            throw new GadgetException(GadgetException.Code.INVALID_PARAMETER, msg);
         }
 
         HttpRequest rcr = nxbuildHttpRequest(request, URL_PARAM);
@@ -146,8 +137,7 @@ public class NXProxyHandler extends ProxyBase {
 
         if (results.isError()) {
             // Error: try the fallback. Particularly useful for proxied images.
-            HttpRequest fallbackRcr = nxbuildHttpRequest(request,
-                    FALLBACK_URL_PARAM);
+            HttpRequest fallbackRcr = nxbuildHttpRequest(request, FALLBACK_URL_PARAM);
             if (fallbackRcr != null) {
                 results = requestPipeline.execute(fallbackRcr);
             }
@@ -155,11 +145,9 @@ public class NXProxyHandler extends ProxyBase {
 
         if (contentRewriterRegistry != null) {
             try {
-                results = contentRewriterRegistry.rewriteHttpResponse(rcr,
-                        results);
+                results = contentRewriterRegistry.rewriteHttpResponse(rcr, results);
             } catch (RewritingException e) {
-                throw new GadgetException(
-                        GadgetException.Code.INTERNAL_SERVER_ERROR, e);
+                throw new GadgetException(GadgetException.Code.INTERNAL_SERVER_ERROR, e);
             }
         }
 
@@ -174,12 +162,9 @@ public class NXProxyHandler extends ProxyBase {
         if (!StringUtils.isEmpty(rcr.getRewriteMimeType())) {
             String requiredType = rcr.getRewriteMimeType();
             // Use a 'Vary' style check on the response
-            if (requiredType.endsWith("/*")
-                    && !StringUtils.isEmpty(responseType)) {
-                requiredType = requiredType.substring(0,
-                        requiredType.length() - 2);
-                if (!responseType.toLowerCase().startsWith(
-                        requiredType.toLowerCase())) {
+            if (requiredType.endsWith("/*") && !StringUtils.isEmpty(responseType)) {
+                requiredType = requiredType.substring(0, requiredType.length() - 2);
+                if (!responseType.toLowerCase().startsWith(requiredType.toLowerCase())) {
                     response.setContentType(requiredType);
                     responseType = requiredType;
                 }

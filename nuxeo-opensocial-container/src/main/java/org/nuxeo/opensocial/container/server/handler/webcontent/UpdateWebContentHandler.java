@@ -41,18 +41,16 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateWebContentHandler extends
-        AbstractActionHandler<UpdateWebContent, UpdateWebContentResult> {
+public class UpdateWebContentHandler extends AbstractActionHandler<UpdateWebContent, UpdateWebContentResult> {
 
     protected static Provider<HttpServletRequest> requestProvider;
 
-     @Inject
-     public UpdateWebContentHandler(Provider<HttpServletRequest> requestProvider) {
-         UpdateWebContentHandler.requestProvider = requestProvider;
-     }
+    @Inject
+    public UpdateWebContentHandler(Provider<HttpServletRequest> requestProvider) {
+        UpdateWebContentHandler.requestProvider = requestProvider;
+    }
 
-    protected UpdateWebContentResult doExecute(UpdateWebContent action,
-            ExecutionContext context, CoreSession session)
+    protected UpdateWebContentResult doExecute(UpdateWebContent action, ExecutionContext context, CoreSession session)
             throws ClientException {
         Space space = getSpaceFromId(action.getSpaceId(), session);
         WebContentData webContent = action.getWebContent();
@@ -62,34 +60,32 @@ public class UpdateWebContentHandler extends
         return new UpdateWebContentResult(data);
     }
 
-    public static WebContentData updateWebContent(WebContentData webContent,
-            List<String> filesIds, Space space) throws ClientException {
+    public static WebContentData updateWebContent(WebContentData webContent, List<String> filesIds, Space space)
+            throws ClientException {
         WebContentData old = space.getWebContent(webContent.getId());
-         WebContentData data = null;
+        WebContentData data = null;
 
         /*
-         * Updates content is made of two parts, because of the fact that unitId
-         * is stored in the webContent : - update the content metadata - move
-         * the content to another unit if needed
+         * Updates content is made of two parts, because of the fact that unitId is stored in the webContent : - update
+         * the content metadata - move the content to another unit if needed
          */
 
-         if (filesIds != null && webContent.hasFiles()) {
-             UploadedFileManager mgr = UploadServlet.getUploadedFileManager(requestProvider.get());
-             for (String fileId : filesIds) {
-                 UploadedFile uploadedFile = (UploadedFile) mgr.get(fileId);
-                 if (uploadedFile != null) {
-                     mgr.remove(fileId);
-                     webContent.addFile((Serializable) getBlob(uploadedFile.getFile()));
-                 } else {
-                     // TODO a file has been uploaded but is not in the http
-                     // session
-                 }
-             }
-             data = space.updateWebContent(webContent);
-         } else {
-             data = space.updateWebContent(webContent);
-         }
-
+        if (filesIds != null && webContent.hasFiles()) {
+            UploadedFileManager mgr = UploadServlet.getUploadedFileManager(requestProvider.get());
+            for (String fileId : filesIds) {
+                UploadedFile uploadedFile = (UploadedFile) mgr.get(fileId);
+                if (uploadedFile != null) {
+                    mgr.remove(fileId);
+                    webContent.addFile((Serializable) getBlob(uploadedFile.getFile()));
+                } else {
+                    // TODO a file has been uploaded but is not in the http
+                    // session
+                }
+            }
+            data = space.updateWebContent(webContent);
+        } else {
+            data = space.updateWebContent(webContent);
+        }
 
         String dstUnitId = webContent.getUnitId();
         if (!old.getUnitId().equals(dstUnitId)) {

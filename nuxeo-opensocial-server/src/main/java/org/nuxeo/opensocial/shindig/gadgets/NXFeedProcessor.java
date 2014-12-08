@@ -48,8 +48,8 @@ public class NXFeedProcessor extends FeedProcessor {
      * @return The JSON representation of the feed.
      */
     @SuppressWarnings("unchecked")
-    public JSONObject process(String feedUrl, String feedXml,
-            boolean getSummaries, int numEntries) throws GadgetException {
+    public JSONObject process(String feedUrl, String feedXml, boolean getSummaries, int numEntries)
+            throws GadgetException {
         try {
             SyndFeed feed = new SyndFeedInput().build(new StringReader(feedXml));
             JSONObject json = new JSONObject();
@@ -59,8 +59,7 @@ public class NXFeedProcessor extends FeedProcessor {
             json.put("Link", feed.getLink());
 
             if (feed.getCategories().size() > 0) {
-                json.put("Categories",
-                        getCategoriesStringList(feed.getCategories()));
+                json.put("Categories", getCategoriesStringList(feed.getCategories()));
             }
 
             List<SyndPerson> authors = feed.getAuthors();
@@ -92,8 +91,7 @@ public class NXFeedProcessor extends FeedProcessor {
             // This shouldn't ever happen.
             throw new RuntimeException(e);
         } catch (FeedException e) {
-            throw new GadgetException(
-                    GadgetException.Code.MALFORMED_XML_DOCUMENT, e);
+            throw new GadgetException(GadgetException.Code.MALFORMED_XML_DOCUMENT, e);
         }
     }
 
@@ -106,8 +104,7 @@ public class NXFeedProcessor extends FeedProcessor {
         return result;
     }
 
-    private JSONObject getJSONEntryFromSyndEntry(SyndEntry e,
-            boolean getSummaries) throws JSONException {
+    private JSONObject getJSONEntryFromSyndEntry(SyndEntry e, boolean getSummaries) throws JSONException {
         JSONObject entry = new JSONObject();
         entry.put("Title", e.getTitle());
         entry.put("Link", e.getLink());
@@ -127,8 +124,7 @@ public class NXFeedProcessor extends FeedProcessor {
         return entry;
     }
 
-    private void addDateFromEntry(JSONObject entry, SyndEntry e)
-            throws JSONException {
+    private void addDateFromEntry(JSONObject entry, SyndEntry e) throws JSONException {
         if (e.getUpdatedDate() != null) {
             entry.put("Date", e.getUpdatedDate().getTime());
         } else if (e.getPublishedDate() != null) {
@@ -139,16 +135,12 @@ public class NXFeedProcessor extends FeedProcessor {
 
     }
 
-    private void addSummariesFromEntry(JSONObject entry, SyndEntry e)
-            throws JSONException {
+    private void addSummariesFromEntry(JSONObject entry, SyndEntry e) throws JSONException {
 
         if (e.getContents() != null && e.getContents().size() > 0) {
-            entry.put("Summary",
-                    ((SyndContent) e.getContents().get(0)).getValue());
+            entry.put("Summary", ((SyndContent) e.getContents().get(0)).getValue());
         } else {
-            entry.put("Summary",
-                    e.getDescription() != null ? e.getDescription().getValue()
-                            : "");
+            entry.put("Summary", e.getDescription() != null ? e.getDescription().getValue() : "");
         }
 
     }
@@ -167,8 +159,7 @@ public class NXFeedProcessor extends FeedProcessor {
     }
 
     @SuppressWarnings("unchecked")
-    private void joinEnclosureFromEntry(JSONObject entry, SyndEntry e)
-            throws JSONException {
+    private void joinEnclosureFromEntry(JSONObject entry, SyndEntry e) throws JSONException {
         List<SyndEnclosure> enclosuresDefined = e.getEnclosures();
         JSONObject enclosure = new JSONObject();
         if (enclosuresDefined != null && enclosuresDefined.size() > 0) {

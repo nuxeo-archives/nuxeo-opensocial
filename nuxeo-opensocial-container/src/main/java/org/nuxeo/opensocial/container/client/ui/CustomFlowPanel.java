@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 /**
  * @author Stéphane Fourrier
  */
-public class CustomFlowPanel extends FlowPanel implements HasMouseDownHandlers,
-        HasMouseUpHandlers, HasMouseMoveHandlers, HasMouseOutHandlers {
+public class CustomFlowPanel extends FlowPanel implements HasMouseDownHandlers, HasMouseUpHandlers,
+        HasMouseMoveHandlers, HasMouseOutHandlers {
 
     public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
         return addDomHandler(handler, MouseDownEvent.getType());

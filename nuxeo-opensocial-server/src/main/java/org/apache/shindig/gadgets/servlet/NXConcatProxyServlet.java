@@ -36,8 +36,7 @@ public class NXConcatProxyServlet extends InjectedServlet {
 
     @SuppressWarnings("boxing")
     @Override
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getHeader("If-Modified-Since") != null) {
             response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
             return;
@@ -45,16 +44,12 @@ public class NXConcatProxyServlet extends InjectedServlet {
         // Avoid response splitting vulnerability
         String ct = request.getParameter(ProxyBase.REWRITE_MIME_TYPE_PARAM);
         if (ct != null && ct.indexOf('\r') < 0 && ct.indexOf('\n') < 0) {
-            response.setHeader("Content-Type",
-                    request.getParameter(ProxyBase.REWRITE_MIME_TYPE_PARAM));
+            response.setHeader("Content-Type", request.getParameter(ProxyBase.REWRITE_MIME_TYPE_PARAM));
         }
 
         boolean ignoreCache = proxyHandler.getIgnoreCache(request);
-        if (!ignoreCache
-                && request.getParameter(ProxyBase.REFRESH_PARAM) != null) {
-            HttpUtil.setCachingHeaders(
-                    response,
-                    Integer.valueOf(request.getParameter(ProxyBase.REFRESH_PARAM)));
+        if (!ignoreCache && request.getParameter(ProxyBase.REFRESH_PARAM) != null) {
+            HttpUtil.setCachingHeaders(response, Integer.valueOf(request.getParameter(ProxyBase.REFRESH_PARAM)));
         } else {
             HttpUtil.setNoCache(response);
         }
@@ -66,27 +61,22 @@ public class NXConcatProxyServlet extends InjectedServlet {
                 break;
             }
             try {
-                response.getOutputStream().println(
-                        "/* ---- Start " + url + " ---- */");
+                response.getOutputStream().println("/* ---- Start " + url + " ---- */");
 
                 ResponseWrapper wrapper = new ResponseWrapper(response);
                 proxyHandler.doFetch(new RequestWrapper(request, url), wrapper);
 
                 if (wrapper.getStatus() != HttpServletResponse.SC_OK) {
-                    response.getOutputStream().println(
-                            formatHttpError(wrapper.getStatus(),
-                                    wrapper.getErrorMessage()));
+                    response.getOutputStream().println(formatHttpError(wrapper.getStatus(), wrapper.getErrorMessage()));
                 }
 
-                response.getOutputStream().println(
-                        "/* ---- End " + url + " ---- */");
+                response.getOutputStream().println("/* ---- End " + url + " ---- */");
             } catch (GadgetException ge) {
                 if (ge.getCode() != GadgetException.Code.FAILED_TO_RETRIEVE_CONTENT) {
                     outputError(ge, url, response);
                     return;
                 } else {
-                    response.getOutputStream().println(
-                            "/* ---- End " + url + " 404 ---- */");
+                    response.getOutputStream().println("/* ---- End " + url + " 404 ---- */");
                 }
             }
         }
@@ -106,8 +96,7 @@ public class NXConcatProxyServlet extends InjectedServlet {
         return err.toString();
     }
 
-    private static void outputError(GadgetException excep, String url,
-            HttpServletResponse resp) throws IOException {
+    private static void outputError(GadgetException excep, String url, HttpServletResponse resp) throws IOException {
         StringBuilder err = new StringBuilder();
         err.append(excep.getCode().toString());
         err.append(" concat(");
@@ -128,8 +117,7 @@ public class NXConcatProxyServlet extends InjectedServlet {
 
         private final String url;
 
-        protected RequestWrapper(HttpServletRequest httpServletRequest,
-                String url) {
+        protected RequestWrapper(HttpServletRequest httpServletRequest, String url) {
             super(httpServletRequest);
             this.url = url;
         }
@@ -144,8 +132,8 @@ public class NXConcatProxyServlet extends InjectedServlet {
     }
 
     /**
-     * Wrap the response to prevent writing through of the status code and to
-     * hold a reference to the stream across multiple proxied parts
+     * Wrap the response to prevent writing through of the status code and to hold a reference to the stream across
+     * multiple proxied parts
      */
     private static class ResponseWrapper extends HttpServletResponseWrapper {
 
@@ -264,8 +252,7 @@ public class NXConcatProxyServlet extends InjectedServlet {
     }
 
     /**
-     * Small ServletOutputStream class, overriding just enough to ensure there's
-     * no output.
+     * Small ServletOutputStream class, overriding just enough to ensure there's no output.
      */
     private static class NullServletOutputStream extends ServletOutputStream {
 

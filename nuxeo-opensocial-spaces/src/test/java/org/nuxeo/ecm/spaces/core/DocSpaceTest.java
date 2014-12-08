@@ -40,8 +40,7 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)
-@Deploy({ "org.nuxeo.ecm.opensocial.spaces",
-    "org.nuxeo.ecm.platform.picture.core",
+@Deploy({ "org.nuxeo.ecm.opensocial.spaces", "org.nuxeo.ecm.platform.picture.core",
         "org.nuxeo.ecm.opensocial.spaces.test:OSGI-INF/test1-spaces-contrib.xml" })
 public class DocSpaceTest {
 
@@ -50,7 +49,6 @@ public class DocSpaceTest {
 
     @Inject
     private CoreSession session;
-
 
     @Test
     public void iCanGetSpaceManager() throws Exception {
@@ -74,17 +72,11 @@ public class DocSpaceTest {
         space.initLayout(LayoutHelper.buildLayout(LayoutHelper.Preset.X_2_33_66));
 
         YUILayout layout = layoutAdapter.getLayout();
-        assertEquals(1, layout.getContent()
-                .getComponents()
-                .size());
-        YUIComponent yuiComponent = layout.getContent()
-                .getComponents()
-                .get(0);
+        assertEquals(1, layout.getContent().getComponents().size());
+        YUIComponent yuiComponent = layout.getContent().getComponents().get(0);
         assertNotNull(yuiComponent);
-        assertEquals(2, yuiComponent.getComponents()
-                .size());
-        YUIComponent unit = yuiComponent.getComponents()
-                .get(0);
+        assertEquals(2, yuiComponent.getComponents().size());
+        YUIComponent unit = yuiComponent.getComponents().get(0);
         assertNotNull(unit.getId());
     }
 

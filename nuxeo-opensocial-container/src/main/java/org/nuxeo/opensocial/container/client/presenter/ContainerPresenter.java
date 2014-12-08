@@ -104,8 +104,7 @@ import net.customware.gwt.presenter.client.widget.WidgetPresenter;
 /**
  * @author Stéphane Fourrier
  */
-public class ContainerPresenter extends
-        WidgetPresenter<ContainerPresenter.Display> {
+public class ContainerPresenter extends WidgetPresenter<ContainerPresenter.Display> {
 
     private static final String CANVAS_VIEW = "canvas";
 
@@ -124,8 +123,7 @@ public class ContainerPresenter extends
 
         void setContainerFixedSize(String cssStyle);
 
-        void setContainerSideBar(boolean hasSideBar, String cssStyle,
-                String string);
+        void setContainerSideBar(boolean hasSideBar, String cssStyle, String string);
 
         void setContainerFooter(boolean footerEnabled, String footerId);
 
@@ -151,11 +149,9 @@ public class ContainerPresenter extends
 
         WidgetDisplay getWebContent(String webContentId);
 
-        void moveWebContents(int fromZoneIndex, int fromUnitIndex,
-                int toZoneIndex, int toUnitIndex);
+        void moveWebContents(int fromZoneIndex, int fromUnitIndex, int toZoneIndex, int toUnitIndex);
 
-        void moveWebContent(String fromUnitId, int fromWebContentPosition,
-                String toUnitId, int toWebContentPosition);
+        void moveWebContent(String fromUnitId, int fromWebContentPosition, String toUnitId, int toWebContentPosition);
 
         void maximizeWebContent(Widget widget);
 
@@ -202,8 +198,7 @@ public class ContainerPresenter extends
             setContainerFooter();
             setContainerSideBar();
 
-            if (!model.getLayout().getSidebarStyle().equals(
-                    YUISideBarStyle.YUI_SB_NO_COLUMN)) {
+            if (!model.getLayout().getSidebarStyle().equals(YUISideBarStyle.YUI_SB_NO_COLUMN)) {
                 addDropControllerFor(model.getLayout().getSideBar());
             }
 
@@ -248,8 +243,7 @@ public class ContainerPresenter extends
         for (YUIComponent zoneComponent : model.getLayout().getContent().getComponents()) {
             display.addZone(zoneComponent.getCSS());
             for (YUIComponent unitComponent : zoneComponent.getComponents()) {
-                display.addUnit(zoneIndex, unitComponent.getCSS(),
-                        unitComponent.getId());
+                display.addUnit(zoneIndex, unitComponent.getCSS(), unitComponent.getId());
                 display.updateZoneTemplate(zoneIndex, zoneComponent.getCSS());
             }
             zoneIndex++;
@@ -260,8 +254,7 @@ public class ContainerPresenter extends
         YUIBodySize bodySize = model.getLayout().getBodySize();
 
         if (bodySize instanceof YUICustomBodySize) {
-            display.setContainerCustomSize(bodySize.getCSS(),
-                    bodySize.getSize());
+            display.setContainerCustomSize(bodySize.getCSS(), bodySize.getSize());
         } else if (bodySize instanceof YUIFixedBodySize) {
             display.setContainerFixedSize(bodySize.getCSS());
         }
@@ -270,8 +263,7 @@ public class ContainerPresenter extends
     private void setContainerSideBar() {
         YUISideBarStyle sideBar = model.getLayout().getSidebarStyle();
 
-        if (YUISideBarStyle.YUI_SB_NO_COLUMN.toString().equals(
-                sideBar.toString())) {
+        if (YUISideBarStyle.YUI_SB_NO_COLUMN.toString().equals(sideBar.toString())) {
             String oldId = display.getContainerSideBar().getId();
             display.setContainerSideBar(false, sideBar.getCSS(), "");
             removeDropControllerFor(oldId);
@@ -327,396 +319,340 @@ public class ContainerPresenter extends
     }
 
     private void registerBusEventSideBarChangement() {
-        registerHandler(eventBus.addHandler(SideBarChangedEvent.TYPE,
-                new SideBarChangedEventHandler() {
-                    public void onChangeSideBarPosition(
-                            SideBarChangedEvent event) {
-                        setContainerSideBar();
-                    }
-                }));
+        registerHandler(eventBus.addHandler(SideBarChangedEvent.TYPE, new SideBarChangedEventHandler() {
+            public void onChangeSideBarPosition(SideBarChangedEvent event) {
+                setContainerSideBar();
+            }
+        }));
     }
 
     private void registerBusEventHeaderSelection() {
-        registerHandler(eventBus.addHandler(HeaderSelectedEvent.TYPE,
-                new HeaderSelectedEventHandler() {
-                    public void onSelectHeader(HeaderSelectedEvent event) {
-                        setContainerHeader();
-                    }
-                }));
+        registerHandler(eventBus.addHandler(HeaderSelectedEvent.TYPE, new HeaderSelectedEventHandler() {
+            public void onSelectHeader(HeaderSelectedEvent event) {
+                setContainerHeader();
+            }
+        }));
     }
 
     private void registerBusEventFooterSelection() {
-        registerHandler(eventBus.addHandler(FooterSelectedEvent.TYPE,
-                new FooterSelectedEventHandler() {
-                    public void onSelectFooter(FooterSelectedEvent event) {
-                        setContainerFooter();
-                    }
-                }));
+        registerHandler(eventBus.addHandler(FooterSelectedEvent.TYPE, new FooterSelectedEventHandler() {
+            public void onSelectFooter(FooterSelectedEvent event) {
+                setContainerFooter();
+            }
+        }));
     }
 
     private void registerBusEventContainerSizeChangement() {
-        registerHandler(eventBus.addHandler(ContainerSizeChangedEvent.TYPE,
-                new ContainerSizeChangedEventHandler() {
-                    public void onChangeContainerSize(
-                            ContainerSizeChangedEvent event) {
-                        setContainerSize();
-                    }
-                }));
+        registerHandler(eventBus.addHandler(ContainerSizeChangedEvent.TYPE, new ContainerSizeChangedEventHandler() {
+            public void onChangeContainerSize(ContainerSizeChangedEvent event) {
+                setContainerSize();
+            }
+        }));
     }
 
     private void registerBusEventZoneAddition() {
-        registerHandler(eventBus.addHandler(ZoneAddedEvent.TYPE,
-                new ZoneAddedEventHandler() {
-                    public void onAddRow(ZoneAddedEvent event) {
-                        int zoneIndex = model.getLayout().getContent().getComponents().size() - 1;
-                        YUIComponentZoneImpl zoneComponent = (YUIComponentZoneImpl) model.getLayout().getContent().getComponents().get(
-                                zoneIndex);
-                        display.addZone(zoneComponent.getCSS());
+        registerHandler(eventBus.addHandler(ZoneAddedEvent.TYPE, new ZoneAddedEventHandler() {
+            public void onAddRow(ZoneAddedEvent event) {
+                int zoneIndex = model.getLayout().getContent().getComponents().size() - 1;
+                YUIComponentZoneImpl zoneComponent = (YUIComponentZoneImpl) model.getLayout().getContent().getComponents().get(
+                        zoneIndex);
+                display.addZone(zoneComponent.getCSS());
 
-                        for (YUIComponent unitComponent : zoneComponent.getComponents()) {
-                            String idRef = unitComponent.getId();
+                for (YUIComponent unitComponent : zoneComponent.getComponents()) {
+                    String idRef = unitComponent.getId();
 
-                            display.addUnit(zoneIndex, unitComponent.getCSS(),
-                                    idRef);
+                    display.addUnit(zoneIndex, unitComponent.getCSS(), idRef);
 
-                            addDropControllerFor((YUIUnit) unitComponent);
-                        }
+                    addDropControllerFor((YUIUnit) unitComponent);
+                }
 
-                        display.updateZoneTemplate(zoneIndex,
-                                zoneComponent.getCSS());
-                    }
-                }));
+                display.updateZoneTemplate(zoneIndex, zoneComponent.getCSS());
+            }
+        }));
     }
 
     private void registerBusEventZoneDeletion() {
-        registerHandler(eventBus.addHandler(ZoneDeletedEvent.TYPE,
-                new ZoneRowDeletedEventHandler() {
-                    public void onRowDeleted(ZoneDeletedEvent event) {
-                        for (int i = 0; i < display.getZone(event.getId()).getNumberOfUnits(); i++) {
-                            removeDropControllerFor(((HasId) display.getUnit(
-                                    event.getId(), i)).getId());
-                        }
-                        display.removeZone(event.getId());
-                    }
-                }));
+        registerHandler(eventBus.addHandler(ZoneDeletedEvent.TYPE, new ZoneRowDeletedEventHandler() {
+            public void onRowDeleted(ZoneDeletedEvent event) {
+                for (int i = 0; i < display.getZone(event.getId()).getNumberOfUnits(); i++) {
+                    removeDropControllerFor(((HasId) display.getUnit(event.getId(), i)).getId());
+                }
+                display.removeZone(event.getId());
+            }
+        }));
     }
 
     private void registerBusEventZoneUpdate() {
-        registerHandler(eventBus.addHandler(ZoneUpdatedEvent.TYPE,
-                new ZoneUpdatedEventHandler() {
-                    public void onUpdateRow(ZoneUpdatedEvent event) {
-                        YUIComponentZoneImpl zoneComponent = ((YUIComponentZoneImpl) model.getLayout().getContent().getComponents().get(
-                                event.getId()));
+        registerHandler(eventBus.addHandler(ZoneUpdatedEvent.TYPE, new ZoneUpdatedEventHandler() {
+            public void onUpdateRow(ZoneUpdatedEvent event) {
+                YUIComponentZoneImpl zoneComponent = ((YUIComponentZoneImpl) model.getLayout().getContent().getComponents().get(
+                        event.getId()));
 
-                        HasUnits zone = display.getZone(event.getId());
+                HasUnits zone = display.getZone(event.getId());
 
-                        int actualNumberOfUnits = zone.getNumberOfUnits();
-                        int wantedNumberOfUnits = zoneComponent.getTemplate().getNumberOfComponents();
+                int actualNumberOfUnits = zone.getNumberOfUnits();
+                int wantedNumberOfUnits = zoneComponent.getTemplate().getNumberOfComponents();
 
-                        if (actualNumberOfUnits < wantedNumberOfUnits) {
-                            for (int i = actualNumberOfUnits; i < wantedNumberOfUnits; i++) {
-                                YUIUnitImpl unit = (YUIUnitImpl) zoneComponent.getComponents().get(
-                                        i);
+                if (actualNumberOfUnits < wantedNumberOfUnits) {
+                    for (int i = actualNumberOfUnits; i < wantedNumberOfUnits; i++) {
+                        YUIUnitImpl unit = (YUIUnitImpl) zoneComponent.getComponents().get(i);
 
-                                display.addUnit(event.getId(), unit.getCSS(),
-                                        unit.getId());
+                        display.addUnit(event.getId(), unit.getCSS(), unit.getId());
 
-                                addDropControllerFor(unit);
-                            }
-                        } else if (actualNumberOfUnits > wantedNumberOfUnits) {
-                            for (int i = actualNumberOfUnits - 1; i > wantedNumberOfUnits - 1; i--) {
-                                removeDropControllerFor(((HasId) display.getUnit(
-                                        event.getId(), i)).getId());
-
-                                display.removeUnit(event.getId(), i);
-                            }
-                        }
-                        display.updateZoneTemplate(event.getId(),
-                                zoneComponent.getCSS());
+                        addDropControllerFor(unit);
                     }
-                }));
+                } else if (actualNumberOfUnits > wantedNumberOfUnits) {
+                    for (int i = actualNumberOfUnits - 1; i > wantedNumberOfUnits - 1; i--) {
+                        removeDropControllerFor(((HasId) display.getUnit(event.getId(), i)).getId());
+
+                        display.removeUnit(event.getId(), i);
+                    }
+                }
+                display.updateZoneTemplate(event.getId(), zoneComponent.getCSS());
+            }
+        }));
     }
 
     private void registerBusEventWebContentAddition() {
-        registerHandler(eventBus.addHandler(WebContentAddedEvent.TYPE,
-                new WebContentAddedEventHandler() {
-                    public void onAddWebContent(WebContentAddedEvent event) {
-                        GwtWebContentAdapter webContentAdapter = new GwtWebContentAdapter(
-                                event.getAbstractData(), eventBus);
+        registerHandler(eventBus.addHandler(WebContentAddedEvent.TYPE, new WebContentAddedEventHandler() {
+            public void onAddWebContent(WebContentAddedEvent event) {
+                GwtWebContentAdapter webContentAdapter = new GwtWebContentAdapter(event.getAbstractData(), eventBus);
 
-                        Presenter webContentPresenter = webContentAdapter.getContainerPresenter();
-                        WidgetDisplay webContentView = (WidgetDisplay) webContentPresenter.getDisplay();
-                        WebContentData webContentData = event.getAbstractData();
+                Presenter webContentPresenter = webContentAdapter.getContainerPresenter();
+                WidgetDisplay webContentView = (WidgetDisplay) webContentPresenter.getDisplay();
+                WebContentData webContentData = event.getAbstractData();
 
-                        webContentPresenters.put(webContentData.getId(),
-                                webContentPresenter);
+                webContentPresenters.put(webContentData.getId(), webContentPresenter);
 
-                        webContentPresenter.bind();
-                        webContentPresenter.revealDisplay();
+                webContentPresenter.bind();
+                webContentPresenter.revealDisplay();
 
-                        HasWebContents unit = display.getUnit(webContentData.getUnitId());
-                        if (unit != null) {
-                            unit.addWebContent(webContentView.asWidget());
-                        }
+                HasWebContents unit = display.getUnit(webContentData.getUnitId());
+                if (unit != null) {
+                    unit.addWebContent(webContentView.asWidget());
+                }
 
-                        if (webContentData.isInAPorlet()) {
-                            makeDraggable(webContentData, webContentView);
-                            if (ContainerConfiguration.showPreferencesAfterAddingGadget()) {
-                                eventBus.fireEvent(new SetPreferencesPortletEvent(
-                                        webContentData.getId()));
-                            }
-                        }
+                if (webContentData.isInAPorlet()) {
+                    makeDraggable(webContentData, webContentView);
+                    if (ContainerConfiguration.showPreferencesAfterAddingGadget()) {
+                        eventBus.fireEvent(new SetPreferencesPortletEvent(webContentData.getId()));
                     }
-                }));
+                }
+            }
+        }));
     }
 
-    private void makeDraggable(WebContentData webContentData,
-            WidgetDisplay display) {
+    private void makeDraggable(WebContentData webContentData, WidgetDisplay display) {
         String spaceId = model.getContainerContext().getSpaceId();
-        if (webContentData.isInAPorlet()
-                && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
-            dragController.makeDraggable(display.asWidget(),
-                    ((PortletPresenter.Display) display).getHeader());
+        if (webContentData.isInAPorlet() && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
+            dragController.makeDraggable(display.asWidget(), ((PortletPresenter.Display) display).getHeader());
         }
     }
 
-    private void makeNotDraggable(WebContentData webContentData,
-            WidgetDisplay display) {
+    private void makeNotDraggable(WebContentData webContentData, WidgetDisplay display) {
         String spaceId = model.getContainerContext().getSpaceId();
-        if (webContentData.isInAPorlet()
-                && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
+        if (webContentData.isInAPorlet() && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
             dragController.makeNotDraggable(display.asWidget());
         }
     }
 
     private void registerBusEventWebContentRemoval() {
-        registerHandler(eventBus.addHandler(WebContentRemovedEvent.TYPE,
-                new WebContentRemovedEventHandler() {
-                    public void onWebContentRemoved(WebContentRemovedEvent event) {
-                        webContentPresenters.get(event.getWebContentId()).unbind();
-                    }
-                }));
+        registerHandler(eventBus.addHandler(WebContentRemovedEvent.TYPE, new WebContentRemovedEventHandler() {
+            public void onWebContentRemoved(WebContentRemovedEvent event) {
+                webContentPresenters.get(event.getWebContentId()).unbind();
+            }
+        }));
     }
 
     private void registerBusEventWebContentsLoad() {
-        registerHandler(eventBus.addHandler(WebContentsLoadedEvent.TYPE,
-                new WebContentsLoadedEventHandler() {
-                    public void onWebContentsLoaded(WebContentsLoadedEvent event) {
-                        for (Entry<String, List<WebContentData>> webContents : model.getWebContents().entrySet()) {
-                            for (WebContentData webContent : webContents.getValue()) {
-                                GwtWebContentAdapter webContentAdapter = new GwtWebContentAdapter(
-                                        webContent, eventBus);
+        registerHandler(eventBus.addHandler(WebContentsLoadedEvent.TYPE, new WebContentsLoadedEventHandler() {
+            public void onWebContentsLoaded(WebContentsLoadedEvent event) {
+                for (Entry<String, List<WebContentData>> webContents : model.getWebContents().entrySet()) {
+                    for (WebContentData webContent : webContents.getValue()) {
+                        GwtWebContentAdapter webContentAdapter = new GwtWebContentAdapter(webContent, eventBus);
 
-                                Presenter webContentPresenter = webContentAdapter.getContainerPresenter();
-                                WidgetDisplay webContentView = (WidgetDisplay) webContentPresenter.getDisplay();
+                        Presenter webContentPresenter = webContentAdapter.getContainerPresenter();
+                        WidgetDisplay webContentView = (WidgetDisplay) webContentPresenter.getDisplay();
 
-                                webContentPresenters.put(webContent.getId(),
-                                        webContentPresenter);
+                        webContentPresenters.put(webContent.getId(), webContentPresenter);
 
-                                makeDraggable(webContent, webContentView);
+                        makeDraggable(webContent, webContentView);
 
-                                webContentPresenter.bind();
-                                webContentPresenter.revealDisplay();
+                        webContentPresenter.bind();
+                        webContentPresenter.revealDisplay();
 
-                                HasWebContents unit = display.getUnit(webContent.getUnitId());
-                                if (unit != null) {
+                        HasWebContents unit = display.getUnit(webContent.getUnitId());
+                        if (unit != null) {
 
-                                    unit.addWebContent(webContentView.asWidget());
-                                }
-                            }
+                            unit.addWebContent(webContentView.asWidget());
                         }
-
-                        eventBus.fireEvent(new HideMessageEvent());
                     }
-                }));
+                }
+
+                eventBus.fireEvent(new HideMessageEvent());
+            }
+        }));
     }
 
     private void registerBusEventWebContentMovement() {
-        registerHandler(eventBus.addHandler(WebContentMovedEvent.TYPE,
-                new WebContentMovedEventHandler() {
-                    public void onWebContentHasMoved(WebContentMovedEvent event) {
-                        display.moveWebContent(event.getFromUnitName(),
-                                event.getFromWebContentPosition(),
-                                event.getToUnitName(),
-                                event.getToWebContentPosition());
-                    }
-                }));
+        registerHandler(eventBus.addHandler(WebContentMovedEvent.TYPE, new WebContentMovedEventHandler() {
+            public void onWebContentHasMoved(WebContentMovedEvent event) {
+                display.moveWebContent(event.getFromUnitName(), event.getFromWebContentPosition(),
+                        event.getToUnitName(), event.getToWebContentPosition());
+            }
+        }));
     }
 
     private void registerBusEventWebContentIdChangement() {
-        registerHandler(eventBus.addHandler(WebContentIdChangedEvent.TYPE,
-                new WebContentIdChangedEventHandler() {
-                    public void onWebContentIdChange(
-                            WebContentIdChangedEvent event) {
-                        ((HasId) display.getWebContent(event.getOldWebContentId())).setId(event.getNewWebContentId());
-                        webContentPresenters.put(event.getNewWebContentId(),
+        registerHandler(eventBus.addHandler(WebContentIdChangedEvent.TYPE, new WebContentIdChangedEventHandler() {
+            public void onWebContentIdChange(WebContentIdChangedEvent event) {
+                ((HasId) display.getWebContent(event.getOldWebContentId())).setId(event.getNewWebContentId());
+                webContentPresenters.put(event.getNewWebContentId(),
 
-                        webContentPresenters.remove(event.getOldWebContentId()));
-                    }
-                }));
+                webContentPresenters.remove(event.getOldWebContentId()));
+            }
+        }));
     }
 
     private void registerBusEventPreferencesPortletSet() {
-        eventBus.addHandler(SetPreferencesPortletEvent.TYPE,
-                new SetPreferencesPortletEventHandler() {
-                    public void onSetPreferences(
-                            SetPreferencesPortletEvent event) {
-                        PreferencesWidget preferencesWidget = new PreferencesWidget();
+        eventBus.addHandler(SetPreferencesPortletEvent.TYPE, new SetPreferencesPortletEventHandler() {
+            public void onSetPreferences(SetPreferencesPortletEvent event) {
+                PreferencesWidget preferencesWidget = new PreferencesWidget();
 
-                        PreferencesPresenter preferencesPresenter = new PreferencesPresenter(
-                                preferencesWidget,
-                                eventBus,
-                                (PortletPresenter) webContentPresenters.get(event.getId()),
-                                model);
+                PreferencesPresenter preferencesPresenter = new PreferencesPresenter(preferencesWidget, eventBus,
+                        (PortletPresenter) webContentPresenters.get(event.getId()), model);
 
-                        preferencesPresenter.bind();
-                        preferencesPresenter.revealDisplay();
-                    }
-                });
+                preferencesPresenter.bind();
+                preferencesPresenter.revealDisplay();
+            }
+        });
     }
 
     private void registerBusEventPorletCollapse() {
-        eventBus.addHandler(CollapsePortletEvent.TYPE,
-                new CollapsePortletEventHandler() {
-                    public void onCollapsePortlet(CollapsePortletEvent event) {
-                        PortletPresenter gadget = (PortletPresenter) webContentPresenters.get(event.getId());
-                        gadget.collapse();
-                        model.getWebContent(event.getId()).setIsCollapsed(true);
-                        model.updateWebContent(event.getId(), null);
-                    }
-                });
+        eventBus.addHandler(CollapsePortletEvent.TYPE, new CollapsePortletEventHandler() {
+            public void onCollapsePortlet(CollapsePortletEvent event) {
+                PortletPresenter gadget = (PortletPresenter) webContentPresenters.get(event.getId());
+                gadget.collapse();
+                model.getWebContent(event.getId()).setIsCollapsed(true);
+                model.updateWebContent(event.getId(), null);
+            }
+        });
     }
 
     private void registerBusEventPorletUncollapse() {
-        eventBus.addHandler(UncollapsePortletEvent.TYPE,
-                new UncollapsePortletEventHandler() {
-                    public void onUncollapsePortlet(UncollapsePortletEvent event) {
-                        PortletPresenter gadget = (PortletPresenter) webContentPresenters.get(event.getId());
-                        gadget.uncollapse();
-                        model.getWebContent(event.getId()).setIsCollapsed(false);
-                        model.updateWebContent(event.getId(), null);
-                    }
-                });
+        eventBus.addHandler(UncollapsePortletEvent.TYPE, new UncollapsePortletEventHandler() {
+            public void onUncollapsePortlet(UncollapsePortletEvent event) {
+                PortletPresenter gadget = (PortletPresenter) webContentPresenters.get(event.getId());
+                gadget.uncollapse();
+                model.getWebContent(event.getId()).setIsCollapsed(false);
+                model.updateWebContent(event.getId(), null);
+            }
+        });
     }
 
     private void registerBusEventWebContentPortletMaximization() {
-        eventBus.addHandler(MaximizePortletEvent.TYPE,
-                new MaximizePortletEventHandler() {
-                    @SuppressWarnings("unchecked")
-                    public void onMaximizeWebContent(MaximizePortletEvent event) {
-                        if (!isMaximized) {
-                            // TODO We have to handle the different view for the
-                            // gadget. For the time, it is only handle by the
-                            // OpenSocialPresenter !
-                            WidgetPresenter presenter = (WidgetPresenter) webContentPresenters.get(event.getId());
-                            if (presenter instanceof PortletPresenter) {
-                                WidgetPresenter contentPresenter = (WidgetPresenter) ((PortletPresenter) presenter).getContentPresenter();
-                                if (contentPresenter instanceof OpenSocialPresenter) {
-                                    ((OpenSocialPresenter) contentPresenter).setView(CANVAS_VIEW);
-                                }
-                            }
-
-                            WidgetDisplay gadgetView = (WidgetDisplay) presenter.getDisplay();
-
-                            WebContentData webContent = model.getWebContent(event.getId());
-                            makeNotDraggable(webContent, gadgetView);
-
-                            display.setContainerSideBar(false,
-
-                            YUISideBarStyle.YUI_SB_NO_COLUMN.getCSS(), "");
-                            YUIUnit header = model.getLayout().getHeader();
-                            YUIUnit footer = model.getLayout().getFooter();
-                            if (header != null) {
-                                display.setContainerHeader(
-                                        false,
-                                        ((YUIComponent) model.getLayout().getHeader()).getId());
-                            }
-                            if (footer != null) {
-                                display.setContainerFooter(
-                                        false,
-                                        ((YUIComponent) model.getLayout().getFooter()).getId());
-                            }
-
-                            display.maximizeWebContent(gadgetView.asWidget());
-                            isMaximized = true;
+        eventBus.addHandler(MaximizePortletEvent.TYPE, new MaximizePortletEventHandler() {
+            @SuppressWarnings("unchecked")
+            public void onMaximizeWebContent(MaximizePortletEvent event) {
+                if (!isMaximized) {
+                    // TODO We have to handle the different view for the
+                    // gadget. For the time, it is only handle by the
+                    // OpenSocialPresenter !
+                    WidgetPresenter presenter = (WidgetPresenter) webContentPresenters.get(event.getId());
+                    if (presenter instanceof PortletPresenter) {
+                        WidgetPresenter contentPresenter = (WidgetPresenter) ((PortletPresenter) presenter).getContentPresenter();
+                        if (contentPresenter instanceof OpenSocialPresenter) {
+                            ((OpenSocialPresenter) contentPresenter).setView(CANVAS_VIEW);
                         }
                     }
-                });
+
+                    WidgetDisplay gadgetView = (WidgetDisplay) presenter.getDisplay();
+
+                    WebContentData webContent = model.getWebContent(event.getId());
+                    makeNotDraggable(webContent, gadgetView);
+
+                    display.setContainerSideBar(false,
+
+                    YUISideBarStyle.YUI_SB_NO_COLUMN.getCSS(), "");
+                    YUIUnit header = model.getLayout().getHeader();
+                    YUIUnit footer = model.getLayout().getFooter();
+                    if (header != null) {
+                        display.setContainerHeader(false, ((YUIComponent) model.getLayout().getHeader()).getId());
+                    }
+                    if (footer != null) {
+                        display.setContainerFooter(false, ((YUIComponent) model.getLayout().getFooter()).getId());
+                    }
+
+                    display.maximizeWebContent(gadgetView.asWidget());
+                    isMaximized = true;
+                }
+            }
+        });
     }
 
     private void registerBusEventWebContentPortletMinimization() {
-        eventBus.addHandler(MinimizePortletEvent.TYPE,
-                new MinimizePortletEventHandler() {
-                    @SuppressWarnings("unchecked")
-                    public void onMinimizeWebContent(MinimizePortletEvent event) {
-                        if (isMaximized) {
-                            // TODO We have to handle the different view for the
-                            // gadget. For the time, it is only handle by the
-                            // OpenSocialPresenter !
-                            WidgetPresenter presenter = (WidgetPresenter) webContentPresenters.get(event.getId());
-                            if (presenter instanceof PortletPresenter) {
-                                WidgetPresenter contentPresenter = (WidgetPresenter) ((PortletPresenter) presenter).getContentPresenter();
-                                if (contentPresenter instanceof OpenSocialPresenter) {
-                                    ((OpenSocialPresenter) contentPresenter).setView(DEFAULT_VIEW);
-                                }
-                            }
-
-                            WidgetDisplay gadgetView = ((WidgetDisplay) webContentPresenters.get(
-                                    event.getId()).getDisplay());
-
-                            WebContentData webContent = model.getWebContent(event.getId());
-                            makeDraggable(webContent, gadgetView);
-
-                            setContainerSideBar();
-                            YUIUnit header = model.getLayout().getHeader();
-                            YUIUnit footer = model.getLayout().getFooter();
-                            if (header != null) {
-                                display.setContainerHeader(true,
-                                        ((YUIComponent) header).getId());
-                            }
-                            if (footer != null) {
-                                display.setContainerFooter(true,
-                                        ((YUIComponent) footer).getId());
-                            }
-
-                            display.minimizeWebContent(gadgetView.asWidget(),
-                                    webContent.getUnitId(),
-                                    webContent.getPosition());
-                            isMaximized = false;
+        eventBus.addHandler(MinimizePortletEvent.TYPE, new MinimizePortletEventHandler() {
+            @SuppressWarnings("unchecked")
+            public void onMinimizeWebContent(MinimizePortletEvent event) {
+                if (isMaximized) {
+                    // TODO We have to handle the different view for the
+                    // gadget. For the time, it is only handle by the
+                    // OpenSocialPresenter !
+                    WidgetPresenter presenter = (WidgetPresenter) webContentPresenters.get(event.getId());
+                    if (presenter instanceof PortletPresenter) {
+                        WidgetPresenter contentPresenter = (WidgetPresenter) ((PortletPresenter) presenter).getContentPresenter();
+                        if (contentPresenter instanceof OpenSocialPresenter) {
+                            ((OpenSocialPresenter) contentPresenter).setView(DEFAULT_VIEW);
                         }
                     }
-                });
+
+                    WidgetDisplay gadgetView = ((WidgetDisplay) webContentPresenters.get(event.getId()).getDisplay());
+
+                    WebContentData webContent = model.getWebContent(event.getId());
+                    makeDraggable(webContent, gadgetView);
+
+                    setContainerSideBar();
+                    YUIUnit header = model.getLayout().getHeader();
+                    YUIUnit footer = model.getLayout().getFooter();
+                    if (header != null) {
+                        display.setContainerHeader(true, ((YUIComponent) header).getId());
+                    }
+                    if (footer != null) {
+                        display.setContainerFooter(true, ((YUIComponent) footer).getId());
+                    }
+
+                    display.minimizeWebContent(gadgetView.asWidget(), webContent.getUnitId(), webContent.getPosition());
+                    isMaximized = false;
+                }
+            }
+        });
     }
 
     private void registerBusEventWebContentPortletUpdate() {
-        eventBus.addHandler(WebContentUpdatedEvent.TYPE,
-                new WebContentUpdatedEventHandler() {
-                    public void onWebContentUpdated(WebContentUpdatedEvent event) {
-                        Presenter presenter = webContentPresenters.get(event.getWebContentId());
-                        presenter.refreshDisplay();
-                    }
-                });
+        eventBus.addHandler(WebContentUpdatedEvent.TYPE, new WebContentUpdatedEventHandler() {
+            public void onWebContentUpdated(WebContentUpdatedEvent event) {
+                Presenter presenter = webContentPresenters.get(event.getWebContentId());
+                presenter.refreshDisplay();
+            }
+        });
     }
 
     private void registerBusEventWebContentPorletClose() {
-        eventBus.addHandler(ClosePortletEvent.TYPE,
-                new ClosePortletEventHandler() {
-                    public void onCloseWebContent(ClosePortletEvent event) {
-                        if (Window.confirm(infos.isSureToDeleteGadget())) {
-                            model.removeWebContent(event.getId());
-                        }
-                    }
-                });
+        eventBus.addHandler(ClosePortletEvent.TYPE, new ClosePortletEventHandler() {
+            public void onCloseWebContent(ClosePortletEvent event) {
+                if (Window.confirm(infos.isSureToDeleteGadget())) {
+                    model.removeWebContent(event.getId());
+                }
+            }
+        });
     }
 
     private void addDropControllerFor(YUIUnit unit) {
         String spaceId = model.getContainerContext().getSpaceId();
-        if (unit != null
-                && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
+        if (unit != null && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
             String idRef = ((YUIAbstractComponent) unit).getId();
             FlowPanel unitWidget = (FlowPanel) display.getUnit(idRef);
-            YUIFlowPanelDropController dropController = new YUIFlowPanelDropController(
-                    unitWidget);
+            YUIFlowPanelDropController dropController = new YUIFlowPanelDropController(unitWidget);
 
             dragController.registerDropController(dropController);
             dropControllerList.put(idRef, dropController);
@@ -726,8 +662,7 @@ public class ContainerPresenter extends
     private void removeDropControllerFor(String idRef) {
         YUIFlowPanelDropController dropController = dropControllerList.get(idRef);
         String spaceId = model.getContainerContext().getSpaceId();
-        if (dropController != null
-                && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
+        if (dropController != null && model.hasPermission(spaceId, PermissionsConstants.EVERYTHING)) {
             dragController.unregisterDropController(dropController);
             dropControllerList.remove(idRef);
         }
@@ -739,20 +674,17 @@ public class ContainerPresenter extends
 
             private String webContentUnitIdBeforeDragging;
 
-            public void onPreviewDragStart(DragStartEvent event)
-                    throws VetoDragException {
+            public void onPreviewDragStart(DragStartEvent event) throws VetoDragException {
             }
 
-            public void onPreviewDragEnd(DragEndEvent event)
-                    throws VetoDragException {
+            public void onPreviewDragEnd(DragEndEvent event) throws VetoDragException {
             }
 
             public void onDragStart(DragStartEvent event) {
                 PortletPresenter.Display webContentView = (PortletPresenter.Display) event.getSource();
                 webContentUnitIdBeforeDragging = webContentView.getParentId();
                 int i = 0;
-                for (WebContentData webContent : model.getWebContents().get(
-                        webContentUnitIdBeforeDragging)) {
+                for (WebContentData webContent : model.getWebContents().get(webContentUnitIdBeforeDragging)) {
                     String webContentId = webContentView.getId();
                     if (webContent.getId().equals(webContentId)) {
                         webContentPositionBeforeDragging = i;
@@ -768,14 +700,11 @@ public class ContainerPresenter extends
             public void onDragEnd(DragEndEvent event) {
                 PortletPresenter.Display webContentView = (PortletPresenter.Display) event.getSource();
                 String webContentUnitIdAfterDragging = webContentView.getParentId();
-                int webContentPositionAfterDragging = display.getUnit(
-                        webContentUnitIdAfterDragging).getWebContentPosition(
+                int webContentPositionAfterDragging = display.getUnit(webContentUnitIdAfterDragging).getWebContentPosition(
                         webContentView.asWidget());
 
-                model.webContentMoved(webContentUnitIdBeforeDragging,
-                        webContentPositionBeforeDragging,
-                        webContentUnitIdAfterDragging,
-                        webContentPositionAfterDragging);
+                model.webContentMoved(webContentUnitIdBeforeDragging, webContentPositionBeforeDragging,
+                        webContentUnitIdAfterDragging, webContentPositionAfterDragging);
 
                 unHighLightUnits();
 

@@ -10,8 +10,7 @@ import org.nuxeo.ecm.spaces.api.exceptions.SpaceException;
 
 public interface SpaceProvider {
 
-    public void initialize(String name, Map<String, String> params)
-            throws SpaceException;
+    public void initialize(String name, Map<String, String> params) throws SpaceException;
 
     /**
      * Gets {@link org.nuxeo.ecm.spaces.api.SpaceProvider}'s name.
@@ -20,28 +19,22 @@ public interface SpaceProvider {
      */
     String getName();
 
-    Space getSpace(CoreSession session, DocumentModel contextDocument,
-            String spaceName, Map<String, String> parameters) throws SpaceException;
-
-    Space getSpace(CoreSession session, DocumentModel contextDocument,
-            String spaceName) throws SpaceException;
-
-    List<Space> getAll(CoreSession session, DocumentModel contextDocument)
+    Space getSpace(CoreSession session, DocumentModel contextDocument, String spaceName, Map<String, String> parameters)
             throws SpaceException;
 
-    long size(CoreSession session, DocumentModel contextDocument)
-            throws SpaceException;
+    Space getSpace(CoreSession session, DocumentModel contextDocument, String spaceName) throws SpaceException;
 
-    boolean isEmpty(CoreSession session, DocumentModel contextDocument)
-            throws SpaceException;
+    List<Space> getAll(CoreSession session, DocumentModel contextDocument) throws SpaceException;
+
+    long size(CoreSession session, DocumentModel contextDocument) throws SpaceException;
+
+    boolean isEmpty(CoreSession session, DocumentModel contextDocument) throws SpaceException;
 
     boolean isReadOnly(CoreSession session);
 
-    void add(Space o, CoreSession session, Map<String, String> params)
-            throws SpaceException;
+    void add(Space o, CoreSession session, Map<String, String> params) throws SpaceException;
 
-    void addAll(Collection<? extends Space> c, CoreSession session)
-            throws SpaceException;
+    void addAll(Collection<? extends Space> c, CoreSession session) throws SpaceException;
 
     boolean remove(Space space, CoreSession session) throws SpaceException;
 

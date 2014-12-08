@@ -38,8 +38,7 @@ public class WebContentSaverServiceTest {
     }
 
     public DocumentModel createNxUnit() throws ClientException {
-        DocumentModel unit = session.createDocumentModel("/", "unit",
-                UNIT_DOCUMENT_TYPE);
+        DocumentModel unit = session.createDocumentModel("/", "unit", UNIT_DOCUMENT_TYPE);
         unit = session.createDocument(unit);
         session.save();
 
@@ -90,12 +89,10 @@ public class WebContentSaverServiceTest {
         DocumentModel unit = createNxUnit();
         HTMLData html = createHTMLData(unit.getId());
 
-        HTMLData dataSaved = (HTMLData) service.create(html, unit.getId(),
-                session);
+        HTMLData dataSaved = (HTMLData) service.create(html, unit.getId(), session);
         session.save();
 
-        HTMLData dataFromNuxeo = (HTMLData) service.read(
-                session.getDocument(new IdRef(dataSaved.getId())), session);
+        HTMLData dataFromNuxeo = (HTMLData) service.read(session.getDocument(new IdRef(dataSaved.getId())), session);
 
         assertNotNull(dataFromNuxeo);
         assertTrue(dataFromNuxeo instanceof HTMLData);
@@ -120,8 +117,7 @@ public class WebContentSaverServiceTest {
         service.update(html, session);
         session.save();
 
-        HTMLData dataFromNuxeo = (HTMLData) service.read(
-                session.getDocument(new IdRef(html.getId())), session);
+        HTMLData dataFromNuxeo = (HTMLData) service.read(session.getDocument(new IdRef(html.getId())), session);
 
         assertEquals("", dataFromNuxeo.getHtml());
     }

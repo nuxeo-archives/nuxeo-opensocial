@@ -42,7 +42,6 @@ import net.oauth.signature.RSA_SHA1;
  * Forwards calls for OAuth Token storage to Nuxeo OAuth Services
  *
  * @author tiry
- *
  */
 @Singleton
 public class NXOAuthStore extends BasicOAuthStore {
@@ -70,20 +69,17 @@ public class NXOAuthStore extends BasicOAuthStore {
     }
 
     @Override
-    public ConsumerInfo getConsumerKeyAndSecret(SecurityToken securityToken,
-            String serviceName, OAuthServiceProvider provider)
-            throws GadgetException {
+    public ConsumerInfo getConsumerKeyAndSecret(SecurityToken securityToken, String serviceName,
+            OAuthServiceProvider provider) throws GadgetException {
 
         OAuthServiceProviderRegistry spr = Framework.getLocalService(OAuthServiceProviderRegistry.class);
         OpenSocialService os = Framework.getLocalService(OpenSocialService.class);
 
-        NuxeoOAuthServiceProvider sp = spr.getProvider(
-                securityToken.getAppUrl(), serviceName);
+        NuxeoOAuthServiceProvider sp = spr.getProvider(securityToken.getAppUrl(), serviceName);
 
         if (sp == null) {
 
-            return super.getConsumerKeyAndSecret(securityToken, serviceName,
-                    provider);
+            return super.getConsumerKeyAndSecret(securityToken, serviceName, provider);
         } else {
             String consumerKey = sp.getConsumerKey();
             String secret = sp.getConsumerSecret();
@@ -97,20 +93,17 @@ public class NXOAuthStore extends BasicOAuthStore {
             }
             String callBack = nxDefaultCallBackUrl;
 
-            OAuthConsumer consumer = new OAuthConsumer(callBack, consumerKey,
-                    secret, provider);
+            OAuthConsumer consumer = new OAuthConsumer(callBack, consumerKey, secret, provider);
             if (kt == KeyType.RSA_PRIVATE) {
                 // The oauth.net java code has lots of magic. By setting this
                 // property here, code thousands
                 // of lines away knows that the consumerSecret value in the
                 // consumer should be treated as
                 // an RSA private key and not an HMAC key.
-                consumer.setProperty(OAuth.OAUTH_SIGNATURE_METHOD,
-                        OAuth.RSA_SHA1);
+                consumer.setProperty(OAuth.OAUTH_SIGNATURE_METHOD, OAuth.RSA_SHA1);
                 consumer.setProperty(RSA_SHA1.PRIVATE_KEY, secret);
             } else {
-                consumer.setProperty(OAuth.OAUTH_SIGNATURE_METHOD,
-                        OAuth.HMAC_SHA1);
+                consumer.setProperty(OAuth.OAUTH_SIGNATURE_METHOD, OAuth.HMAC_SHA1);
             }
             // Can not transmit the provider because urls may be not set ...
             // OAuthConsumer consumer = new OAuthConsumer(callBack, consumerKey,
@@ -121,8 +114,8 @@ public class NXOAuthStore extends BasicOAuthStore {
     }
 
     @Override
-    public TokenInfo getTokenInfo(SecurityToken securityToken,
-            ConsumerInfo consumerInfo, String serviceName, String tokenName) {
+    public TokenInfo getTokenInfo(SecurityToken securityToken, ConsumerInfo consumerInfo, String serviceName,
+            String tokenName) {
 
         OAuthTokenStore nxStore = Framework.getLocalService(OAuthTokenStore.class);
 
@@ -136,22 +129,19 @@ public class NXOAuthStore extends BasicOAuthStore {
                 String tokenSecret = nxToken.getTokenSecret();
                 String sessionHandle = null;
                 long tokenExpireMillis = 0;
-                TokenInfo tokenInfo = new TokenInfo(accessToken, tokenSecret,
-                        sessionHandle, tokenExpireMillis);
+                TokenInfo tokenInfo = new TokenInfo(accessToken, tokenSecret, sessionHandle, tokenExpireMillis);
                 return tokenInfo;
             }
         } catch (Exception e) {
             log.error("Error while try to get Client Token from store", e);
         }
-        TokenInfo tokenInfo = super.getTokenInfo(securityToken, consumerInfo,
-                serviceName, tokenName);
+        TokenInfo tokenInfo = super.getTokenInfo(securityToken, consumerInfo, serviceName, tokenName);
         return tokenInfo;
     }
 
     @Override
-    public void setTokenInfo(SecurityToken securityToken,
-            ConsumerInfo consumerInfo, String serviceName, String tokenName,
-            TokenInfo tokenInfo) {
+    public void setTokenInfo(SecurityToken securityToken, ConsumerInfo consumerInfo, String serviceName,
+            String tokenName, TokenInfo tokenInfo) {
 
         OAuthTokenStore nxStore = Framework.getLocalService(OAuthTokenStore.class);
 
@@ -162,16 +152,13 @@ public class NXOAuthStore extends BasicOAuthStore {
 
         String token = tokenInfo.getAccessToken();
         String tokenSecret = tokenInfo.getTokenSecret();
-        nxStore.storeClientAccessToken(consumerKey, callBack, token,
-                tokenSecret, appId, owner);
+        nxStore.storeClientAccessToken(consumerKey, callBack, token, tokenSecret, appId, owner);
 
-        super.setTokenInfo(securityToken, consumerInfo, serviceName, tokenName,
-                tokenInfo);
+        super.setTokenInfo(securityToken, consumerInfo, serviceName, tokenName, tokenInfo);
     }
 
     @Override
-    public void removeToken(SecurityToken securityToken,
-            ConsumerInfo consumerInfo, String serviceName, String tokenName) {
+    public void removeToken(SecurityToken securityToken, ConsumerInfo consumerInfo, String serviceName, String tokenName) {
 
         OAuthTokenStore nxStore = Framework.getLocalService(OAuthTokenStore.class);
 

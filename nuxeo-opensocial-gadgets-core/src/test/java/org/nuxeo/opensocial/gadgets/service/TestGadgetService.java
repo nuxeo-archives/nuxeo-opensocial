@@ -49,10 +49,8 @@ public class TestGadgetService extends NXRuntimeTestCase {
         deployBundle("org.nuxeo.ecm.directory");
         deployBundle("org.nuxeo.ecm.directory.sql");
         deployBundle("org.nuxeo.opensocial.service");
-        deployContrib("org.nuxeo.opensocial.gadgets.core.test",
-                "OSGI-INF/gadget-contrib.xml");
-        deployContrib("org.nuxeo.opensocial.gadgets.core.test",
-        "OSGI-INF/directory-test-config.xml");
+        deployContrib("org.nuxeo.opensocial.gadgets.core.test", "OSGI-INF/gadget-contrib.xml");
+        deployContrib("org.nuxeo.opensocial.gadgets.core.test", "OSGI-INF/directory-test-config.xml");
 
         Framework.getProperties().put(NUXEO_LOOPBACK_URL, "http://localhost:8080/nuxeo");
     }
@@ -63,8 +61,7 @@ public class TestGadgetService extends NXRuntimeTestCase {
         assertNotNull(service);
         GadgetDeclaration meteoGadget = service.getGadget("meteo");
         assertNotNull(meteoGadget);
-        deployContrib("org.nuxeo.opensocial.gadgets.core.test",
-                "OSGI-INF/gadget-override-contrib.xml");
+        deployContrib("org.nuxeo.opensocial.gadgets.core.test", "OSGI-INF/gadget-override-contrib.xml");
         service = Framework.getService(GadgetService.class);
         meteoGadget = service.getGadget("meteo");
         assertNull(meteoGadget);
@@ -89,7 +86,6 @@ public class TestGadgetService extends NXRuntimeTestCase {
         assertNotNull(spec);
         System.out.println(spec.getModulePrefs());
 
-
         DirectoryService ds = Framework.getService(DirectoryService.class);
         Session session = ds.open(GadgetServiceImpl.GADGET_DIRECTORY);
         Map<String, Object> init = new HashMap<String, Object>();
@@ -107,10 +103,9 @@ public class TestGadgetService extends NXRuntimeTestCase {
         assertNotNull(buddyGadget);
 
         // only testable online
-        //spec = buddyGadget.getGadgetSpec();
-        //assertNotNull(spec);
-        //System.out.println(spec.getModulePrefs());
-
+        // spec = buddyGadget.getGadgetSpec();
+        // assertNotNull(spec);
+        // System.out.println(spec.getModulePrefs());
 
     }
 

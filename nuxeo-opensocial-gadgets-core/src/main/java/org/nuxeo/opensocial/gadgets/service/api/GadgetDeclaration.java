@@ -26,14 +26,11 @@ import java.util.Locale;
 import org.apache.shindig.gadgets.spec.GadgetSpec;
 
 /**
- * This is how code outside of the gadget implementation sees the gadget. The
- * implementation can be an internal or external gadget. Callers should not
- * depend on particular implementation strategies since they may vary quite
- * widely.
+ * This is how code outside of the gadget implementation sees the gadget. The implementation can be an internal or
+ * external gadget. Callers should not depend on particular implementation strategies since they may vary quite widely.
  *
  * @author Ian Smith<iansmith@nuxecloud.com>
  * @author Thomas Roger<troger@nuxeo.com>
- *
  */
 public interface GadgetDeclaration {
 
@@ -50,8 +47,7 @@ public interface GadgetDeclaration {
     URL getGadgetDefinition();
 
     /**
-     * Returns the public URL of the gadget spec. That URL can be used to add
-     * the gadget in an other container.
+     * Returns the public URL of the gadget spec. That URL can be used to add the gadget in an other container.
      *
      * @since 5.4.2
      */
@@ -75,7 +71,6 @@ public interface GadgetDeclaration {
     String getTitle(Locale locale);
 
     /**
-     *
      * Try to find an localized description for this gadet
      * <p>
      * The label key is "label.gadget." + gadgetName + ".description"

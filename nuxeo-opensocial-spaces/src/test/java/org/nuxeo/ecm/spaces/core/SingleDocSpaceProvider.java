@@ -26,11 +26,9 @@ public class SingleDocSpaceProvider extends AbstractSpaceProvider {
     private String title;
 
     @Override
-    public void initialize(String name, Map<String, String> params)
-            throws SpaceException {
+    public void initialize(String name, Map<String, String> params) throws SpaceException {
         if (!params.containsKey(PARAM_PATH)) {
-            throw new SpaceException(
-                    "No path argument found for SingleDocSpaceProvider");
+            throw new SpaceException("No path argument found for SingleDocSpaceProvider");
         }
         path = params.get(PARAM_PATH);
         title = params.get("title");
@@ -40,15 +38,13 @@ public class SingleDocSpaceProvider extends AbstractSpaceProvider {
     }
 
     @Override
-    protected Space doGetSpace(CoreSession session,
-            DocumentModel contextDocument, String spaceName, Map<String, String> parameters)
-            throws SpaceException {
+    protected Space doGetSpace(CoreSession session, DocumentModel contextDocument, String spaceName,
+            Map<String, String> parameters) throws SpaceException {
         return getOrCreateSingleSpace(session).getAdapter(Space.class);
     }
 
     @Override
-    public List<Space> getAll(CoreSession session, DocumentModel contextDocument)
-            throws SpaceException {
+    public List<Space> getAll(CoreSession session, DocumentModel contextDocument) throws SpaceException {
         List<Space> result = new ArrayList<Space>();
         result.add(getSpace(session, contextDocument, ""));
         return result;
@@ -68,24 +64,21 @@ public class SingleDocSpaceProvider extends AbstractSpaceProvider {
         return false;
     }
 
-    private DocumentModel getOrCreateSingleSpace(CoreSession session)
-            throws SpaceException {
+    private DocumentModel getOrCreateSingleSpace(CoreSession session) throws SpaceException {
         PathRef docRef = new PathRef(path);
         try {
             if (session.exists(docRef)) {
                 return session.getDocument(docRef);
             } else {
                 if (!session.exists(new PathRef(getParentPath(path)))) {
-                    throw new ClientException(
-                            "Parent path does not exist : unable to get or create space");
+                    throw new ClientException("Parent path does not exist : unable to get or create space");
                 }
 
-                UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(
-                        session) {
+                UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session) {
                     @Override
                     public void run() throws ClientException {
-                        DocumentModel doc = session.createDocumentModel(
-                                getParentPath(path), getDocName(path), SPACE_DOCUMENT_TYPE);
+                        DocumentModel doc = session.createDocumentModel(getParentPath(path), getDocName(path),
+                                SPACE_DOCUMENT_TYPE);
                         doc.setPropertyValue("dc:title", title);
                         doc = session.createDocument(doc);
                         Space space = doc.getAdapter(Space.class);

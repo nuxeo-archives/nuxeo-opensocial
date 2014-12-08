@@ -37,15 +37,14 @@ public class YUILayoutImpl implements YUILayout, Serializable {
         setFooter(null);
     }
 
-    public YUILayoutImpl(YUIAbstractBodySize size, boolean hasHeader,
-            boolean hasFooter, YUISideBarStyle sideBar) {
+    public YUILayoutImpl(YUIAbstractBodySize size, boolean hasHeader, boolean hasFooter, YUISideBarStyle sideBar) {
         setBodySize(size);
         setSideBarStyle(sideBar);
         if (hasHeader) {
             setHeader(new YUIUnitImpl());
         }
         setContent(new YUIContentImpl());
-        if(hasFooter) {
+        if (hasFooter) {
             setFooter(new YUIUnitImpl());
         }
     }

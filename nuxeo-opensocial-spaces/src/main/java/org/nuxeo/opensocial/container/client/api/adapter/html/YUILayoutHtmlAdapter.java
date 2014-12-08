@@ -41,8 +41,7 @@ public class YUILayoutHtmlAdapter implements Serializable {
     }
 
     public String toHtml() {
-        StringBuilder sb = new StringBuilder("<div id=\""
-                + layout.getBodySize().getCSS() + "\" class=\""
+        StringBuilder sb = new StringBuilder("<div id=\"" + layout.getBodySize().getCSS() + "\" class=\""
                 + layout.getSidebarStyle().getCSS() + "\">\n");
 
         if (layout.getHeader() != null) {
@@ -103,7 +102,6 @@ public class YUILayoutHtmlAdapter implements Serializable {
     }
 
     private String getComponentUnitAsHtml(YUIUnitImpl component) {
-        return "\t\t\t\t\t<div class=\"" + component.getCSS()
-                + "\"><!-- WebContents here --></div>\n";
+        return "\t\t\t\t\t<div class=\"" + component.getCSS() + "\"><!-- WebContents here --></div>\n";
     }
 }

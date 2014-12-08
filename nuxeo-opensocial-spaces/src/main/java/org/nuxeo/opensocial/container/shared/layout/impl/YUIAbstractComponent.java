@@ -8,8 +8,7 @@ import org.nuxeo.opensocial.container.shared.layout.api.YUIComponent;
 /**
  * @author Stéphane Fourrier
  */
-public abstract class YUIAbstractComponent implements Serializable,
-        YUIComponent {
+public abstract class YUIAbstractComponent implements Serializable, YUIComponent {
     private String id;
 
     public void setId(String id) {

@@ -26,8 +26,7 @@ public class DispatchServletModule extends ServletModule {
 
     @Override
     public void configureServlets() {
-      serve("*/gwtContainer/dispatch").with(
-                WebEngineDispatchServiceServlet.class);
+        serve("*/gwtContainer/dispatch").with(WebEngineDispatchServiceServlet.class);
     }
 
 }

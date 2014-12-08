@@ -43,8 +43,7 @@ public class NuxeoCryptoModule extends AbstractModule {
     @Override
     protected final void configure() {
         try {
-            bind(SecurityTokenDecoder.class).to(
-                    NXBlobCrypterSecurityTokenDecoder.class);
+            bind(SecurityTokenDecoder.class).to(NXBlobCrypterSecurityTokenDecoder.class);
             bind(OAuthDataStore.class).to(FakeNuxeoDataStore.class);
 
             OpenSocialService oss = Framework.getService(OpenSocialService.class);
@@ -66,19 +65,12 @@ public class NuxeoCryptoModule extends AbstractModule {
             String signingKeyPath = signingKeyFile.getPath();
             // String privateKeyPath = privateKeyFile.getPath();
 
-            bind(String.class).annotatedWith(
-                    Names.named("shindig.signing.state-key")).toInstance(
-                    signingKeyPath);
+            bind(String.class).annotatedWith(Names.named("shindig.signing.state-key")).toInstance(signingKeyPath);
             /*
-             * bind(String.class).annotatedWith(
-             * Names.named("shindig.signing.key-file")).toInstance(
-             * privateKeyPath); bind(String.class).annotatedWith(
-             * Names.named("shindig.signing.key-name")).toInstance(
-             * privateKeyName);
+             * bind(String.class).annotatedWith( Names.named("shindig.signing.key-file")).toInstance( privateKeyPath);
+             * bind(String.class).annotatedWith( Names.named("shindig.signing.key-name")).toInstance( privateKeyName);
              */
-            bind(String.class).annotatedWith(
-                    Names.named("shindig.signing.global-callback-url")).toInstance(
-                    callbackUrl);
+            bind(String.class).annotatedWith(Names.named("shindig.signing.global-callback-url")).toInstance(callbackUrl);
         } catch (Exception e) {
             LOG.error("Unable to bind Shindig services to Nuxeo components", e);
         }
@@ -89,20 +81,17 @@ public class NuxeoCryptoModule extends AbstractModule {
 
 class FakeNuxeoDataStore implements OAuthDataStore {
 
-    public void authorizeToken(OAuthEntry arg0, String arg1)
-            throws OAuthProblemException {
+    public void authorizeToken(OAuthEntry arg0, String arg1) throws OAuthProblemException {
     }
 
-    public OAuthEntry convertToAccessToken(OAuthEntry arg0)
-            throws OAuthProblemException {
+    public OAuthEntry convertToAccessToken(OAuthEntry arg0) throws OAuthProblemException {
         return null;
     }
 
     public void disableToken(OAuthEntry arg0) {
     }
 
-    public OAuthEntry generateRequestToken(String arg0, String arg1, String arg2)
-            throws OAuthProblemException {
+    public OAuthEntry generateRequestToken(String arg0, String arg1, String arg2) throws OAuthProblemException {
         return null;
     }
 
@@ -114,8 +103,7 @@ class FakeNuxeoDataStore implements OAuthDataStore {
         return null;
     }
 
-    public SecurityToken getSecurityTokenForConsumerRequest(String arg0,
-            String arg1) throws OAuthProblemException {
+    public SecurityToken getSecurityTokenForConsumerRequest(String arg0, String arg1) throws OAuthProblemException {
         return null;
     }
 

@@ -33,8 +33,7 @@ import net.customware.gwt.presenter.client.widget.WidgetPresenter;
 /**
  * @author Stéphane Fourrier
  */
-public class CustomWebContentPresenter extends
-        WidgetPresenter<CustomWebContentPresenter.Display> {
+public class CustomWebContentPresenter extends WidgetPresenter<CustomWebContentPresenter.Display> {
     public interface Display extends WidgetDisplay, HasId {
         String getParentId();
 
@@ -48,8 +47,7 @@ public class CustomWebContentPresenter extends
     private Presenter contentPresenter;
 
     @Inject
-    public CustomWebContentPresenter(final Display display,
-            final EventBus eventBus, WebContentData data,
+    public CustomWebContentPresenter(final Display display, final EventBus eventBus, WebContentData data,
             Presenter contentPresenter) {
         super(display, eventBus);
 

@@ -24,8 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * @author Stéphane Fourrier
  */
-public class SetPreferencesPortletEvent extends
-        GwtEvent<SetPreferencesPortletEventHandler> implements HasId {
+public class SetPreferencesPortletEvent extends GwtEvent<SetPreferencesPortletEventHandler> implements HasId {
     public static Type<SetPreferencesPortletEventHandler> TYPE = new Type<SetPreferencesPortletEventHandler>();
 
     private String webContentId;

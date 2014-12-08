@@ -42,8 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class PictureGadget extends AbstractGadget implements
-        PicturePresenter.Display {
+public class PictureGadget extends AbstractGadget implements PicturePresenter.Display {
     private GadgetsConstants constants = GWT.create(GadgetsConstants.class);
 
     private Image image;

@@ -31,7 +31,6 @@ import com.google.inject.Singleton;
  * This class is used to plug Nuxeo OAuth Store into Shindig
  *
  * @author tiry
- *
  */
 @Singleton
 public class NXOAuthStoreProvider implements Provider<OAuthStore> {
@@ -46,8 +45,8 @@ public class NXOAuthStoreProvider implements Provider<OAuthStore> {
         store.setDefaultCallbackUrl(os.getOAuthCallbackUrl());
         String privateKey = skm.getBarePrivateKey();
         String signingKeyName = skm.getKeyName();
-        BasicOAuthStoreConsumerKeyAndSecret key = new BasicOAuthStoreConsumerKeyAndSecret(
-                null, privateKey, KeyType.RSA_PRIVATE, signingKeyName, null);
+        BasicOAuthStoreConsumerKeyAndSecret key = new BasicOAuthStoreConsumerKeyAndSecret(null, privateKey,
+                KeyType.RSA_PRIVATE, signingKeyName, null);
         store.setDefaultKey(key);
 
         // XXX load entries from OpenSocial Service config

@@ -39,13 +39,11 @@ public interface YUILayoutAdapter {
 
     YUIUnit setFooter(YUIUnit hasFooter) throws ClientException;
 
-    YUIComponentZone createZone(YUIComponentZone zone, int zoneIndex)
-            throws ClientException;
+    YUIComponentZone createZone(YUIComponentZone zone, int zoneIndex) throws ClientException;
 
     void deleteZone(int zoneIndex) throws ClientException;
 
-    YUIComponentZone updateZone(YUIComponentZone zone, int zoneIndex,
-            YUITemplate template) throws ClientException;
+    YUIComponentZone updateZone(YUIComponentZone zone, int zoneIndex, YUITemplate template) throws ClientException;
 
     void initLayout(YUILayout layout) throws ClientException;
 

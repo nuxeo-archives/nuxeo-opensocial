@@ -145,8 +145,7 @@ public class DocGadgetImpl extends AbstractGadget {
 
     }
 
-    public void setPreferences(Map<String, String> prefs)
-            throws ClientException {
+    public void setPreferences(Map<String, String> prefs) throws ClientException {
         ArrayList<Map<String, String>> listPrefs = new ArrayList<Map<String, String>>();
         for (String key : prefs.keySet()) {
             Map<String, String> keyValue = new HashMap<String, String>();
@@ -163,12 +162,12 @@ public class DocGadgetImpl extends AbstractGadget {
     }
 
     public int getHeight() throws ClientException {
-        //TODO
+        // TODO
         return 0;
     }
 
     public void setHeight(int height) throws ClientException {
-        //TODO
+        // TODO
     }
 
     public void copyFrom(Gadget gadget) throws ClientException {

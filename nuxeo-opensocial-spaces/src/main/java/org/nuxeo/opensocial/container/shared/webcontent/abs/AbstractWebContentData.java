@@ -11,8 +11,8 @@ import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
 /**
  * @author Stéphane Fourrier
  */
-public abstract class AbstractWebContentData implements Serializable,
-        Comparable<AbstractWebContentData>, WebContentData {
+public abstract class AbstractWebContentData implements Serializable, Comparable<AbstractWebContentData>,
+        WebContentData {
     private static final long serialVersionUID = 1L;
 
     private String id;

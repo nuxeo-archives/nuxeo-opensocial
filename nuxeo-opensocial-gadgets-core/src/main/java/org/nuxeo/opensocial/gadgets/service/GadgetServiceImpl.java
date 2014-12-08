@@ -56,8 +56,7 @@ import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.model.ComponentInstance;
 import org.nuxeo.runtime.model.DefaultComponent;
 
-public class GadgetServiceImpl extends DefaultComponent implements
-        GadgetService {
+public class GadgetServiceImpl extends DefaultComponent implements GadgetService {
 
     private static final String GADGET_XP = "gadget";
 
@@ -80,8 +79,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
     private static final String EXTERNAL_PROP_ICON_URL = "iconUrl";
 
     @Override
-    public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void registerContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
 
         if (GADGET_XP.equals(extensionPoint)) {
             InternalGadgetDescriptor gadget = (InternalGadgetDescriptor) contribution;
@@ -92,8 +90,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
     }
 
     @Override
-    public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void unregisterContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if (GADGET_XP.equals(extensionPoint)) {
             InternalGadgetDescriptor gadget = (InternalGadgetDescriptor) contribution;
             unregisterNewGadget(gadget, contributor);
@@ -112,8 +109,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
         }
     }
 
-    private void unregisterNewGadget(GadgetDeclaration gadget,
-            ComponentInstance contributor) {
+    private void unregisterNewGadget(GadgetDeclaration gadget, ComponentInstance contributor) {
         if (internalGadgets.containsKey(gadget.getName())) {
             internalGadgets.remove(gadget.getName());
         }
@@ -127,28 +123,24 @@ public class GadgetServiceImpl extends DefaultComponent implements
         return null;
     }
 
-    public InputStream getGadgetResource(String gadgetName, String resourcePath)
-            throws IOException {
+    public InputStream getGadgetResource(String gadgetName, String resourcePath) throws IOException {
         return getGadget(gadgetName).getResourceAsStream(resourcePath);
 
     }
 
-    public GadgetSpec getGadgetSpec(String name) throws IOException,
-            GadgetException {
+    public GadgetSpec getGadgetSpec(String name) throws IOException, GadgetException {
         GadgetDeclaration dec = getGadget(name);
         return getGadgetSpec(dec);
     }
 
-    public GadgetSpec getGadgetSpec(GadgetDeclaration declaration)
-            throws IOException, GadgetException {
+    public GadgetSpec getGadgetSpec(GadgetDeclaration declaration) throws IOException, GadgetException {
         if (declaration == null) {
             return null;
         }
         GadgetSpecFactory gadgetSpecFactory = null;
         if (Framework.isTestModeSet()) {
             HttpCache dummyCache = new DefaultHttpCache(new LruCacheProvider(0));
-            RequestPipeline pipe = new DefaultRequestPipeline(
-                    new BasicHttpFetcher(), dummyCache, null, null,
+            RequestPipeline pipe = new DefaultRequestPipeline(new BasicHttpFetcher(), dummyCache, null, null,
                     new NoOpInvalidationService());
             CacheProvider cacheProvider = new CacheProvider() {
                 @Override
@@ -156,8 +148,7 @@ public class GadgetServiceImpl extends DefaultComponent implements
                     return new NullCache<K, V>();
                 }
             };
-            gadgetSpecFactory = new DefaultGadgetSpecFactory(null, pipe,
-                    cacheProvider, 0);
+            gadgetSpecFactory = new DefaultGadgetSpecFactory(null, pipe, cacheProvider, 0);
         } else {
             OpenSocialService service = Framework.getService(OpenSocialService.class);
             gadgetSpecFactory = service.getGadgetSpecFactory();
@@ -168,18 +159,15 @@ public class GadgetServiceImpl extends DefaultComponent implements
             InternalGadgetDescriptor internal = (InternalGadgetDescriptor) declaration;
             InputStream is = internal.getResourceAsStream(internal.entryPoint);
             if (is == null) {
-                String resourcePath = internal.getMountPoint() + "/"
-                        + internal.getEntryPoint();
+                String resourcePath = internal.getMountPoint() + "/" + internal.getEntryPoint();
                 resourcePath = resourcePath.replaceFirst("/", "");
-                is = GadgetServiceImpl.class.getClassLoader().getResourceAsStream(
-                        resourcePath);
+                is = GadgetServiceImpl.class.getClassLoader().getResourceAsStream(resourcePath);
             }
             String xmlDef = FileUtils.read(is);
             if (xmlDef.contains("<#")) {
                 context = new NXGadgetContext(declaration.getGadgetDefinition());
             } else {
-                context = new NXGadgetContext(
-                        declaration.getGadgetDefinition(), xmlDef);
+                context = new NXGadgetContext(declaration.getGadgetDefinition(), xmlDef);
             }
         } else {
             context = new NXGadgetContext(declaration.getGadgetDefinition());
@@ -273,21 +261,15 @@ public class GadgetServiceImpl extends DefaultComponent implements
                 DirectoryService dirService = Framework.getService(DirectoryService.class);
                 session = dirService.open(GADGET_DIRECTORY);
                 for (DocumentModel model : session.getEntries()) {
-                    String name = (String) model.getProperty(GADGET_DIR_SCHEMA,
-                            EXTERNAL_PROP_NAME);
-                    String category = (String) model.getProperty(
-                            GADGET_DIR_SCHEMA, EXTERNAL_PROP_CATEGORY);
-                    long enabled = (Long) model.getProperty(GADGET_DIR_SCHEMA,
-                            EXTERNAL_PROP_ENABLED);
+                    String name = (String) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_NAME);
+                    String category = (String) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_CATEGORY);
+                    long enabled = (Long) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_ENABLED);
                     boolean disabled = enabled != 0 ? false : true;
 
-                    String gadgetDefinition = (String) model.getProperty(
-                            GADGET_DIR_SCHEMA, EXTERNAL_PROP_URL);
-                    String iconURL = (String) model.getProperty(
-                            GADGET_DIR_SCHEMA, EXTERNAL_PROP_ICON_URL);
-                    ExternalGadgetDescriptor desc = new ExternalGadgetDescriptor(
-                            category, disabled, new URL(gadgetDefinition),
-                            iconURL, name);
+                    String gadgetDefinition = (String) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_URL);
+                    String iconURL = (String) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_ICON_URL);
+                    ExternalGadgetDescriptor desc = new ExternalGadgetDescriptor(category, disabled, new URL(
+                            gadgetDefinition), iconURL, name);
                     if (!desc.getDisabled()) {
                         result.put(desc.getName(), desc);
                     }

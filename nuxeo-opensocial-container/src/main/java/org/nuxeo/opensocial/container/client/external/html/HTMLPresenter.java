@@ -153,12 +153,11 @@ public class HTMLPresenter extends WidgetPresenter<HTMLPresenter.Display> {
 
     private void setHtmlPictureUrl() {
         display.getHtmlPicture().setUrl(
-                FileUtils.buildFileUrl(ContainerConfiguration.getRepositoryName(), model.getData().getId(),"content"));
+                FileUtils.buildFileUrl(ContainerConfiguration.getRepositoryName(), model.getData().getId(), "content"));
     }
 
     private void setHtmlPictureLegend() {
-        display.getHtmlPicture().getElement().setTitle(
-                model.getData().getHtmlPictureLegend());
+        display.getHtmlPicture().getElement().setTitle(model.getData().getHtmlPictureLegend());
     }
 
     @Override
@@ -193,103 +192,92 @@ public class HTMLPresenter extends WidgetPresenter<HTMLPresenter.Display> {
     }
 
     private void registerModifyEvent() {
-        registerHandler(display.getModifyButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        display.getTitleTextBox().setText(
-                                model.getData().getHtmlTitle());
-                        display.setHtmlEditor(model.getData().getHtml());
+        registerHandler(display.getModifyButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                display.getTitleTextBox().setText(model.getData().getHtmlTitle());
+                display.setHtmlEditor(model.getData().getHtml());
 
-                        display.getLegendTextBox().setText(
-                                model.getData().getHtmlPictureLegend());
-                        display.getLinkTextBox().setText(
-                                model.getData().getHtmlPictureLink());
-                        display.getTemplateListBox().setValue(
-                                model.getData().getTemplate());
+                display.getLegendTextBox().setText(model.getData().getHtmlPictureLegend());
+                display.getLinkTextBox().setText(model.getData().getHtmlPictureLink());
+                display.getTemplateListBox().setValue(model.getData().getTemplate());
 
-                        if (model.getData().hasPicture()) {
-                            display.setPicturePreview(FileUtils.buildFileUrl(ContainerConfiguration.getRepositoryName(), model.getData().getId(),"content"));
-                            display.getDeletePictureImage().addClickHandler(
-                                    new ClickHandler() {
-                                        public void onClick(ClickEvent event) {
-                                            display.removePicturePreview();
-                                        }
-                                    });
+                if (model.getData().hasPicture()) {
+                    display.setPicturePreview(FileUtils.buildFileUrl(ContainerConfiguration.getRepositoryName(),
+                            model.getData().getId(), "content"));
+                    display.getDeletePictureImage().addClickHandler(new ClickHandler() {
+                        public void onClick(ClickEvent event) {
+                            display.removePicturePreview();
                         }
+                    });
+                }
 
-                        display.switchToModifyPanel();
-                    }
-                }));
+                display.switchToModifyPanel();
+            }
+        }));
     }
 
     private void registerCancelButtonEvent() {
-        registerHandler(display.getCancelButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        display.switchToMainPanel();
-                    }
-                }));
+        registerHandler(display.getCancelButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                display.switchToMainPanel();
+            }
+        }));
     }
 
     private void registerSaveEvent() {
-        registerHandler(display.getSaveButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        HTMLData data = model.getData();
+        registerHandler(display.getSaveButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                HTMLData data = model.getData();
 
-                        List<FileRef> fileRefList = display.getUploadedFiles().getAddedFiles();
-                        List<String> files = new ArrayList<String>();
+                List<FileRef> fileRefList = display.getUploadedFiles().getAddedFiles();
+                List<String> files = new ArrayList<String>();
 
-                        if (!fileRefList.isEmpty()) {
-                            data.setHasPicture(true);
+                if (!fileRefList.isEmpty()) {
+                    data.setHasPicture(true);
 
-                            for (FileRef ref : fileRefList) {
-                                files.add(ref.getId());
-                            }
-
-                            display.getUploadedFiles().getAddedFiles().clear();
-                        } else if (display.getPreviewImage() != null) {
-                            model.getData().setHasPicture(
-                                    display.getPreviewImage().isAttached());
-                        }
-
-                        data.setHtmlTitle(display.getTitleTextBox().getText());
-                        data.setHtml(display.getHtmlFromEditor());
-                        data.setHtmlPictureLegend(display.getLegendTextBox().getText());
-                        String link = display.getLinkTextBox().getText();
-                        if (!link.isEmpty() && !link.startsWith(HTTP_PREFIX)) {
-                            link = HTTP_PREFIX + link;
-                        }
-                        data.setHtmlPictureLink(link);
-                        if (link != null && !link.isEmpty()) {
-                            display.getHtmlPicture().addStyleName("clickable");
-                        } else {
-                            display.getHtmlPicture().removeStyleName("clickable");
-                        }
-                        data.setTemplate(display.getTemplateListBox().getValue());
-
-                        eventBus.fireEvent(new UpdateWebContentEvent(
-                                model.getData().getId(), files));
+                    for (FileRef ref : fileRefList) {
+                        files.add(ref.getId());
                     }
-                }));
+
+                    display.getUploadedFiles().getAddedFiles().clear();
+                } else if (display.getPreviewImage() != null) {
+                    model.getData().setHasPicture(display.getPreviewImage().isAttached());
+                }
+
+                data.setHtmlTitle(display.getTitleTextBox().getText());
+                data.setHtml(display.getHtmlFromEditor());
+                data.setHtmlPictureLegend(display.getLegendTextBox().getText());
+                String link = display.getLinkTextBox().getText();
+                if (!link.isEmpty() && !link.startsWith(HTTP_PREFIX)) {
+                    link = HTTP_PREFIX + link;
+                }
+                data.setHtmlPictureLink(link);
+                if (link != null && !link.isEmpty()) {
+                    display.getHtmlPicture().addStyleName("clickable");
+                } else {
+                    display.getHtmlPicture().removeStyleName("clickable");
+                }
+                data.setTemplate(display.getTemplateListBox().getValue());
+
+                eventBus.fireEvent(new UpdateWebContentEvent(model.getData().getId(), files));
+            }
+        }));
     }
 
     private void registerHtmlUpdate() {
-        eventBus.addHandler(WebContentUpdatedEvent.TYPE,
-                new WebContentUpdatedEventHandler() {
-                    public void onWebContentUpdated(WebContentUpdatedEvent event) {
-                        if (event.getWebContentId().equals(
-                                model.getData().getId())) {
-                            setHtmlTitle();
-                            setHtmlContent();
-                            setHtmlPictureUrl();
-                            setHtmlPictureLegend();
-                            setHtmlTemplate();
+        eventBus.addHandler(WebContentUpdatedEvent.TYPE, new WebContentUpdatedEventHandler() {
+            public void onWebContentUpdated(WebContentUpdatedEvent event) {
+                if (event.getWebContentId().equals(model.getData().getId())) {
+                    setHtmlTitle();
+                    setHtmlContent();
+                    setHtmlPictureUrl();
+                    setHtmlPictureLegend();
+                    setHtmlTemplate();
 
-                            display.switchToMainPanel();
-                        }
-                    }
-                });
+                    display.switchToMainPanel();
+                }
+            }
+        });
     }
 
     @Override

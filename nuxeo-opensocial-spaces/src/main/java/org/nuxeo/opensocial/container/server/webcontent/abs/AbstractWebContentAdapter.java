@@ -21,8 +21,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
 /**
  * @author Stéphane Fourrier
  */
-public abstract class AbstractWebContentAdapter<T extends WebContentData>
-        implements WebContentAdapter<T> {
+public abstract class AbstractWebContentAdapter<T extends WebContentData> implements WebContentAdapter<T> {
 
     protected DocumentModel doc;
 
@@ -79,8 +78,7 @@ public abstract class AbstractWebContentAdapter<T extends WebContentData>
             preferences.add(preference);
         }
 
-        doc.setPropertyValue(WEB_CONTENT_PREFERENCES_PROPERTY,
-                (Serializable) preferences);
+        doc.setPropertyValue(WEB_CONTENT_PREFERENCES_PROPERTY, (Serializable) preferences);
     }
 
     @SuppressWarnings("unchecked")

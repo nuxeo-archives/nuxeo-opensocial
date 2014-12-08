@@ -33,8 +33,7 @@ public class WebContentMovedEvent extends GwtEvent<WebContentMovedEventHandler> 
 
     private final int toWebContentPosition;
 
-    public WebContentMovedEvent(String fromUnitName,
-            int fromWebContentPosition, String toUnitName,
+    public WebContentMovedEvent(String fromUnitName, int fromWebContentPosition, String toUnitName,
             int toWebContentPosition) {
         this.fromUnitName = fromUnitName;
         this.fromWebContentPosition = fromWebContentPosition;

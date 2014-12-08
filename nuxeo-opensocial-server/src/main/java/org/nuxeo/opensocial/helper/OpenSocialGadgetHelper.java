@@ -45,8 +45,8 @@ public class OpenSocialGadgetHelper {
     }
 
     public static String getGadgetsBaseUrl(boolean relativeUrl, boolean addContextPath) {
-        boolean gadgetsEmbeddedServer = Boolean.valueOf(Framework.getProperty(
-                OPENSOCIAL_GADGETS_EMBEDDED_SERVER, "true"));
+        boolean gadgetsEmbeddedServer = Boolean.valueOf(Framework.getProperty(OPENSOCIAL_GADGETS_EMBEDDED_SERVER,
+                "true"));
         StringBuilder sb = new StringBuilder();
         if (gadgetsEmbeddedServer) {
             if (!relativeUrl) {

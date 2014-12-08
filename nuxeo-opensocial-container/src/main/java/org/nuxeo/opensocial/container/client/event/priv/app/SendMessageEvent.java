@@ -39,8 +39,7 @@ public class SendMessageEvent extends GwtEvent<SendMessageEventHandler> {
         this.keepVisible = false;
     }
 
-    public SendMessageEvent(String message, Severity severity,
-            boolean keepVisible) {
+    public SendMessageEvent(String message, Severity severity, boolean keepVisible) {
         this.message = message;
         this.severity = severity;
         this.keepVisible = keepVisible;

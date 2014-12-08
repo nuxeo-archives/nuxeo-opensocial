@@ -41,8 +41,7 @@ public interface Space extends SimplePermissionMapper {
     YUILayoutAdapter getLayout() throws ClientException;
 
     /**
-     * Initialize the layout be resetting it. Implementations MAY although reset
-     * content (that will be lost)
+     * Initialize the layout be resetting it. Implementations MAY although reset content (that will be lost)
      *
      * @param layout
      * @throws org.nuxeo.ecm.core.api.ClientException
@@ -80,7 +79,6 @@ public interface Space extends SimplePermissionMapper {
 
     WebContentData getWebContent(String webContentId) throws ClientException;
 
-    void moveWebContent(WebContentData data, String unitId)
-            throws ClientException;
+    void moveWebContent(WebContentData data, String unitId) throws ClientException;
 
 }

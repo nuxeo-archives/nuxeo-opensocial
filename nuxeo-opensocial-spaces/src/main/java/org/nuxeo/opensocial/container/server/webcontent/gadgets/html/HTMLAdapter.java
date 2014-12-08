@@ -23,19 +23,16 @@ public class HTMLAdapter extends AbstractWebContentAdapter<HTMLData> {
 
     public void feedFrom(HTMLData data) throws ClientException {
         super.setMetadataFrom(data);
-        doc.setPropertyValue(WC_HTML_HTML_PROPERTY,
-                StringEscapeUtils.escapeHtml(data.getHtml()));
+        doc.setPropertyValue(WC_HTML_HTML_PROPERTY, StringEscapeUtils.escapeHtml(data.getHtml()));
         doc.setPropertyValue(WC_HTML_HTML_TITLE_PROPERTY, data.getHtmlTitle());
         doc.setPropertyValue(WC_HTML_HTML_TEMPLATE_PROPERTY, data.getTemplate());
-        doc.setPropertyValue("wchtml:htmlpicturelegend",
-                  data.getHtmlPictureLegend());
-        doc.setPropertyValue("wchtml:htmlpicturelink",
-                  data.getHtmlPictureLink());
+        doc.setPropertyValue("wchtml:htmlpicturelegend", data.getHtmlPictureLegend());
+        doc.setPropertyValue("wchtml:htmlpicturelink", data.getHtmlPictureLink());
 
         if (!data.getFiles().isEmpty()) {
             Serializable pictureFile = data.getFiles().get(0);
             doc.setPropertyValue("file:content", pictureFile);
-        } else if(!data.hasPicture()) {
+        } else if (!data.hasPicture()) {
             doc.setPropertyValue("file:content", null);
         }
     }

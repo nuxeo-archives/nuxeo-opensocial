@@ -23,8 +23,7 @@ import java.net.URL;
 
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 
-public class ExternalGadgetDescriptor extends BaseGadgetDescriptor implements
-        GadgetDeclaration {
+public class ExternalGadgetDescriptor extends BaseGadgetDescriptor implements GadgetDeclaration {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,8 +37,7 @@ public class ExternalGadgetDescriptor extends BaseGadgetDescriptor implements
 
     protected String name;
 
-    public ExternalGadgetDescriptor(String category, boolean disabled,
-            URL gadgetDefinition, String iconURL, String name) {
+    public ExternalGadgetDescriptor(String category, boolean disabled, URL gadgetDefinition, String iconURL, String name) {
         this.category = category;
         this.disabled = disabled;
         this.gadgetDefinition = gadgetDefinition;
@@ -67,8 +65,7 @@ public class ExternalGadgetDescriptor extends BaseGadgetDescriptor implements
         return name;
     }
 
-    public InputStream getResourceAsStream(String resourcePath)
-            throws IOException {
+    public InputStream getResourceAsStream(String resourcePath) throws IOException {
         URL result = getResource(resourcePath);
         return result.openStream();
     }

@@ -41,9 +41,7 @@ import org.nuxeo.runtime.model.ComponentInstance;
 import org.nuxeo.runtime.model.DefaultComponent;
 
 /**
- *
  * @author 10044893
- *
  */
 public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
 
@@ -69,8 +67,7 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
         spacePermissions = null;
     }
 
-    public Space getSpaceFromId(String spaceId, CoreSession session)
-            throws SpaceException {
+    public Space getSpaceFromId(String spaceId, CoreSession session) throws SpaceException {
         DocumentRef spaceRef = new IdRef(spaceId);
         try {
             if (session.exists(spaceRef)) {
@@ -84,57 +81,48 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
     }
 
     @Override
-    public Space getSpace(String spaceProviderName, CoreSession session,
-            DocumentModel contextDocument, String spaceName, Map<String, String> parameters)
-            throws SpaceException {
+    public Space getSpace(String spaceProviderName, CoreSession session, DocumentModel contextDocument,
+            String spaceName, Map<String, String> parameters) throws SpaceException {
         SpaceProvider spaceProvider = spaceProviders.get(spaceProviderName);
         if (spaceProvider != null) {
             return spaceProvider.getSpace(session, contextDocument, spaceName, parameters);
         } else {
-            String message = String.format(
-                    "No Space found for '%s' provider and '%s' space name",
-                    spaceProviderName, spaceName);
+            String message = String.format("No Space found for '%s' provider and '%s' space name", spaceProviderName,
+                    spaceName);
             throw new SpaceNotFoundException(message);
         }
     }
 
     @Override
-    public Space getSpace(String spaceProviderName, CoreSession session,
-            DocumentModel contextDocument, String spaceName)
+    public Space getSpace(String spaceProviderName, CoreSession session, DocumentModel contextDocument, String spaceName)
             throws SpaceException {
         return getSpace(spaceProviderName, session, contextDocument, spaceName, new HashMap<String, String>());
     }
 
     @Override
-    public Space getSpace(String spaceProviderName, CoreSession session,
-            DocumentModel contextDocument) throws SpaceException {
+    public Space getSpace(String spaceProviderName, CoreSession session, DocumentModel contextDocument)
+            throws SpaceException {
         return getSpace(spaceProviderName, session, contextDocument, null);
     }
 
     @Override
-    public Space getSpace(String spaceProviderName, CoreSession session)
-            throws SpaceException {
+    public Space getSpace(String spaceProviderName, CoreSession session) throws SpaceException {
         return getSpace(spaceProviderName, session, null, null);
     }
 
     @Override
-    public Space getSpace(String spaceProviderName,
-            DocumentModel contextDocument, String spaceName)
+    public Space getSpace(String spaceProviderName, DocumentModel contextDocument, String spaceName)
             throws SpaceException {
-        return getSpace(spaceProviderName, contextDocument.getCoreSession(),
-                contextDocument, spaceName);
+        return getSpace(spaceProviderName, contextDocument.getCoreSession(), contextDocument, spaceName);
     }
 
     @Override
-    public Space getSpace(String spaceProviderName,
-            DocumentModel contextDocument) throws SpaceException {
-        return getSpace(spaceProviderName, contextDocument.getCoreSession(),
-                contextDocument, null);
+    public Space getSpace(String spaceProviderName, DocumentModel contextDocument) throws SpaceException {
+        return getSpace(spaceProviderName, contextDocument.getCoreSession(), contextDocument, null);
     }
 
     @Override
-    public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void registerContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if (SPACE_PROVIDER_EP.equals(extensionPoint)) {
             SpaceProviderDescriptor descriptor = (SpaceProviderDescriptor) contribution;
             String name = descriptor.getName();
@@ -152,11 +140,10 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
             }
             if (enabled) {
                 log.info("Registering space provider with name " + name);
-                spaceProviders.put(descriptor.getName(),
-                        descriptor.getSpaceProvider());
+                spaceProviders.put(descriptor.getName(), descriptor.getSpaceProvider());
             }
         } else if (SPACE_PERMISSIONS_EP.equals(extensionPoint)) {
-            SpacePermissionsDescriptor descriptor =  (SpacePermissionsDescriptor) contribution;
+            SpacePermissionsDescriptor descriptor = (SpacePermissionsDescriptor) contribution;
             log.info("descriptor:" + descriptor);
             spacePermissions.addAll(descriptor.getPermissions());
             if (log.isInfoEnabled()) {
@@ -168,15 +155,14 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
     }
 
     @Override
-    public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void unregisterContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if (SPACE_PROVIDER_EP.equals(extensionPoint)) {
             SpaceProviderDescriptor descriptor = (SpaceProviderDescriptor) contribution;
             String name = descriptor.getName();
             spaceProviders.remove(name);
             log.info("Unregistering space provider with name " + name);
         } else if (SPACE_PERMISSIONS_EP.equals(extensionPoint)) {
-            SpacePermissionsDescriptor descriptor =  (SpacePermissionsDescriptor) contribution;
+            SpacePermissionsDescriptor descriptor = (SpacePermissionsDescriptor) contribution;
             for (String entry : descriptor.getPermissions()) {
                 boolean removed = spacePermissions.remove(entry);
                 if (removed) {
@@ -195,7 +181,7 @@ public class SpaceManagerImpl extends DefaultComponent implements SpaceManager {
 
     @Override
     public SpaceProvider getSpaceProvider(String providerName) throws SpaceException {
-        if(spaceProviders.containsKey(providerName)) {
+        if (spaceProviders.containsKey(providerName)) {
             return spaceProviders.get(providerName);
         } else {
             throw new SpaceException("Provider " + providerName + " not found");

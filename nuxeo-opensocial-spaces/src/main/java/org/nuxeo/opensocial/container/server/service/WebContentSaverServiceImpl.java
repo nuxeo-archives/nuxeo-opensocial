@@ -16,18 +16,15 @@ import org.nuxeo.runtime.model.DefaultComponent;
 /**
  * @author Stéphane Fourrier
  */
-public class WebContentSaverServiceImpl extends DefaultComponent implements
-        WebContentSaverService {
+public class WebContentSaverServiceImpl extends DefaultComponent implements WebContentSaverService {
 
-    public static final ComponentName NAME = new ComponentName(
-            ComponentName.DEFAULT_TYPE,
+    public static final ComponentName NAME = new ComponentName(ComponentName.DEFAULT_TYPE,
             "org.nuxeo.opensocial.container.server.service.WebContentSaverService");
 
     protected Map<String, WebContentSaverDescriptor> savers;
 
     @SuppressWarnings({ "unchecked" })
-    public WebContentData create(WebContentData data, String parentId,
-            CoreSession session) throws Exception {
+    public WebContentData create(WebContentData data, String parentId, CoreSession session) throws Exception {
 
         WebContentSaverDescriptor descriptor = savers.get(data.getAssociatedType());
         WebContentDAO dao = (WebContentDAO) descriptor.getDaoClass().newInstance();
@@ -35,24 +32,21 @@ public class WebContentSaverServiceImpl extends DefaultComponent implements
     }
 
     @SuppressWarnings("unchecked")
-    public WebContentData read(DocumentModel doc, CoreSession session)
-            throws Exception {
+    public WebContentData read(DocumentModel doc, CoreSession session) throws Exception {
         WebContentDAO dao;
         dao = (WebContentDAO) getWebContentDAOFor(doc).newInstance();
         return dao.read(doc, session);
     }
 
     @SuppressWarnings("unchecked")
-    public WebContentData update(WebContentData data, CoreSession session)
-            throws Exception {
+    public WebContentData update(WebContentData data, CoreSession session) throws Exception {
         WebContentSaverDescriptor descriptor = savers.get(data.getAssociatedType());
         WebContentDAO dao = (WebContentDAO) descriptor.getDaoClass().newInstance();
         return dao.update(data, session);
     }
 
     @SuppressWarnings("unchecked")
-    public void delete(WebContentData data, CoreSession session)
-            throws Exception {
+    public void delete(WebContentData data, CoreSession session) throws Exception {
         WebContentSaverDescriptor descriptor = savers.get(data.getAssociatedType());
         WebContentDAO dao;
         dao = (WebContentDAO) descriptor.getDaoClass().newInstance();
@@ -103,8 +97,7 @@ public class WebContentSaverServiceImpl extends DefaultComponent implements
     }
 
     @Override
-    public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void registerContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if (extensionPoint.equals("savers")) {
             WebContentSaverDescriptor wcsd = (WebContentSaverDescriptor) contribution;
             registerSaver(wcsd);
@@ -112,8 +105,7 @@ public class WebContentSaverServiceImpl extends DefaultComponent implements
     }
 
     @Override
-    public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void unregisterContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if (extensionPoint.equals("savers")) {
             WebContentSaverDescriptor wcsd = (WebContentSaverDescriptor) contribution;
             unregisterSaver(wcsd);

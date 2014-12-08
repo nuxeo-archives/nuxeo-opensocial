@@ -17,14 +17,12 @@
 
 package org.nuxeo.opensocial.container.client.external;
 
-
 public class FileUtils {
     public static final String BIG_FILE_SERVLET = "nxbigfile/";
 
-
     public native static String getBaseUrl() /*-{
-        return $wnd.baseURL;
-    }-*/;
+                                             return $wnd.baseURL;
+                                             }-*/;
 
     public static String buildFileUrl(String repoName, String id, String path) {
         StringBuilder sb = new StringBuilder(getBaseUrl());

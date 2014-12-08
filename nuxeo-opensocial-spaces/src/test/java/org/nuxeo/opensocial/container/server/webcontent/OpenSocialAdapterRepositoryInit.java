@@ -26,7 +26,7 @@ public class OpenSocialAdapterRepositoryInit implements RepositoryInit {
         wco1 = session.createDocument(wco1);
         session.save();
         // TODO Auto-generated method stub
-        
+
     }
 
 }

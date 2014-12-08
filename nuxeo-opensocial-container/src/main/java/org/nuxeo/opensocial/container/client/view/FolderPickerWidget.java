@@ -31,8 +31,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FolderPickerWidget extends DialogBox implements
-        FolderPickerPresenter.Display {
+public class FolderPickerWidget extends DialogBox implements FolderPickerPresenter.Display {
 
     private ContainerConstants constants = AppPresenter.containerConstants;
 
@@ -77,8 +76,7 @@ public class FolderPickerWidget extends DialogBox implements
         return null;
     }
 
-    public void showFolderDetails(String title, String imagePreview,
-            String creator) {
+    public void showFolderDetails(String title, String imagePreview, String creator) {
         previewPanel.clear();
 
         Label folderNameLabel = new Label(title);

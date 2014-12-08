@@ -51,30 +51,24 @@ public class GadgetI18nHelper {
             locale = DEFAULT_LOCALE;
         }
         String labelKey = LABEL_KEY_PREFIX + gadgetName;
-        String i18nTitle = I18NUtils.getMessageString("messages", labelKey,
-                null, locale);
+        String i18nTitle = I18NUtils.getMessageString("messages", labelKey, null, locale);
         return !i18nTitle.equals(labelKey) ? i18nTitle : gadgetName;
     }
 
     /**
-     * Returns the localized description of a gadget. If it does not exists, it
-     * returns the name of the gadget
+     * Returns the localized description of a gadget. If it does not exists, it returns the name of the gadget
      *
      * @param gadgetName name of the gadget
      * @param locale the locale to localize (if null then "en")
      * @return
-     *
      * @since 5.8
      */
-    public static String getI18nGadgetDescription(String gadgetName,
-            Locale locale) {
+    public static String getI18nGadgetDescription(String gadgetName, Locale locale) {
         if (locale == null) {
             locale = DEFAULT_LOCALE;
         }
-        String labelKey = LABEL_KEY_PREFIX + gadgetName
-                + LABEL_KEY_DESCRIPTION_SUFFIX;
-        String i18nTitle = I18NUtils.getMessageString("messages", labelKey,
-                null, locale);
+        String labelKey = LABEL_KEY_PREFIX + gadgetName + LABEL_KEY_DESCRIPTION_SUFFIX;
+        String i18nTitle = I18NUtils.getMessageString("messages", labelKey, null, locale);
         return !i18nTitle.equals(labelKey) ? i18nTitle : gadgetName;
     }
 

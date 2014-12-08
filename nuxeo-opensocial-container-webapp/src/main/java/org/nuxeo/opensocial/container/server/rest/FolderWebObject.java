@@ -27,24 +27,20 @@ public class FolderWebObject extends DocumentObject {
     @GET
     @Produces("text/json")
     @Path("gadgetChildren")
-    public Object doGetGadgetChildrenInParentWs(@QueryParam("type") String type)
-            throws ClientException {
+    public Object doGetGadgetChildrenInParentWs(@QueryParam("type") String type) throws ClientException {
         final String logPrefix = "<doGetGadgetChildrenInParentWs>";
         CoreSession session = ctx.getCoreSession();
 
         DocumentModel parentWorkspace = getParentWorkspace(doc);
         log.debug(logPrefix + doc);
-        DocumentModelList list = session.getChildren(parentWorkspace.getRef(),
-                type);
+        DocumentModelList list = session.getChildren(parentWorkspace.getRef(), type);
         Gson gson = new Gson();
         String response = gson.toJson(new FoldersListGson(list, session));
         return response;
     }
 
-    private DocumentModel getParentWorkspace(DocumentModel doc)
-            throws ClientException {
-        DocumentModel parentDocument = ctx.getCoreSession().getParentDocument(
-                doc.getRef());
+    private DocumentModel getParentWorkspace(DocumentModel doc) throws ClientException {
+        DocumentModel parentDocument = ctx.getCoreSession().getParentDocument(doc.getRef());
         if ("Workspace".equals(parentDocument.getType())) {
             return parentDocument;
         } else {

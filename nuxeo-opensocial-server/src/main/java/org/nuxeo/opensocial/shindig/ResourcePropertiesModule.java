@@ -42,8 +42,7 @@ public class ResourcePropertiesModule extends PropertiesModule {
             properties.load(is);
             return properties;
         } catch (IOException e) {
-            throw new CreationException(Arrays.asList(new Message(
-                    "Unable to load properties: " + propertyPath)));
+            throw new CreationException(Arrays.asList(new Message("Unable to load properties: " + propertyPath)));
         } finally {
             try {
                 if (is != null) {

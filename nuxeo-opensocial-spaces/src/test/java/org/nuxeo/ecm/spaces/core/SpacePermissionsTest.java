@@ -18,9 +18,8 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)
-@Deploy({ "org.nuxeo.ecm.opensocial.spaces",
-    "org.nuxeo.ecm.platform.picture.core",
-    "org.nuxeo.ecm.opensocial.spaces.test:OSGI-INF/test-spacepermissions-contrib.xml" })
+@Deploy({ "org.nuxeo.ecm.opensocial.spaces", "org.nuxeo.ecm.platform.picture.core",
+        "org.nuxeo.ecm.opensocial.spaces.test:OSGI-INF/test-spacepermissions-contrib.xml" })
 public class SpacePermissionsTest {
 
     @Inject

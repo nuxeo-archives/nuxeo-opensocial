@@ -31,8 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class OpenSocialGadget extends AbstractGadget implements
-        OpenSocialPresenter.Display {
+public class OpenSocialGadget extends AbstractGadget implements OpenSocialPresenter.Display {
 
     private Frame frame;
 

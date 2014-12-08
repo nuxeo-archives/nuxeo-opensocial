@@ -27,9 +27,7 @@ import org.nuxeo.opensocial.container.client.presenter.AppPresenter;
  */
 public class IsMaximizable extends Facet {
     public IsMaximizable() {
-        super(AppPresenter.containerConstants.maximize(), "facet-maximize",
-                new MaximizePortletEvent(),
-                AppPresenter.containerConstants.minimize(), "facet-minimize",
-                new MinimizePortletEvent());
+        super(AppPresenter.containerConstants.maximize(), "facet-maximize", new MaximizePortletEvent(),
+                AppPresenter.containerConstants.minimize(), "facet-minimize", new MinimizePortletEvent());
     }
 }

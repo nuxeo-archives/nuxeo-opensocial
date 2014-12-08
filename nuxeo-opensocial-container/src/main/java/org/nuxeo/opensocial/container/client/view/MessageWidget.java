@@ -31,8 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class MessageWidget extends Composite implements
-        MessagePresenter.Display {
+public class MessageWidget extends Composite implements MessagePresenter.Display {
 
     private final AbsolutePanel panel;
 

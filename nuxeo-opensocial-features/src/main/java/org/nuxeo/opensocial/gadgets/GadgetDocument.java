@@ -96,8 +96,7 @@ public class GadgetDocument extends DocumentObject {
             session.save();
         } catch (ClientException e) {
             /*
-             * try to delete the file store in Files Schema with the
-             * GADGET_CONTENT_FILES filename
+             * try to delete the file store in Files Schema with the GADGET_CONTENT_FILES filename
              */
             doDeleteFiles(GADGET_CONTENT_FILES);
         }
@@ -128,8 +127,7 @@ public class GadgetDocument extends DocumentObject {
 
             Blob blob = form.getFirstBlob();
             if (blob == null) {
-                throw new IllegalArgumentException(
-                        "Could not find any uploaded file");
+                throw new IllegalArgumentException("Could not find any uploaded file");
             } else {
                 if (!"".equals(blob.getFilename())) {
                     try {
@@ -137,9 +135,7 @@ public class GadgetDocument extends DocumentObject {
                         String crop = form.getString("crop");
                         if (crop != null) {
                             String[] dim = crop.split("x");
-                            blob = getCroppedBlob(blob,
-                                    Integer.parseInt(dim[0]),
-                                    Integer.parseInt(dim[1]));
+                            blob = getCroppedBlob(blob, Integer.parseInt(dim[0]), Integer.parseInt(dim[1]));
                         }
                         String resize = form.getString("resize_width");
                         if (resize != null) {
@@ -163,8 +159,7 @@ public class GadgetDocument extends DocumentObject {
                         } else {
                             String xpath = "file:content";
                             Property p = doc.getProperty(xpath);
-                            p.getParent().get(FILENAME).setValue(
-                                    blob.getFilename());
+                            p.getParent().get(FILENAME).setValue(blob.getFilename());
                             p.setValue(blob);
                         }
 
@@ -223,8 +218,8 @@ public class GadgetDocument extends DocumentObject {
         return Response.ok("File upload ok!", MediaType.TEXT_PLAIN).build();
     }
 
-    protected Blob getCroppedBlob(Blob blob, int newWidth, int newHeight)
-            throws IOException, ConversionException, ClientException {
+    protected Blob getCroppedBlob(Blob blob, int newWidth, int newHeight) throws IOException, ConversionException,
+            ClientException {
         String fileName = blob.getFilename();
         blob.persist();
 
@@ -261,15 +256,13 @@ public class GadgetDocument extends DocumentObject {
         bh = getConversionService().convert(OPERATION_RESIZE, bh, options);
 
         blob = bh.getBlob() != null ? bh.getBlob() : blob;
-        String viewFilename = computeViewFilename(fileName,
-                JPEG_CONVERSATION_FORMAT);
+        String viewFilename = computeViewFilename(fileName, JPEG_CONVERSATION_FORMAT);
         blob.setFilename(viewFilename);
 
         return blob;
     }
 
-    protected Blob getResizedBlobl(Blob blob, int newWidth)
-            throws ClientException, IOException {
+    protected Blob getResizedBlobl(Blob blob, int newWidth) throws ClientException, IOException {
         String fileName = blob.getFilename();
         blob.persist();
         BlobHolder bh = new SimpleBlobHolder(blob);
@@ -300,8 +293,7 @@ public class GadgetDocument extends DocumentObject {
         bh = getConversionService().convert(OPERATION_RESIZE, bh, options);
 
         blob = bh.getBlob() != null ? bh.getBlob() : blob;
-        String viewFilename = computeViewFilename(fileName,
-                JPEG_CONVERSATION_FORMAT);
+        String viewFilename = computeViewFilename(fileName, JPEG_CONVERSATION_FORMAT);
         blob.setFilename(viewFilename);
         return blob;
     }
@@ -359,8 +351,7 @@ public class GadgetDocument extends DocumentObject {
         } catch (ClientException e1) {
             try {
                 /*
-                 * try to find the file from files schema with the default
-                 * filename
+                 * try to find the file from files schema with the default filename
                  */
                 blob = getFileWithSpecificName(GADGET_CONTENT_FILES);
                 return buildResponseToGetFile(request, blob);
@@ -373,8 +364,7 @@ public class GadgetDocument extends DocumentObject {
 
     @GET
     @Path("file/{filename}")
-    public Object getFile(@Context Request request,
-            @PathParam("filename") String filename) {
+    public Object getFile(@Context Request request, @PathParam("filename") String filename) {
         try {
             Blob blob = getFileWithSpecificName(filename);
             return buildResponseToGetFile(request, blob);
@@ -386,15 +376,13 @@ public class GadgetDocument extends DocumentObject {
     /**
      * Format the response to the getFile methods
      */
-    private Response buildResponseToGetFile(Request request, Blob blob)
-            throws PropertyException, ClientException {
+    private Response buildResponseToGetFile(Request request, Blob blob) throws PropertyException, ClientException {
 
         EntityTag tag = getEntityTagForDocument(doc);
         Calendar modified = (Calendar) doc.getPropertyValue("dc:modified");
 
         if (isCacheHeaderEnabled()) {
-            Response.ResponseBuilder rb = request.evaluatePreconditions(
-                    modified.getTime(), tag);
+            Response.ResponseBuilder rb = request.evaluatePreconditions(modified.getTime(), tag);
             if (rb != null) {
                 return rb.build();
             }
@@ -404,19 +392,17 @@ public class GadgetDocument extends DocumentObject {
         String contentDisposition = "attachment;filename=" + filename;
 
         /*
-         * Special handling for SWF file. Since Flash Player 10, Flash player
-         * ignores reading if it sees Content-Disposition: attachment
-         * http://forum.dokuwiki.org/thread/2894
+         * Special handling for SWF file. Since Flash Player 10, Flash player ignores reading if it sees
+         * Content-Disposition: attachment http://forum.dokuwiki.org/thread/2894
          */
         if (filename.endsWith(".swf"))
             contentDisposition = "inline;";
 
-        ResponseBuilder rb = Response.ok(blob).header("Content-Disposition",
-                contentDisposition).type(blob.getMimeType());
+        ResponseBuilder rb = Response.ok(blob).header("Content-Disposition", contentDisposition).type(
+                blob.getMimeType());
 
         if (isCacheHeaderEnabled())
-            rb = rb.lastModified(modified.getTime()).expires(modified.getTime()).tag(
-                    tag);
+            rb = rb.lastModified(modified.getTime()).expires(modified.getTime()).tag(tag);
 
         return rb.build();
     }
@@ -455,8 +441,7 @@ public class GadgetDocument extends DocumentObject {
         Blob blob = (Blob) p.getValue();
 
         if (blob == null) {
-            throw new WebResourceNotFoundException("No attached file at "
-                    + xpath);
+            throw new WebResourceNotFoundException("No attached file at " + xpath);
         }
         String fileName = blob.getFilename();
         if (fileName == null) {
@@ -477,8 +462,7 @@ public class GadgetDocument extends DocumentObject {
 
     @GET
     @Path("html")
-    public Object doGetHtml(@Context Request request) throws PropertyException,
-            ClientException, IOException {
+    public Object doGetHtml(@Context Request request) throws PropertyException, ClientException, IOException {
         EntityTag tag = getEntityTagForDocument(doc);
         Response.ResponseBuilder rb = request.evaluatePreconditions(tag);
         if (rb != null) {
@@ -508,8 +492,7 @@ public class GadgetDocument extends DocumentObject {
     /**
      * Get the File with the specific name from the files schema
      */
-    protected Blob getFileWithSpecificName(String filename)
-            throws PropertyException, ClientException {
+    protected Blob getFileWithSpecificName(String filename) throws PropertyException, ClientException {
         ArrayList<Map<String, Serializable>> files = getFilesStoredInGadget();
         for (Map<String, Serializable> map : files) {
             if (map.containsValue(filename))
@@ -522,8 +505,7 @@ public class GadgetDocument extends DocumentObject {
     }
 
     @SuppressWarnings("unchecked")
-    protected ArrayList<Map<String, Serializable>> getFilesStoredInGadget()
-            throws PropertyException, ClientException {
+    protected ArrayList<Map<String, Serializable>> getFilesStoredInGadget() throws PropertyException, ClientException {
         return (ArrayList<Map<String, Serializable>>) doc.getPropertyValue(FILES_FILES);
     }
 
@@ -535,8 +517,7 @@ public class GadgetDocument extends DocumentObject {
             ArrayList<Map<String, Serializable>> files = getFilesStoredInGadget();
             boolean isUpdate = false;
             for (Map<String, Serializable> map : files) {
-                if (map.containsKey(FILENAME)
-                        && filename.equals(map.get(FILENAME))) {
+                if (map.containsKey(FILENAME) && filename.equals(map.get(FILENAME))) {
                     map.put(FILE, (Serializable) file);
                     isUpdate = true;
                     break;

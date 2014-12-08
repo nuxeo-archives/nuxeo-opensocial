@@ -32,8 +32,7 @@ import org.nuxeo.common.Environment;
 import org.nuxeo.runtime.api.Framework;
 
 /**
- * Helper class to provide easy proxy configuration for OpenSocial using default
- * Nuxeo properties.
+ * Helper class to provide easy proxy configuration for OpenSocial using default Nuxeo properties.
  *
  * @author <a href="mailto:akervern@nuxeo.com">Arnaud Kervern</a>
  */
@@ -48,19 +47,15 @@ public class ProxyHelper {
 
     public static void fillProxy(HttpClient httpClient, String requestUri) {
         if (useProxy(requestUri)) {
-            log.info(String.format("Configuring proxy for request: %s",
-                    requestUri));
+            log.info(String.format("Configuring proxy for request: %s", requestUri));
             String proxyHost = getProxyHost();
             int proxyPort = getProxyPort();
             log.debug(String.format("Using proxy: %s:%d", proxyHost, proxyPort));
             httpClient.getHostConfiguration().setProxy(proxyHost, proxyPort);
             if (useAuthenticated()) {
-                log.debug(String.format("Using credentials: %s:%s",
-                        getProxyLogin(), getProxyPassword()));
-                httpClient.getState().setProxyCredentials(
-                        new AuthScope(proxyHost, proxyPort, null),
-                        new UsernamePasswordCredentials(getProxyLogin(),
-                                getProxyPassword()));
+                log.debug(String.format("Using credentials: %s:%s", getProxyLogin(), getProxyPassword()));
+                httpClient.getState().setProxyCredentials(new AuthScope(proxyHost, proxyPort, null),
+                        new UsernamePasswordCredentials(getProxyLogin(), getProxyPassword()));
             }
         }
     }

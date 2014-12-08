@@ -47,8 +47,7 @@ public class JSParams<E extends JavaScriptObject> extends JavaScriptObject {
                 if (pref != null && pref.isObject() != null && pref.size() == 1) {
                     for (String key : pref.keySet()) {
                         if (pref.get(key).isString() != null) {
-                            preferencesToReturn.put(key,
-                                    pref.get(key).isString().stringValue());
+                            preferencesToReturn.put(key, pref.get(key).isString().stringValue());
                         } else {
                             return null;
                         }

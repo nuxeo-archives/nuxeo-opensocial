@@ -25,8 +25,7 @@ import org.nuxeo.opensocial.container.shared.layout.enume.YUISideBarStyle;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateYUILayoutSideBar extends
-        AbstractAction<UpdateYUILayoutSideBarResult> {
+public class UpdateYUILayoutSideBar extends AbstractAction<UpdateYUILayoutSideBarResult> {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +36,7 @@ public class UpdateYUILayoutSideBar extends
         super();
     }
 
-    public UpdateYUILayoutSideBar(ContainerContext containerContext,
-            final YUISideBarStyle sideBar) {
+    public UpdateYUILayoutSideBar(ContainerContext containerContext, final YUISideBarStyle sideBar) {
         super(containerContext);
         this.sideBar = sideBar;
     }

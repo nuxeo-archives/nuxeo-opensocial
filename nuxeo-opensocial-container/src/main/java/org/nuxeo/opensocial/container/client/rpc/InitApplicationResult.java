@@ -39,8 +39,7 @@ public class InitApplicationResult implements Result {
 
     private String spaceId;
 
-    public InitApplicationResult(final YUILayout layout,
-            final Map<String, List<WebContentData>> webContents,
+    public InitApplicationResult(final YUILayout layout, final Map<String, List<WebContentData>> webContents,
             final Map<String, Map<String, Boolean>> permissions, String spaceId) {
         this.layout = layout;
         this.webContents = webContents;

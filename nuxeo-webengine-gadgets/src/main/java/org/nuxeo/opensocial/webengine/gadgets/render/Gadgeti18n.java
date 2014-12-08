@@ -37,21 +37,12 @@ import java.util.ResourceBundle;
 import org.nuxeo.opensocial.gadgets.service.InternalGadgetDescriptor;
 
 /**
- * Helper class that manages i18n files for gadgets.
- *
- * 2 modes are supported :
- *
- * Static mode :
- *
- * gadget has to statically include the Local headers and associated files
- *
- * Dynamic mode : gadget only includes a dynamic_messages.properties This file
- * is used to know what labels are used by the gadget (and provide default
- * value) The Headers in Gadgets specs and associated XML files will be
- * dynamically generated using the message bundles used by Nuxeo app.
+ * Helper class that manages i18n files for gadgets. 2 modes are supported : Static mode : gadget has to statically
+ * include the Local headers and associated files Dynamic mode : gadget only includes a dynamic_messages.properties This
+ * file is used to know what labels are used by the gadget (and provide default value) The Headers in Gadgets specs and
+ * associated XML files will be dynamically generated using the message bundles used by Nuxeo app.
  *
  * @author Tiry (tdelprat@nuxeo.com)
- *
  */
 public class Gadgeti18n {
 
@@ -59,8 +50,8 @@ public class Gadgeti18n {
 
     protected static final String EMPTY_I18N_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><messagebundle></messagebundle>";
 
-    protected static final String[] LANGS = { "en", "fr", "de", "it", "es",
-            "pt", "pl", "eu", "ru", "ar", "cn", "ja", "vn" };
+    protected static final String[] LANGS = { "en", "fr", "de", "it", "es", "pt", "pl", "eu", "ru", "ar", "cn", "ja",
+            "vn" };
 
     protected static final List<Locale> SUPPORTED_LOCALES = new ArrayList<Locale>();
 
@@ -72,8 +63,7 @@ public class Gadgeti18n {
 
     protected Map<String, Boolean> isDynamicTranslation = new HashMap<String, Boolean>();
 
-    public InputStream getTranslationFile(InternalGadgetDescriptor gadget,
-            String fileName) throws IOException {
+    public InputStream getTranslationFile(InternalGadgetDescriptor gadget, String fileName) throws IOException {
         if (usesDynamicTranslation(gadget)) {
             return loadDynamicFile(gadget, fileName);
         } else {
@@ -100,19 +90,17 @@ public class Gadgeti18n {
         return isDynamic;
     }
 
-    protected File getDynamicFile(InternalGadgetDescriptor gadget,
-            String fileName) throws IOException {
+    protected File getDynamicFile(InternalGadgetDescriptor gadget, String fileName) throws IOException {
 
-        File targetDirectory = new File(System.getProperty("java.io.tmpdir",
-                "/tmp") + "/gadget-cache-" + gadget.getName());
+        File targetDirectory = new File(System.getProperty("java.io.tmpdir", "/tmp") + "/gadget-cache-"
+                + gadget.getName());
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }
         return new File(targetDirectory.getAbsolutePath() + "/" + fileName);
     }
 
-    protected InputStream loadDynamicFile(InternalGadgetDescriptor gadget,
-            String fileName) throws IOException {
+    protected InputStream loadDynamicFile(InternalGadgetDescriptor gadget, String fileName) throws IOException {
 
         File resource = getDynamicFile(gadget, fileName);
 
@@ -122,23 +110,19 @@ public class Gadgeti18n {
         return new FileInputStream(resource);
     }
 
-    protected void generateDynamicTranslations(InternalGadgetDescriptor gadget,
-            InputStream dynDescriptor) throws IOException {
+    protected void generateDynamicTranslations(InternalGadgetDescriptor gadget, InputStream dynDescriptor)
+            throws IOException {
 
-        PropertyResourceBundle descriptor = new HierarchicalResourceBundle(
-                dynDescriptor);
+        PropertyResourceBundle descriptor = new HierarchicalResourceBundle(dynDescriptor);
 
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         for (Locale locale : SUPPORTED_LOCALES) {
-            ResourceBundle bundle = ResourceBundle.getBundle("messages",
-                    locale, cl);
+            ResourceBundle bundle = ResourceBundle.getBundle("messages", locale, cl);
 
-            File messageFile = getDynamicFile(gadget,
-                    "messages_" + locale.toString() + ".xml");
+            File messageFile = getDynamicFile(gadget, "messages_" + locale.toString() + ".xml");
             Enumeration<String> keys = descriptor.getKeys();
 
-            PrintWriter printer = new PrintWriter(new FileOutputStream(
-                    messageFile));
+            PrintWriter printer = new PrintWriter(new FileOutputStream(messageFile));
 
             try {
                 printer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

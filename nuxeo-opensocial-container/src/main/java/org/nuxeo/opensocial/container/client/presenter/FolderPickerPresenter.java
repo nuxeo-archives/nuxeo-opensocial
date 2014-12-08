@@ -43,8 +43,7 @@ import net.customware.gwt.presenter.client.widget.WidgetPresenter;
 /**
  * @author Stéphane Fourrier
  */
-public class FolderPickerPresenter extends
-        WidgetPresenter<FolderPickerPresenter.Display> {
+public class FolderPickerPresenter extends WidgetPresenter<FolderPickerPresenter.Display> {
 
     public interface Display extends WidgetDisplay {
         FolderWidget addFolder(String name, String id);
@@ -66,8 +65,7 @@ public class FolderPickerPresenter extends
 
     private FolderPickerModel model;
 
-    public FolderPickerPresenter(Display display, EventBus eventBus,
-            FolderPickerModel model) {
+    public FolderPickerPresenter(Display display, EventBus eventBus, FolderPickerModel model) {
         super(display, eventBus);
         this.model = model;
     }
@@ -82,8 +80,7 @@ public class FolderPickerPresenter extends
         model.getFolderListRequest(new Callback() {
             @Override
             public void onEvent(Request request, Response response) {
-                JSONArray json = response.getEntityAsJson().getValue().isObject().get(
-                        "foldersList").isArray();
+                JSONArray json = response.getEntityAsJson().getValue().isObject().get("foldersList").isArray();
                 if (json != null) {
                     JsArray<Folder> foldersList = asArrayOfFolders(json.toString());
                     for (int i = 0; i < foldersList.length(); i++) {
@@ -105,8 +102,7 @@ public class FolderPickerPresenter extends
 
     private void addFolders() {
         for (Folder folder : model.getFolders()) {
-            final FolderWidget f = display.addFolder(folder.getTitle(),
-                    folder.getId());
+            final FolderWidget f = display.addFolder(folder.getTitle(), folder.getId());
 
             if (folder.getId().equals(model.getInitialSelectedFolder())) {
                 f.select();
@@ -138,15 +134,13 @@ public class FolderPickerPresenter extends
             Window.alert("Choisissez un dossier !");
         } else {
             Folder f = model.getFolder(id);
-            display.showFolderDetails(f.getTitle(),
-                    model.getFolderPreview(f.getPreviewDocId()), f.getCreator());
+            display.showFolderDetails(f.getTitle(), model.getFolderPreview(f.getPreviewDocId()), f.getCreator());
         }
     }
 
     private void chooseFolder(String id) {
         display.hidePicker();
-        eventBus.fireEvent(new FolderChosenEvent(id,
-                model.getFolder(id).getName()));
+        eventBus.fireEvent(new FolderChosenEvent(id, model.getFolder(id).getName()));
     }
 
     private void registerChooseEvent() {

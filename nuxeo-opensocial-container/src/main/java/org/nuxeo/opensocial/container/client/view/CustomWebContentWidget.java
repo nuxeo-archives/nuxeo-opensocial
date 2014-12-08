@@ -26,8 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Stéphane Fourrier
  */
-public class CustomWebContentWidget extends Composite implements
-        CustomWebContentPresenter.Display {
+public class CustomWebContentWidget extends Composite implements CustomWebContentPresenter.Display {
 
     private AbsolutePanel webContentPanel;
 

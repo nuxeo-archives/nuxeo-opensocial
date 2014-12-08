@@ -47,10 +47,9 @@ import org.nuxeo.opensocial.helper.OpenSocialGadgetHelper;
 /**
  * @author Stéphane Fourrier
  */
-public class InitApplicationHandler extends
-        AbstractActionHandler<InitApplication, InitApplicationResult> {
-    protected InitApplicationResult doExecute(InitApplication action,
-            ExecutionContext context, CoreSession session) throws Exception {
+public class InitApplicationHandler extends AbstractActionHandler<InitApplication, InitApplicationResult> {
+    protected InitApplicationResult doExecute(InitApplication action, ExecutionContext context, CoreSession session)
+            throws Exception {
         // TODO Get the permissions (for the moment we just put the perms for
         // the current space)
         // Has to be done later on for the layout's units and for the
@@ -77,12 +76,10 @@ public class InitApplicationHandler extends
                 webContents.put(data.getUnitId(), temp);
             }
         }
-        return new InitApplicationResult(layout, webContents, permissions,
-                space.getId());
+        return new InitApplicationResult(layout, webContents, permissions, space.getId());
     }
 
-    protected Space getOrCreateSpace(InitApplication action, CoreSession session)
-            throws ClientException {
+    protected Space getOrCreateSpace(InitApplication action, CoreSession session) throws ClientException {
         String spaceId = action.getSpaceId();
         if (spaceId != null && !spaceId.isEmpty()) {
             return getSpaceFromId(spaceId, session);
@@ -98,34 +95,29 @@ public class InitApplicationHandler extends
             SpaceManager spaceManager = getSpaceManager();
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("userLanguage", action.getUserLanguage());
-            return spaceManager.getSpace(action.getSpaceProviderName(),
-                    session, documentContext, action.getSpaceName(), parameters);
+            return spaceManager.getSpace(action.getSpaceProviderName(), session, documentContext,
+                    action.getSpaceName(), parameters);
         }
     }
 
-    protected void updateCustomUserPreferences(WebContentData data,
-            InitApplication action) {
+    protected void updateCustomUserPreferences(WebContentData data, InitApplication action) {
         if (data instanceof OpenSocialData) {
             OpenSocialData openSocialData = (OpenSocialData) data;
-            String documentLinkBuilder = action.getParameters().get(
-                    "documentLinkBuilder");
+            String documentLinkBuilder = action.getParameters().get("documentLinkBuilder");
             if (!StringUtils.isBlank(documentLinkBuilder)) {
                 UserPref userPref = openSocialData.getUserPrefByName("documentLinkBuilder");
                 if (userPref == null) {
-                    userPref = new UserPref("documentLinkBuilder",
-                            DataType.STRING);
+                    userPref = new UserPref("documentLinkBuilder", DataType.STRING);
                     openSocialData.getUserPrefs().add(userPref);
                 }
                 userPref.setActualValue(documentLinkBuilder);
             }
 
-            String activityLinkBuilder = action.getParameters().get(
-                    "activityLinkBuilder");
+            String activityLinkBuilder = action.getParameters().get("activityLinkBuilder");
             if (!StringUtils.isBlank(activityLinkBuilder)) {
                 UserPref userPref = openSocialData.getUserPrefByName("activityLinkBuilder");
                 if (userPref == null) {
-                    userPref = new UserPref("activityLinkBuilder",
-                            DataType.STRING);
+                    userPref = new UserPref("activityLinkBuilder", DataType.STRING);
                     openSocialData.getUserPrefs().add(userPref);
                 }
                 userPref.setActualValue(activityLinkBuilder);
@@ -133,10 +125,8 @@ public class InitApplicationHandler extends
 
             // recompute the frame url as the user prefs are changed
             try {
-                openSocialData.setFrameUrl(UrlBuilder.buildShindigUrl(
-                        openSocialData,
-                        OpenSocialGadgetHelper.getGadgetsBaseUrl(true)
-                                + SEPARATOR));
+                openSocialData.setFrameUrl(UrlBuilder.buildShindigUrl(openSocialData,
+                        OpenSocialGadgetHelper.getGadgetsBaseUrl(true) + SEPARATOR));
             } catch (ClientException e) {
                 // do nothing
             }

@@ -29,8 +29,7 @@ public class GadgetRoot extends ModuleRoot {
     }
 
     @Path("{gadgetId}")
-    public Object doGetGadget(@PathParam("gadgetId") String gadgetId)
-            throws ClientException {
+    public Object doGetGadget(@PathParam("gadgetId") String gadgetId) throws ClientException {
 
         CoreSession session = getContext().getCoreSession();
         IdRef ref = new IdRef(gadgetId);

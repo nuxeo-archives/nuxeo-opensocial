@@ -64,21 +64,18 @@ public class WebContentFactory {
     }
 
     public Presenter getPresenterFor(WebContentData webContentData) {
-        Map<String, Boolean> permissions = model.getPermissions().get(
-                webContentData.getId());
+        Map<String, Boolean> permissions = model.getPermissions().get(webContentData.getId());
 
         if (PictureData.TYPE.equals(webContentData.getAssociatedType())) {
-            return new PicturePresenter(new PictureGadget(), eventBus,
-                    new PictureModel((PictureData) webContentData, permissions));
+            return new PicturePresenter(new PictureGadget(), eventBus, new PictureModel((PictureData) webContentData,
+                    permissions));
         }
         if (HTMLData.TYPE.equals(webContentData.getAssociatedType())) {
-            return new HTMLPresenter(new HTMLGadget(), eventBus, new HTMLModel(
-                    (HTMLData) webContentData, permissions));
+            return new HTMLPresenter(new HTMLGadget(), eventBus, new HTMLModel((HTMLData) webContentData, permissions));
         }
         if (OpenSocialData.TYPE.equals(webContentData.getAssociatedType())) {
-            return new OpenSocialPresenter(new OpenSocialGadget(), eventBus,
-                    new OpenSocialModel((OpenSocialData) webContentData,
-                            permissions));
+            return new OpenSocialPresenter(new OpenSocialGadget(), eventBus, new OpenSocialModel(
+                    (OpenSocialData) webContentData, permissions));
         }
         return null;
     }

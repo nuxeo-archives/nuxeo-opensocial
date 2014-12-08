@@ -16,8 +16,7 @@ public class FoldersListGson {
 
     private List<FolderGson> foldersList = new ArrayList<FolderGson>();
 
-    public FoldersListGson(Collection<DocumentModel> children,
-            CoreSession session) throws ClientException {
+    public FoldersListGson(Collection<DocumentModel> children, CoreSession session) throws ClientException {
         for (DocumentModel child : children) {
             if (child.hasFacet(FacetNames.FOLDERISH)) {
                 String previewDocId = new String("");

@@ -38,45 +38,37 @@ import org.nuxeo.opensocial.gadgets.helper.GadgetI18nHelper;
 /**
  * @author Stéphane Fourrier
  */
-public class CreateWebContentHandler extends
-        AbstractActionHandler<CreateWebContent, CreateWebContentResult> {
+public class CreateWebContentHandler extends AbstractActionHandler<CreateWebContent, CreateWebContentResult> {
 
     public static final String GENERATE_TITLE_PARAMETER_NAME = "generateTitle";
 
-    protected CreateWebContentResult doExecute(CreateWebContent action,
-            ExecutionContext context, CoreSession session)
+    protected CreateWebContentResult doExecute(CreateWebContent action, ExecutionContext context, CoreSession session)
             throws ClientException {
         String spaceId = action.getSpaceId();
         Space space = getSpaceFromId(spaceId, session);
         WebContentData data = action.getData();
-        data = generateTitle(data, action.getParameters(),
-                action.getUserLanguage());
+        data = generateTitle(data, action.getParameters(), action.getUserLanguage());
         data = updateGadgetPreferences(data, action, session);
         data = space.createWebContent(data);
         Map<String, Boolean> permissions = space.getPermissions(spaceId);
         return new CreateWebContentResult(data, permissions);
     }
 
-    protected WebContentData generateTitle(WebContentData data,
-            Map<String, String> parameters, String userLanguage) {
+    protected WebContentData generateTitle(WebContentData data, Map<String, String> parameters, String userLanguage) {
         String shouldGenerateTitle = parameters.get(GENERATE_TITLE_PARAMETER_NAME);
         if (!"false".equals(shouldGenerateTitle)) {
-            String name = data instanceof OpenSocialData ? ((OpenSocialData) data).getGadgetName()
-                    : data.getName();
-            Locale locale = userLanguage != null ? new Locale(userLanguage)
-                    : null;
+            String name = data instanceof OpenSocialData ? ((OpenSocialData) data).getGadgetName() : data.getName();
+            Locale locale = userLanguage != null ? new Locale(userLanguage) : null;
             String title = GadgetI18nHelper.getI18nGadgetTitle(name, locale);
             data.setTitle(title);
         }
         return data;
     }
 
-    protected WebContentData updateGadgetPreferences(WebContentData data,
-            CreateWebContent action, CoreSession session)
+    protected WebContentData updateGadgetPreferences(WebContentData data, CreateWebContent action, CoreSession session)
             throws ClientException {
         Map<String, String> additionalPreferences = data.getAdditionalPreferences();
-        additionalPreferences.put("nuxeoTargetRepository",
-                action.getRepositoryName());
+        additionalPreferences.put("nuxeoTargetRepository", action.getRepositoryName());
 
         String documentContextId = action.getDocumentContextId();
         DocumentModel documentContext = null;
@@ -87,16 +79,12 @@ public class CreateWebContentHandler extends
             }
         }
         if (documentContext != null) {
-            additionalPreferences.put("nuxeoTargetContextPath",
-                    documentContext.getPathAsString());
-            additionalPreferences.put("nuxeoTargetContextObject",
-                    documentContext.getType());
+            additionalPreferences.put("nuxeoTargetContextPath", documentContext.getPathAsString());
+            additionalPreferences.put("nuxeoTargetContextObject", documentContext.getType());
         }
 
-        additionalPreferences.put("documentLinkBuilder",
-                action.getParameters().get("documentLinkBuilder"));
-        additionalPreferences.put("activityLinkBuilder",
-                action.getParameters().get("activityLinkBuilder"));
+        additionalPreferences.put("documentLinkBuilder", action.getParameters().get("documentLinkBuilder"));
+        additionalPreferences.put("activityLinkBuilder", action.getParameters().get("activityLinkBuilder"));
 
         return data;
     }

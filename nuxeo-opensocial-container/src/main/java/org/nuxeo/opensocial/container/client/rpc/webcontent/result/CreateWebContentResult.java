@@ -39,8 +39,7 @@ public class CreateWebContentResult implements Result {
     private CreateWebContentResult() {
     }
 
-    public CreateWebContentResult(WebContentData data,
-            Map<String, Boolean> permissions) {
+    public CreateWebContentResult(WebContentData data, Map<String, Boolean> permissions) {
         this.data = data;
         this.permissions = permissions;
     }

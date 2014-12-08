@@ -41,14 +41,11 @@ public class ContainerContext implements Serializable {
     private ContainerContext() {
     }
 
-    public ContainerContext(String spaceId, String repositoryName,
-            String documentContextId, String userLanguage) {
-        this(spaceId, repositoryName, documentContextId, userLanguage,
-                new HashMap<String, String>());
+    public ContainerContext(String spaceId, String repositoryName, String documentContextId, String userLanguage) {
+        this(spaceId, repositoryName, documentContextId, userLanguage, new HashMap<String, String>());
     }
 
-    public ContainerContext(String spaceId, String repositoryName,
-            String documentContextId, String userLanguage,
+    public ContainerContext(String spaceId, String repositoryName, String documentContextId, String userLanguage,
             Map<String, String> parameters) {
         this.spaceId = spaceId;
         this.repositoryName = repositoryName;

@@ -22,8 +22,7 @@ public class FolderGson {
     public FolderGson() {
     }
 
-    public FolderGson(DocumentModel folder, String previewDocId)
-            throws ClientException {
+    public FolderGson(DocumentModel folder, String previewDocId) throws ClientException {
         this.id = folder.getId();
         this.name = folder.getName();
         this.title = (String) folder.getPropertyValue("dc:title");

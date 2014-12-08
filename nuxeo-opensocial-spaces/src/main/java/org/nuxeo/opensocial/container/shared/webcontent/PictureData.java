@@ -17,7 +17,9 @@ public class PictureData extends AbstractWebContentData {
     public static String TYPE = "wcpicture";
 
     private String pictureTitle;
+
     private String pictureLegend;
+
     private String pictureLink;
 
     public PictureData() {

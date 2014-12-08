@@ -27,9 +27,7 @@ import org.nuxeo.opensocial.container.client.presenter.AppPresenter;
  */
 public class IsCollapsable extends Facet {
     public IsCollapsable() {
-        super(AppPresenter.containerConstants.fold(), "facet-collapse",
-                new CollapsePortletEvent(),
-                AppPresenter.containerConstants.unfold(), "facet-collapsed",
-                new UncollapsePortletEvent());
+        super(AppPresenter.containerConstants.fold(), "facet-collapse", new CollapsePortletEvent(),
+                AppPresenter.containerConstants.unfold(), "facet-collapsed", new UncollapsePortletEvent());
     }
 }

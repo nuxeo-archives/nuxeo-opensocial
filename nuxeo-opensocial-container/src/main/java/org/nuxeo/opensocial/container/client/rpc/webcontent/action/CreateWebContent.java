@@ -37,8 +37,7 @@ public class CreateWebContent extends AbstractAction<CreateWebContentResult> {
         super();
     }
 
-    public CreateWebContent(ContainerContext containerContext,
-            final WebContentData data) {
+    public CreateWebContent(ContainerContext containerContext, final WebContentData data) {
         super(containerContext);
         this.data = data;
     }

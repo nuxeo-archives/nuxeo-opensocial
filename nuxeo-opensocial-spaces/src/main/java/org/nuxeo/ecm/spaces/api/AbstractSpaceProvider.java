@@ -16,14 +16,12 @@ abstract public class AbstractSpaceProvider implements SpaceProvider {
     protected String name;
 
     @Override
-    public void initialize(String name, Map<String, String> params)
-            throws SpaceException {
+    public void initialize(String name, Map<String, String> params) throws SpaceException {
         this.name = name;
     }
 
     /*
      * (non-Javadoc)
-     *
      * @see org.nuxeo.ecm.spaces.api.SpaceProvider#getName()
      */
     final public String getName() {
@@ -31,9 +29,8 @@ abstract public class AbstractSpaceProvider implements SpaceProvider {
     }
 
     @Override
-    final public Space getSpace(CoreSession session,
-            DocumentModel contextDocument, String spaceName, Map<String, String> parameters)
-            throws SpaceException {
+    final public Space getSpace(CoreSession session, DocumentModel contextDocument, String spaceName,
+            Map<String, String> parameters) throws SpaceException {
         if (parameters == null) {
             parameters = new HashMap<String, String>();
         }
@@ -46,49 +43,41 @@ abstract public class AbstractSpaceProvider implements SpaceProvider {
     }
 
     @Override
-    final public Space getSpace(CoreSession session,
-            DocumentModel contextDocument, String spaceName)
+    final public Space getSpace(CoreSession session, DocumentModel contextDocument, String spaceName)
             throws SpaceException {
         return getSpace(session, contextDocument, spaceName, new HashMap<String, String>());
     }
 
-    abstract protected Space doGetSpace(CoreSession session,
-            DocumentModel contextDocument, String spaceName, Map<String, String> parameters)
-            throws SpaceException;
+    abstract protected Space doGetSpace(CoreSession session, DocumentModel contextDocument, String spaceName,
+            Map<String, String> parameters) throws SpaceException;
 
-    public List<Space> getAll(CoreSession session, DocumentModel contextDocument)
-            throws SpaceException {
+    public List<Space> getAll(CoreSession session, DocumentModel contextDocument) throws SpaceException {
         List<Space> result = new ArrayList<Space>();
         result.add(getSpace(session, contextDocument, null));
         return result;
     }
 
     @Override
-    public boolean isEmpty(CoreSession session, DocumentModel contextDocument)
-            throws SpaceException {
+    public boolean isEmpty(CoreSession session, DocumentModel contextDocument) throws SpaceException {
         return getAll(session, contextDocument).isEmpty();
     }
 
     @Override
-    public long size(CoreSession session, DocumentModel contextDocument)
-            throws SpaceException {
+    public long size(CoreSession session, DocumentModel contextDocument) throws SpaceException {
         return getAll(session, contextDocument).size();
     }
 
-    public void add(Space o, CoreSession session, Map<String, String> params)
-            throws SpaceException {
+    public void add(Space o, CoreSession session, Map<String, String> params) throws SpaceException {
         if (isReadOnly(session))
             throw new SpaceException("This SpaceProvider is read only");
     }
 
-    public void addAll(Collection<? extends Space> c, CoreSession session)
-            throws SpaceException {
+    public void addAll(Collection<? extends Space> c, CoreSession session) throws SpaceException {
         if (isReadOnly(session))
             throw new SpaceException("This SpaceProvider is read only");
     }
 
-    public boolean remove(Space space, CoreSession session)
-            throws SpaceException {
+    public boolean remove(Space space, CoreSession session) throws SpaceException {
         if (isReadOnly(session))
             throw new SpaceException("This SpaceProvider is read only");
         return false;
@@ -102,10 +91,8 @@ abstract public class AbstractSpaceProvider implements SpaceProvider {
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * org.nuxeo.ecm.spaces.api.SpaceProvider#getSpaces(org.nuxeo.ecm.spaces
-     * .api.Space, org.nuxeo.ecm.core.api.CoreSession)
+     * @see org.nuxeo.ecm.spaces.api.SpaceProvider#getSpaces(org.nuxeo.ecm.spaces .api.Space,
+     * org.nuxeo.ecm.core.api.CoreSession)
      */
     public List<Space> getSpaces(Space space, CoreSession session) {
         // TODO Auto-generated method stub

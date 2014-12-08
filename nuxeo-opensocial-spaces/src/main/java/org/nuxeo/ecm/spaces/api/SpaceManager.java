@@ -26,42 +26,32 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.spaces.api.exceptions.SpaceException;
 
 /**
- * Framework service for CRUD operations concerning Univers, Space in a specific
- * univers, and Gadget in a specific space
+ * Framework service for CRUD operations concerning Univers, Space in a specific univers, and Gadget in a specific space
  *
  * @author 10044893
- *
  */
 public interface SpaceManager {
 
-    Space getSpace(String spaceProviderName, CoreSession session,
-            DocumentModel contextDocument, String spaceName, Map<String, String> parameters)
+    Space getSpace(String spaceProviderName, CoreSession session, DocumentModel contextDocument, String spaceName,
+            Map<String, String> parameters) throws SpaceException;
+
+    Space getSpace(String spaceProviderName, CoreSession session, DocumentModel contextDocument, String spaceName)
             throws SpaceException;
 
-    Space getSpace(String spaceProviderName, CoreSession session,
-            DocumentModel contextDocument, String spaceName)
-            throws SpaceException;
+    Space getSpace(String spaceProviderName, CoreSession session, DocumentModel contextDocument) throws SpaceException;
 
-    Space getSpace(String spaceProviderName, CoreSession session,
-            DocumentModel contextDocument) throws SpaceException;
+    Space getSpace(String spaceProviderName, CoreSession session) throws SpaceException;
 
-    Space getSpace(String spaceProviderName, CoreSession session)
-            throws SpaceException;
+    Space getSpace(String spaceProviderName, DocumentModel contextDocument, String spaceName) throws SpaceException;
 
-    Space getSpace(String spaceProviderName, DocumentModel contextDocument,
-            String spaceName) throws SpaceException;
+    Space getSpace(String spaceProviderName, DocumentModel contextDocument) throws SpaceException;
 
-    Space getSpace(String spaceProviderName, DocumentModel contextDocument)
-            throws SpaceException;
-
-    Space getSpaceFromId(String spaceId, CoreSession session)
-            throws SpaceException;
-
+    Space getSpaceFromId(String spaceId, CoreSession session) throws SpaceException;
 
     Collection<SpaceProvider> getSpaceProviders();
 
     SpaceProvider getSpaceProvider(String string) throws SpaceException;
 
     List<String> getAvailablePermissions();
-    
+
 }

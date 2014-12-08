@@ -33,8 +33,7 @@ public class InputStreamResource extends DefaultObject {
 
         int p = path.lastIndexOf('.');
         if (p > -1) {
-            String mime = WebEngine.getActiveContext().getEngine().getMimeType(
-                    path.substring(p + 1));
+            String mime = WebEngine.getActiveContext().getEngine().getMimeType(path.substring(p + 1));
             if (mime == null) {
                 if (path.endsWith(".xsd")) {
                     mime = "text/xml";
@@ -48,8 +47,7 @@ public class InputStreamResource extends DefaultObject {
 
             return Response.ok(new GadgetStream(gadgetResource)).type(mime).build();
         }
-        return Response.ok(new GadgetStream(gadgetResource)).type(
-                "application/octet-stream").build();
+        return Response.ok(new GadgetStream(gadgetResource)).type("application/octet-stream").build();
 
     }
 }

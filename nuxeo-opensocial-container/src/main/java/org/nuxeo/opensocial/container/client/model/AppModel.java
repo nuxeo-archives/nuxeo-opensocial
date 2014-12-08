@@ -106,8 +106,7 @@ public class AppModel implements HasPermissionsMapper {
     private ContainerContext containerContext;
 
     @Inject
-    public AppModel(final EventBus eventBus,
-            final ContainerDispatchAsync dispatcher) {
+    public AppModel(final EventBus eventBus, final ContainerDispatchAsync dispatcher) {
         this.eventBus = eventBus;
         this.dispatcher = dispatcher;
 
@@ -162,8 +161,7 @@ public class AppModel implements HasPermissionsMapper {
     // TODO STUB :Will be improved when the rights will be implemented in a more
     // complex way (with unit & webContents rights)
     public Boolean hasPermission(String id, String permission) {
-        if (permissions.containsKey(id)
-                && permissions.get(id).containsKey(EVERYTHING)
+        if (permissions.containsKey(id) && permissions.get(id).containsKey(EVERYTHING)
                 && permissions.get(id).get(EVERYTHING).equals(Boolean.TRUE)) {
             return Boolean.TRUE;
         } else {
@@ -176,8 +174,7 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     private boolean hasWebContentInZone(int zoneIndex) {
-        for (YUIComponent unit : layout.getContent().getComponents().get(
-                zoneIndex).getComponents()) {
+        for (YUIComponent unit : layout.getContent().getComponents().get(zoneIndex).getComponents()) {
             if (hasWebContentInUnit(unit.getId())) {
                 return true;
             }
@@ -201,8 +198,7 @@ public class AppModel implements HasPermissionsMapper {
     public boolean setSideBar(YUISideBarStyle sideBar) {
         if (sideBar.equals(YUISideBarStyle.YUI_SB_NO_COLUMN)
                 && hasWebContentInUnit(((YUIComponent) getLayout().getSideBar()).getId())) {
-            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(),
-                    Severity.ERROR));
+            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(), Severity.ERROR));
             return Boolean.FALSE;
         } else {
             updateLayoutSideBarService(sideBar);
@@ -213,10 +209,8 @@ public class AppModel implements HasPermissionsMapper {
 
     public boolean setHasHeader(boolean hasHeader) {
         YUIUnit header = getLayout().getHeader();
-        if (header != null
-                && hasWebContentInUnit(((YUIAbstractComponent) header).getId())) {
-            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(),
-                    Severity.ERROR));
+        if (header != null && hasWebContentInUnit(((YUIAbstractComponent) header).getId())) {
+            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(), Severity.ERROR));
             return Boolean.FALSE;
         } else {
             if (hasHeader) {
@@ -231,10 +225,8 @@ public class AppModel implements HasPermissionsMapper {
 
     public boolean setHasFooter(boolean hasFooter) {
         YUIUnit footer = getLayout().getFooter();
-        if (footer != null
-                && hasWebContentInUnit(((YUIAbstractComponent) footer).getId())) {
-            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(),
-                    Severity.ERROR));
+        if (footer != null && hasWebContentInUnit(((YUIAbstractComponent) footer).getId())) {
+            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(), Severity.ERROR));
             return Boolean.FALSE;
         } else {
             if (hasFooter) {
@@ -248,8 +240,7 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     public void createZone() {
-        YUIComponentZone component = new YUIComponentZoneImpl(
-                defaultNewZoneTemplate);
+        YUIComponentZone component = new YUIComponentZoneImpl(defaultNewZoneTemplate);
 
         for (int i = 0; i < component.getTemplate().getNumberOfComponents(); i++) {
             component.addComponent(new YUIUnitImpl());
@@ -259,19 +250,16 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     public boolean updateZoneTemplate(int zoneIndex, YUITemplate template) {
-        YUIComponentZoneImpl component = ((YUIComponentZoneImpl) layout.getContent().getComponents().get(
-                zoneIndex));
+        YUIComponentZoneImpl component = ((YUIComponentZoneImpl) layout.getContent().getComponents().get(zoneIndex));
         if (!component.getTemplate().equals(template)) {
             int actualNumberOfUnits = component.getTemplate().getNumberOfComponents();
             int wantedNumberOfUnits = template.getNumberOfComponents();
 
             if (actualNumberOfUnits > wantedNumberOfUnits) {
                 for (int i = actualNumberOfUnits - 1; i > wantedNumberOfUnits - 1; i--) {
-                    YUIUnitImpl unit = (YUIUnitImpl) ((YUIComponent) component).getComponents().get(
-                            i);
+                    YUIUnitImpl unit = (YUIUnitImpl) ((YUIComponent) component).getComponents().get(i);
                     if (hasWebContentInUnit(unit.getId())) {
-                        eventBus.fireEvent(new SendMessageEvent(
-                                errors.unitIsNotEmpty(), Severity.ERROR));
+                        eventBus.fireEvent(new SendMessageEvent(errors.unitIsNotEmpty(), Severity.ERROR));
                         return Boolean.FALSE;
                     }
                 }
@@ -285,8 +273,7 @@ public class AppModel implements HasPermissionsMapper {
 
     public boolean deleteZone(int zoneIndex) {
         if (hasWebContentInZone(zoneIndex)) {
-            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(),
-                    Severity.ERROR));
+            eventBus.fireEvent(new SendMessageEvent(errors.zoneIsNotEmpty(), Severity.ERROR));
             return Boolean.FALSE;
         } else {
             deleteZoneService(zoneIndex);
@@ -297,8 +284,7 @@ public class AppModel implements HasPermissionsMapper {
 
     public void addWebContent(WebContentData webContent) {
         if (layout.getContent().getComponents().size() != 0) {
-            String unitId = ((YUIUnitImpl) layout.getContent().getComponents().get(
-                    0).getComponents().get(0)).getId();
+            String unitId = ((YUIUnitImpl) layout.getContent().getComponents().get(0).getComponents().get(0)).getId();
 
             int position = 0;
             if (webContents.get(unitId) != null) {
@@ -311,8 +297,7 @@ public class AppModel implements HasPermissionsMapper {
 
             createWebContentService(webContent);
         } else {
-            eventBus.fireEvent(new SendMessageEvent(errors.noZoneCreated(),
-                    Severity.ERROR));
+            eventBus.fireEvent(new SendMessageEvent(errors.noZoneCreated(), Severity.ERROR));
         }
     }
 
@@ -324,19 +309,15 @@ public class AppModel implements HasPermissionsMapper {
         deleteWebContentService(webContentId);
     }
 
-    public void webContentMoved(String fromUnitId, int fromWebContentPosition,
-            String toUnitId, int toWebContentPosition) {
-        if (!fromUnitId.equals(toUnitId)
-                || fromWebContentPosition != toWebContentPosition) {
-            WebContentData webContentToMove = webContents.get(fromUnitId).get(
-                    fromWebContentPosition);
+    public void webContentMoved(String fromUnitId, int fromWebContentPosition, String toUnitId, int toWebContentPosition) {
+        if (!fromUnitId.equals(toUnitId) || fromWebContentPosition != toWebContentPosition) {
+            WebContentData webContentToMove = webContents.get(fromUnitId).get(fromWebContentPosition);
 
             webContents.get(fromUnitId).remove(fromWebContentPosition);
             if (!webContents.containsKey(toUnitId)) {
                 webContents.put(toUnitId, new ArrayList<WebContentData>());
             }
-            webContents.get(toUnitId).add(toWebContentPosition,
-                    webContentToMove);
+            webContents.get(toUnitId).add(toWebContentPosition, webContentToMove);
 
             webContentToMove.setUnitId(toUnitId);
             webContentToMove.setPosition(toWebContentPosition);
@@ -346,50 +327,36 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     private void initApplicationService() {
-        ContainerContext tempContainerContext = new ContainerContext(
-                ContainerConfiguration.getSpaceId(),
-                ContainerConfiguration.getRepositoryName(),
-                ContainerConfiguration.getDocumentContextId(),
+        ContainerContext tempContainerContext = new ContainerContext(ContainerConfiguration.getSpaceId(),
+                ContainerConfiguration.getRepositoryName(), ContainerConfiguration.getDocumentContextId(),
                 ContainerConfiguration.getUserLanguage());
-        tempContainerContext.setParameter("documentLinkBuilder",
-                ContainerConfiguration.getDocumentLinkBuilder());
-        tempContainerContext.setParameter("activityLinkBuilder",
-                ContainerConfiguration.getActivityLinkBuilder());
-        dispatcher.execute(new InitApplication(tempContainerContext,
-                ContainerConfiguration.getSpaceProviderName(),
-                ContainerConfiguration.getSpaceName()),
-                new AbstractContainerAsyncCallback<InitApplicationResult>(
-                        eventBus, errors.cannotLoadLayout()) {
-                    @Override
-                    public void doExecute(InitApplicationResult result) {
-                        containerContext = new ContainerContext(
-                                result.getSpaceId(),
-                                ContainerConfiguration.getRepositoryName(),
-                                ContainerConfiguration.getDocumentContextId(),
-                                ContainerConfiguration.getUserLanguage());
-                        containerContext.setParameter(
-                                GENERATE_TITLE_PARAMETER_NAME,
-                                Boolean.valueOf(
-                                        ContainerConfiguration.generateTitle()).toString());
-                        containerContext.setParameter("documentLinkBuilder",
-                                ContainerConfiguration.getDocumentLinkBuilder());
-                        containerContext.setParameter("activityLinkBuilder",
-                                ContainerConfiguration.getActivityLinkBuilder());
-                        setPermissions(result.getPermissions());
-                        setLayout(result.getLayout());
-                        eventBus.fireEvent(new LayoutLoadedEvent());
-                        setWebContents(result.getWebContents());
-                        eventBus.fireEvent(new WebContentsLoadedEvent());
-                    }
-                });
+        tempContainerContext.setParameter("documentLinkBuilder", ContainerConfiguration.getDocumentLinkBuilder());
+        tempContainerContext.setParameter("activityLinkBuilder", ContainerConfiguration.getActivityLinkBuilder());
+        dispatcher.execute(new InitApplication(tempContainerContext, ContainerConfiguration.getSpaceProviderName(),
+                ContainerConfiguration.getSpaceName()), new AbstractContainerAsyncCallback<InitApplicationResult>(
+                eventBus, errors.cannotLoadLayout()) {
+            @Override
+            public void doExecute(InitApplicationResult result) {
+                containerContext = new ContainerContext(result.getSpaceId(),
+                        ContainerConfiguration.getRepositoryName(), ContainerConfiguration.getDocumentContextId(),
+                        ContainerConfiguration.getUserLanguage());
+                containerContext.setParameter(GENERATE_TITLE_PARAMETER_NAME,
+                        Boolean.valueOf(ContainerConfiguration.generateTitle()).toString());
+                containerContext.setParameter("documentLinkBuilder", ContainerConfiguration.getDocumentLinkBuilder());
+                containerContext.setParameter("activityLinkBuilder", ContainerConfiguration.getActivityLinkBuilder());
+                setPermissions(result.getPermissions());
+                setLayout(result.getLayout());
+                eventBus.fireEvent(new LayoutLoadedEvent());
+                setWebContents(result.getWebContents());
+                eventBus.fireEvent(new WebContentsLoadedEvent());
+            }
+        });
     }
 
     private void updateLayoutBodySizeService() {
         dispatcher.execute(
-                new UpdateYUILayoutBodySize(containerContext,
-                        getLayout().getBodySize()),
-                new AbstractContainerAsyncCallback<UpdateYUILayoutBodySizeResult>(
-                        eventBus, errors.cannotUpdateLayout()) {
+                new UpdateYUILayoutBodySize(containerContext, getLayout().getBodySize()),
+                new AbstractContainerAsyncCallback<UpdateYUILayoutBodySizeResult>(eventBus, errors.cannotUpdateLayout()) {
                     @Override
                     public void doExecute(UpdateYUILayoutBodySizeResult result) {
                         eventBus.fireEvent(new ContainerSizeChangedEvent());
@@ -398,21 +365,17 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     private void createZoneService(final YUIComponentZone component) {
-        dispatcher.execute(new CreateYUIZone(containerContext,
-                (YUIComponentZone) component,
+        dispatcher.execute(new CreateYUIZone(containerContext, (YUIComponentZone) component,
                 getLayout().getContent().getComponents().size()),
-                new AbstractContainerAsyncCallback<CreateYUIZoneResult>(
-                        eventBus, errors.cannotCreateZone()) {
+                new AbstractContainerAsyncCallback<CreateYUIZoneResult>(eventBus, errors.cannotCreateZone()) {
                     @Override
                     public void doExecute(CreateYUIZoneResult result) {
                         YUIComponentZone zone = result.getZone();
 
-                        getLayout().getContent().addComponent(
-                                (YUIComponent) zone);
+                        getLayout().getContent().addComponent((YUIComponent) zone);
 
                         for (int i = 0; i < zone.getTemplate().getNumberOfComponents(); i++) {
-                            getWebContents().put(
-                                    ((YUIComponent) zone).getComponents().get(i).getId(),
+                            getWebContents().put(((YUIComponent) zone).getComponents().get(i).getId(),
                                     new ArrayList<WebContentData>());
                         }
 
@@ -421,26 +384,20 @@ public class AppModel implements HasPermissionsMapper {
                 });
     }
 
-    private void updateYUIZoneService(final YUIComponentZone zone,
-            final int zoneIndex, YUITemplate template) {
-        dispatcher.execute(new UpdateYUIZone(containerContext, zone, zoneIndex,
-                template),
-                new AbstractContainerAsyncCallback<UpdateYUIZoneResult>(
-                        eventBus, errors.cannotUpdateZone()) {
+    private void updateYUIZoneService(final YUIComponentZone zone, final int zoneIndex, YUITemplate template) {
+        dispatcher.execute(new UpdateYUIZone(containerContext, zone, zoneIndex, template),
+                new AbstractContainerAsyncCallback<UpdateYUIZoneResult>(eventBus, errors.cannotUpdateZone()) {
                     @Override
                     public void doExecute(UpdateYUIZoneResult result) {
                         for (YUIComponent unit : ((YUIComponent) result.getZone()).getComponents()) {
                             String idRef = ((YUIUnitImpl) unit).getId();
 
                             if (!getWebContents().containsKey(idRef)) {
-                                getWebContents().put(idRef,
-                                        new ArrayList<WebContentData>());
+                                getWebContents().put(idRef, new ArrayList<WebContentData>());
                             }
 
-                            getLayout().getContent().getComponents().remove(
-                                    zoneIndex);
-                            getLayout().getContent().getComponents().add(
-                                    zoneIndex, (YUIComponent) result.getZone());
+                            getLayout().getContent().getComponents().remove(zoneIndex);
+                            getLayout().getContent().getComponents().add(zoneIndex, (YUIComponent) result.getZone());
 
                             eventBus.fireEvent(new ZoneUpdatedEvent(zoneIndex));
                         }
@@ -451,16 +408,14 @@ public class AppModel implements HasPermissionsMapper {
     private void updateLayoutSideBarService(final YUISideBarStyle sidebar) {
         dispatcher.execute(
                 new UpdateYUILayoutSideBar(containerContext, sidebar),
-                new AbstractContainerAsyncCallback<UpdateYUILayoutSideBarResult>(
-                        eventBus, errors.cannotUpdateSideBar()) {
+                new AbstractContainerAsyncCallback<UpdateYUILayoutSideBarResult>(eventBus, errors.cannotUpdateSideBar()) {
                     @Override
                     public void doExecute(UpdateYUILayoutSideBarResult result) {
                         if (sidebar.equals(YUISideBarStyle.YUI_SB_NO_COLUMN)) {
                             webContents.remove(((YUIComponent) layout.getSideBar()).getId());
                         } else {
                             if (!webContents.containsKey(((YUIComponent) result.getSideBar()).getId())) {
-                                webContents.put(
-                                        ((YUIComponent) result.getSideBar()).getId(),
+                                webContents.put(((YUIComponent) result.getSideBar()).getId(),
                                         new ArrayList<WebContentData>());
                             }
                         }
@@ -474,16 +429,13 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     private void updateLayoutHeaderService(final YUIUnit header) {
-        dispatcher.execute(
-                new UpdateYUILayoutHeader(containerContext, header),
-                new AbstractContainerAsyncCallback<UpdateYUILayoutHeaderResult>(
-                        eventBus, errors.cannotUpdateHeader()) {
+        dispatcher.execute(new UpdateYUILayoutHeader(containerContext, header),
+                new AbstractContainerAsyncCallback<UpdateYUILayoutHeaderResult>(eventBus, errors.cannotUpdateHeader()) {
                     @Override
                     public void doExecute(UpdateYUILayoutHeaderResult result) {
                         if (result.getHeader() != null) {
                             String headerId = ((YUIComponent) result.getHeader()).getId();
-                            webContents.put(headerId,
-                                    new ArrayList<WebContentData>());
+                            webContents.put(headerId, new ArrayList<WebContentData>());
                         } else {
                             String headerId = ((YUIComponent) layout.getHeader()).getId();
                             webContents.remove(headerId);
@@ -497,16 +449,13 @@ public class AppModel implements HasPermissionsMapper {
     }
 
     private void updateLayoutFooterService(final YUIUnit footer) {
-        dispatcher.execute(
-                new UpdateYUILayoutFooter(containerContext, footer),
-                new AbstractContainerAsyncCallback<UpdateYUILayoutFooterResult>(
-                        eventBus, errors.cannotUpdateFooter()) {
+        dispatcher.execute(new UpdateYUILayoutFooter(containerContext, footer),
+                new AbstractContainerAsyncCallback<UpdateYUILayoutFooterResult>(eventBus, errors.cannotUpdateFooter()) {
                     @Override
                     public void doExecute(UpdateYUILayoutFooterResult result) {
                         if (result.getFooter() != null) {
                             String footerId = ((YUIComponent) result.getFooter()).getId();
-                            webContents.put(footerId,
-                                    new ArrayList<WebContentData>());
+                            webContents.put(footerId, new ArrayList<WebContentData>());
                         } else {
                             String footerId = ((YUIComponent) layout.getFooter()).getId();
                             webContents.remove(footerId);
@@ -521,18 +470,14 @@ public class AppModel implements HasPermissionsMapper {
 
     private void deleteZoneService(final int zoneIndex) {
         dispatcher.execute(new DeleteYUIZone(containerContext, zoneIndex),
-                new AbstractContainerAsyncCallback<DeleteYUIZoneResult>(
-                        eventBus, errors.cannotDeleteZone()) {
+                new AbstractContainerAsyncCallback<DeleteYUIZoneResult>(eventBus, errors.cannotDeleteZone()) {
                     @Override
                     public void doExecute(DeleteYUIZoneResult result) {
-                        for (YUIComponent unit : getLayout().getContent().getComponents().get(
-                                zoneIndex).getComponents()) {
-                            getWebContents().remove(
-                                    ((YUIUnitImpl) unit).getId());
+                        for (YUIComponent unit : getLayout().getContent().getComponents().get(zoneIndex).getComponents()) {
+                            getWebContents().remove(((YUIUnitImpl) unit).getId());
                         }
 
-                        getLayout().getContent().getComponents().remove(
-                                zoneIndex);
+                        getLayout().getContent().getComponents().remove(zoneIndex);
 
                         eventBus.fireEvent(new ZoneDeletedEvent(zoneIndex));
                     }
@@ -541,32 +486,28 @@ public class AppModel implements HasPermissionsMapper {
 
     private void createWebContentService(WebContentData data) {
         dispatcher.execute(new CreateWebContent(containerContext, data),
-                new AbstractContainerAsyncCallback<CreateWebContentResult>(
-                        eventBus, errors.cannotCreateWebContent()) {
+                new AbstractContainerAsyncCallback<CreateWebContentResult>(eventBus, errors.cannotCreateWebContent()) {
                     @Override
                     public void doExecute(CreateWebContentResult result) {
                         WebContentData data = result.getData();
                         if (!getWebContents().containsKey(data.getUnitId())) {
-                            webContents.put(data.getUnitId(),
-                                    new ArrayList<WebContentData>());
+                            webContents.put(data.getUnitId(), new ArrayList<WebContentData>());
                         }
 
-                        webContents.get(data.getUnitId()).add(
-                                (int) data.getPosition(), data);
+                        webContents.get(data.getUnitId()).add((int) data.getPosition(), data);
 
                         permissions.put(data.getId(), result.getPermissions());
 
-                        eventBus.fireEvent(new WebContentAddedEvent(
-                                result.getData()));
+                        eventBus.fireEvent(new WebContentAddedEvent(result.getData()));
                     }
                 });
     }
 
     private void updateAllWebContentsService() {
-        dispatcher.execute(new UpdateAllWebContents(containerContext,
-                getWebContents()),
-                new AbstractContainerAsyncCallback<UpdateAllWebContentsResult>(
-                        eventBus, errors.cannotUpdateAllWebContents()) {
+        dispatcher.execute(
+                new UpdateAllWebContents(containerContext, getWebContents()),
+                new AbstractContainerAsyncCallback<UpdateAllWebContentsResult>(eventBus,
+                        errors.cannotUpdateAllWebContents()) {
                     @Override
                     public void doExecute(UpdateAllWebContentsResult result) {
                         // Nothing to do...
@@ -574,33 +515,25 @@ public class AppModel implements HasPermissionsMapper {
                 });
     }
 
-    private void updateWebContentService(final String webContentId,
-            List<String> list) {
-        dispatcher.execute(new UpdateWebContent(containerContext,
-                getWebContent(webContentId), list),
-                new AbstractContainerAsyncCallback<UpdateWebContentResult>(
-                        eventBus, errors.cannotUpdateWebContent()) {
+    private void updateWebContentService(final String webContentId, List<String> list) {
+        dispatcher.execute(new UpdateWebContent(containerContext, getWebContent(webContentId), list),
+                new AbstractContainerAsyncCallback<UpdateWebContentResult>(eventBus, errors.cannotUpdateWebContent()) {
                     @Override
                     public void doExecute(UpdateWebContentResult result) {
-                        getWebContent(webContentId).updateFrom(
-                                result.getWebContentData());
-                        eventBus.fireEvent(new WebContentUpdatedEvent(
-                                webContentId));
+                        getWebContent(webContentId).updateFrom(result.getWebContentData());
+                        eventBus.fireEvent(new WebContentUpdatedEvent(webContentId));
                     }
                 });
     }
 
     private void deleteWebContentService(final String webContentId) {
-        dispatcher.execute(new DeleteWebContent(containerContext,
-                getWebContent(webContentId)),
-                new AbstractContainerAsyncCallback<DeleteWebContentResult>(
-                        eventBus, errors.cannotDeleteWebContent()) {
+        dispatcher.execute(new DeleteWebContent(containerContext, getWebContent(webContentId)),
+                new AbstractContainerAsyncCallback<DeleteWebContentResult>(eventBus, errors.cannotDeleteWebContent()) {
                     @Override
                     public void doExecute(DeleteWebContentResult result) {
                         WebContentData data = getWebContent(webContentId);
                         getWebContents().get(data.getUnitId()).remove(data);
-                        eventBus.fireEvent(new WebContentRemovedEvent(
-                                webContentId));
+                        eventBus.fireEvent(new WebContentRemovedEvent(webContentId));
                     }
                 });
     }

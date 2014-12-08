@@ -51,24 +51,20 @@ public class WebContentHelper {
     }
 
     /**
-     * Creates an OpenSocial gadget in the given {@code space} at the given
-     * position.
+     * Creates an OpenSocial gadget in the given {@code space} at the given position.
      * <p>
-     * If the {@code additionalPreferences} map is not null and not empty, the
-     * gadget's additionalPreferences will be initialized with that map.
+     * If the {@code additionalPreferences} map is not null and not empty, the gadget's additionalPreferences will be
+     * initialized with that map.
      *
      * @since 5.5
      */
-    public static void createOpenSocialGadget(Space space, CoreSession session,
-            Locale currentLocale, String gadgetName, int zoneIndex,
-            int unitIndex, int position,
-            Map<String, String> additionalPreferences) throws ClientException {
-        String id = getUnitId(space.getLayout().getLayout(), zoneIndex,
-                unitIndex);
+    public static void createOpenSocialGadget(Space space, CoreSession session, Locale currentLocale,
+            String gadgetName, int zoneIndex, int unitIndex, int position, Map<String, String> additionalPreferences)
+            throws ClientException {
+        String id = getUnitId(space.getLayout().getLayout(), zoneIndex, unitIndex);
         DocumentModel unitDoc = session.getDocument(new IdRef(id));
 
-        DocumentModel docGadget = session.createDocumentModel(
-                unitDoc.getPathAsString(), gadgetName,
+        DocumentModel docGadget = session.createDocumentModel(unitDoc.getPathAsString(), gadgetName,
                 OPEN_SOCIAL_GADGET_DOCUMENT_TYPE);
         OpenSocialAdapter os = (OpenSocialAdapter) docGadget.getAdapter(WebContentAdapter.class);
         os.setGadgetDefUrl(OpenSocialGadgetHelper.computeGadgetDefUrlBeforeSave(getGadgetDefUrlFor(gadgetName)));
@@ -89,23 +85,18 @@ public class WebContentHelper {
     }
 
     /**
-     * Creates an OpenSocial gadget in the given {@code space} at the given
-     * position.
+     * Creates an OpenSocial gadget in the given {@code space} at the given position.
      */
-    public static void createOpenSocialGadget(Space space, CoreSession session,
-            Locale currentLocale, String gadgetName, int zoneIndex,
-            int unitIndex, int position) throws ClientException {
-        createOpenSocialGadget(space, session, currentLocale, gadgetName,
-                zoneIndex, unitIndex, position, null);
+    public static void createOpenSocialGadget(Space space, CoreSession session, Locale currentLocale,
+            String gadgetName, int zoneIndex, int unitIndex, int position) throws ClientException {
+        createOpenSocialGadget(space, session, currentLocale, gadgetName, zoneIndex, unitIndex, position, null);
     }
 
-    private static void setTitle(OpenSocialAdapter os, String gadgetName,
-            Locale locale) throws ClientException {
+    private static void setTitle(OpenSocialAdapter os, String gadgetName, Locale locale) throws ClientException {
         os.setTitle(GadgetI18nHelper.getI18nGadgetTitle(gadgetName, locale));
     }
 
-    private static String getUnitId(YUILayout layout, int zoneIndex,
-            int unitIndex) {
+    private static String getUnitId(YUILayout layout, int zoneIndex, int unitIndex) {
         YUIComponent zone = layout.getContent().getComponents().get(zoneIndex);
         YUIComponent unit = zone.getComponents().get(unitIndex);
         return unit.getId();

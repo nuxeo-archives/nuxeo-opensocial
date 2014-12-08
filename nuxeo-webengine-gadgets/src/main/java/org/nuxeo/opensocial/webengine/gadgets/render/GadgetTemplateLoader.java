@@ -30,7 +30,6 @@ import freemarker.cache.URLTemplateLoader;
 
 /**
  * @author <a href="mailto:ei@nuxeo.com">Eugen Ionica</a>
- * 
  */
 public class GadgetTemplateLoader extends URLTemplateLoader {
 
@@ -50,8 +49,7 @@ public class GadgetTemplateLoader extends URLTemplateLoader {
             }
         } else {
             // fallback to lookup in common resources
-            return GadgetTemplateLoader.class.getClassLoader().getResource(
-                    "skin/resources/ftl/" + name);
+            return GadgetTemplateLoader.class.getClassLoader().getResource("skin/resources/ftl/" + name);
         }
         return null;
     }

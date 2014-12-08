@@ -37,8 +37,7 @@ import org.nuxeo.runtime.model.ComponentName;
 import org.osgi.framework.Bundle;
 
 @XObject("internalGadget")
-public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
-        GadgetDeclaration {
+public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements GadgetDeclaration {
 
     private static final long serialVersionUID = 1L;
 
@@ -164,8 +163,7 @@ public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
         return sb;
     }
 
-    public InputStream getResourceAsStream(String resourcePath)
-            throws IOException {
+    public InputStream getResourceAsStream(String resourcePath) throws IOException {
         URL gadgetURL = getResource(resourcePath);
         if (gadgetURL != null) {
             return gadgetURL.openStream();
@@ -176,11 +174,9 @@ public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
 
     @Override
     public URL getResource(String resourcePath) {
-        ComponentInstance component = Framework.getRuntime().getComponentInstance(
-                componentName);
+        ComponentInstance component = Framework.getRuntime().getComponentInstance(componentName);
         Bundle bundle = component.getRuntimeContext().getBundle();
-        URL gadgetURL = bundle.getEntry("gadget/" + getDirectory() + "/"
-                + resourcePath);
+        URL gadgetURL = bundle.getEntry("gadget/" + getDirectory() + "/" + resourcePath);
         if (gadgetURL == null) {
             gadgetURL = bundle.getEntry("gadget/resources/" + resourcePath);
         }
@@ -235,17 +231,14 @@ public class InternalGadgetDescriptor extends BaseGadgetDescriptor implements
     /**
      * Rewrite the URL to remove the private IP from it and keep a relative URL.
      * <p>
-     * Shindig always prepend the beginning of the Spec URL if it gets a
-     * relative URL for Thumbnail or Screenshot in the gadget spec, but we need
-     * a relative URL.
-     *
+     * Shindig always prepend the beginning of the Spec URL if it gets a relative URL for Thumbnail or Screenshot in the
+     * gadget spec, but we need a relative URL.
      */
     protected String rewriteURL(String url) {
         if (url != null) {
             String loopbackURL = Framework.getProperty(NUXEO_LOOPBACK_URL);
             if (url.startsWith(loopbackURL)) {
-                url = url.replaceFirst(loopbackURL,
-                        VirtualHostHelper.getContextPathProperty());
+                url = url.replaceFirst(loopbackURL, VirtualHostHelper.getContextPathProperty());
             }
         }
         return url;

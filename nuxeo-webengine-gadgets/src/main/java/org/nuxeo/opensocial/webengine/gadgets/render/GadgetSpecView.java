@@ -61,8 +61,7 @@ public class GadgetSpecView {
     protected static List<String> getTrustedHosts() {
         if (trustedHosts == null) {
             OpenSocialService os = Framework.getLocalService(OpenSocialService.class);
-            trustedHosts = new ArrayList<String>(
-                    Arrays.asList(os.getTrustedHosts()));
+            trustedHosts = new ArrayList<String>(Arrays.asList(os.getTrustedHosts()));
         }
         return trustedHosts;
     }
@@ -135,8 +134,7 @@ public class GadgetSpecView {
         return sb.toString();
     }
 
-    public static InputStream render(InternalGadgetDescriptor gadget,
-            Map<String, Object> params) throws Exception {
+    public static InputStream render(InternalGadgetDescriptor gadget, Map<String, Object> params) throws Exception {
 
         String key = "gadget://" + gadget.getName();
 
@@ -150,21 +148,17 @@ public class GadgetSpecView {
         if (isInsideNuxeo(httpRequest)) {
             // we are called by local Nuxeo-Shindig
             // so we don't know the client URL, but a relative URL is ok
-            input.put("serverSideBaseUrl",
-                    Framework.getProperty(NUXEO_LOOPBACK_URL) + "/");
-            input.put("clientSideBaseUrl",
-                    VirtualHostHelper.getContextPathProperty() + "/");
+            input.put("serverSideBaseUrl", Framework.getProperty(NUXEO_LOOPBACK_URL) + "/");
+            input.put("clientSideBaseUrl", VirtualHostHelper.getContextPathProperty() + "/");
             input.put("specDirectoryUrl",
-                    VirtualHostHelper.getContextPathProperty()
-                            + "/site/gadgets/" + gadget.getName() + "/");
+                    VirtualHostHelper.getContextPathProperty() + "/site/gadgets/" + gadget.getName() + "/");
             input.put("insideNuxeo", true);
         } else {
             // we are called by an external gadget container
             // => we use the same url as the one used to fetch the gadget spec
             input.put("serverSideBaseUrl", specAccessUrl);
             input.put("clientSideBaseUrl", specAccessUrl);
-            input.put("specDirectoryUrl", specAccessUrl + "site/gadgets/"
-                    + gadget.getName() + "/");
+            input.put("specDirectoryUrl", specAccessUrl + "site/gadgets/" + gadget.getName() + "/");
             input.put("insideNuxeo", false);
         }
 
@@ -187,8 +181,7 @@ public class GadgetSpecView {
         StringWriter writer = new StringWriter();
         getEngine().render(key, input, writer);
 
-        return new ByteArrayInputStream(
-                writer.getBuffer().toString().getBytes());
+        return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
 
     }
 

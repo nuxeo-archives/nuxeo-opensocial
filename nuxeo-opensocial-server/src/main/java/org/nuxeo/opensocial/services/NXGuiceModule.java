@@ -37,11 +37,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
 /**
- * This replaces the DefaultGuiceModule by using our own NXRewriteModule instead
- * of the default one
+ * This replaces the DefaultGuiceModule by using our own NXRewriteModule instead of the default one
  *
  * @author dmetzler
- *
  */
 public class NXGuiceModule extends AbstractModule {
 
@@ -67,8 +65,7 @@ public class NXGuiceModule extends AbstractModule {
         // Handlers for /gadgets/rpc
         bind(new TypeLiteral<Set<Object>>() {
         }).annotatedWith(Names.named("org.apache.shindig.gadgets.handlers")).toInstance(
-                ImmutableSet.<Object> of(InvalidationHandler.class,
-                        HttpRequestHandler.class));
+                ImmutableSet.<Object> of(InvalidationHandler.class, HttpRequestHandler.class));
         // bind(Long.class).annotatedWith(Names.named("org.apache.shindig.serviceExpirationDurationMinutes")).toInstance(60l);
 
         // We perform static injection on HttpResponse for cache TTLs.

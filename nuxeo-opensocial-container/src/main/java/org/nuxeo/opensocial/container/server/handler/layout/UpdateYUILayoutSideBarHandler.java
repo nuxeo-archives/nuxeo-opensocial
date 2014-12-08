@@ -29,15 +29,12 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 /**
  * @author Stéphane Fourrier
  */
-public class UpdateYUILayoutSideBarHandler
-        extends
+public class UpdateYUILayoutSideBarHandler extends
         AbstractActionHandler<UpdateYUILayoutSideBar, UpdateYUILayoutSideBarResult> {
 
-    protected UpdateYUILayoutSideBarResult doExecute(
-            UpdateYUILayoutSideBar action, ExecutionContext context,
+    protected UpdateYUILayoutSideBarResult doExecute(UpdateYUILayoutSideBar action, ExecutionContext context,
             CoreSession session) throws ClientException {
-        YUIUnit sideBar = getSpaceFromId(action.getSpaceId(), session).getLayout().setSideBar(
-                action.getSidebar());
+        YUIUnit sideBar = getSpaceFromId(action.getSpaceId(), session).getLayout().setSideBar(action.getSidebar());
         return new UpdateYUILayoutSideBarResult(sideBar);
     }
 

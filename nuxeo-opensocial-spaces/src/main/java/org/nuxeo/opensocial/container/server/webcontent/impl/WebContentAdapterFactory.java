@@ -19,8 +19,7 @@ public class WebContentAdapterFactory implements DocumentAdapterFactory {
         try {
             service = Framework.getService(WebContentSaverService.class);
 
-            return service.getWebContentAdapterFor(doc).getConstructor(
-                    DocumentModel.class).newInstance(doc);
+            return service.getWebContentAdapterFor(doc).getConstructor(DocumentModel.class).newInstance(doc);
         } catch (Exception e) {
             log.error("Unable to find an adpater for : " + doc.getType(), e);
             return null;

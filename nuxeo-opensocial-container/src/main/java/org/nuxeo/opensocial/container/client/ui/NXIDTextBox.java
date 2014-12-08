@@ -28,8 +28,7 @@ public class NXIDTextBox extends TextBox {
 
     @Override
     public String getValue() {
-        String value = "{\"NXID\":\"" + hiddenValue + "\",\"NXNAME\":\""
-                + super.getValue() + "\"}";
+        String value = "{\"NXID\":\"" + hiddenValue + "\",\"NXNAME\":\"" + super.getValue() + "\"}";
         return value;
     }
 

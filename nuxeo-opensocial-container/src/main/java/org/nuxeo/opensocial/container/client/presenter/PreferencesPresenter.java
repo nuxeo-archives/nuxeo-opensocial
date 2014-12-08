@@ -55,8 +55,7 @@ import com.google.inject.Inject;
 /**
  * @author Stéphane Fourrier
  */
-public class PreferencesPresenter extends
-        WidgetPresenter<PreferencesPresenter.Display> {
+public class PreferencesPresenter extends WidgetPresenter<PreferencesPresenter.Display> {
     public interface Display extends WidgetDisplay {
 
         HasClickHandlers getTitleColors();
@@ -113,8 +112,7 @@ public class PreferencesPresenter extends
 
     private void fetchContent() {
         display.getTitleBox().setText(data.getTitle());
-        display.setTitleColor(data.getPreferences().get(
-                WebContentData.WC_TITLE_COLOR));
+        display.setTitleColor(data.getPreferences().get(WebContentData.WC_TITLE_COLOR));
         // TODO Should be done with any type of WebContentData ! To be improved
         // ...
         if (data instanceof OpenSocialData) {
@@ -135,8 +133,7 @@ public class PreferencesPresenter extends
             // TODO Work only for PictureBook ! Has to be improved for any type
             // of document
             if (pref.getName().startsWith("NXID_")) {
-                final NXIDTextBox idBox = display.addNXIDUserPref(
-                        pref.getName(), pref.getDisplayName());
+                final NXIDTextBox idBox = display.addNXIDUserPref(pref.getName(), pref.getDisplayName());
 
                 if (value != null && !("").equals(value)) {
                     NXIDPreference evaluatedNXIDPref = evaluateNXIDPref(value);
@@ -146,11 +143,11 @@ public class PreferencesPresenter extends
 
                 idBox.addClickHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
-                        FolderPickerModel folderPickerModel = new FolderPickerModel(
-                                data.getId(), idBox.getHiddenValue());
+                        FolderPickerModel folderPickerModel = new FolderPickerModel(data.getId(),
+                                idBox.getHiddenValue());
                         FolderPickerWidget folderPickerWidget = new FolderPickerWidget();
-                        FolderPickerPresenter folderPicker = new FolderPickerPresenter(
-                                folderPickerWidget, eventBus, folderPickerModel);
+                        FolderPickerPresenter folderPicker = new FolderPickerPresenter(folderPickerWidget, eventBus,
+                                folderPickerModel);
 
                         folderPicker.bind();
                         folderPicker.getDisplay().showPicker();
@@ -159,35 +156,30 @@ public class PreferencesPresenter extends
 
                 prefsValues.add((Widget) idBox);
 
-                eventBus.addHandler(FolderChosenEvent.TYPE,
-                        new FolderChosenEventHandler() {
-                            public void onFolderChosen(FolderChosenEvent event) {
-                                idBox.setValue(event.getFolderName());
-                                idBox.setHiddenValue(event.getFolderId());
-                            }
-                        });
+                eventBus.addHandler(FolderChosenEvent.TYPE, new FolderChosenEventHandler() {
+                    public void onFolderChosen(FolderChosenEvent event) {
+                        idBox.setValue(event.getFolderName());
+                        idBox.setHiddenValue(event.getFolderId());
+                    }
+                });
             } else {
-                HasValue<String> text = display.addStringUserPref(
-                        pref.getName(), pref.getDisplayName());
+                HasValue<String> text = display.addStringUserPref(pref.getName(), pref.getDisplayName());
                 text.setValue(value);
                 prefsValues.add((Widget) text);
             }
             break;
         case BOOL:
-            HasValue<Boolean> bool = display.addBooleanUserPref(pref.getName(),
-                    pref.getDisplayName());
+            HasValue<Boolean> bool = display.addBooleanUserPref(pref.getName(), pref.getDisplayName());
             bool.setValue(Boolean.parseBoolean(value));
             prefsValues.add((Widget) bool);
             break;
         case ENUM:
             if (pref.getName().startsWith("COLOR_")) {
-                HasValue<String> color = display.addColorsUserPref(
-                        pref.getName(), pref.getDisplayName());
+                HasValue<String> color = display.addColorsUserPref(pref.getName(), pref.getDisplayName());
                 color.setValue(value);
                 prefsValues.add((Widget) color);
             } else {
-                HasMultipleValue<String> list = display.addEnumUserPref(
-                        pref.getName(), pref.getDisplayName());
+                HasMultipleValue<String> list = display.addEnumUserPref(pref.getName(), pref.getDisplayName());
                 // Populate the list with the enum values
                 for (Entry<String, String> enumValues : pref.getEnumValues().entrySet()) {
                     list.addValue(enumValues.getKey(), enumValues.getValue());
@@ -204,8 +196,8 @@ public class PreferencesPresenter extends
     }
 
     private native NXIDPreference evaluateNXIDPref(String json) /*-{
-        return eval("(" + json + ")");
-    }-*/;
+                                                                return eval("(" + json + ")");
+                                                                }-*/;
 
     @Override
     protected void onBind() {
@@ -218,70 +210,64 @@ public class PreferencesPresenter extends
     }
 
     private void registerTitleChangement() {
-        registerHandler(display.getTitleEvent().addKeyUpHandler(
-                new KeyUpHandler() {
-                    public void onKeyUp(KeyUpEvent arg0) {
-                        portletPresenter.setTitle(display.getTitleBox().getText());
-                    }
-                }));
+        registerHandler(display.getTitleEvent().addKeyUpHandler(new KeyUpHandler() {
+            public void onKeyUp(KeyUpEvent arg0) {
+                portletPresenter.setTitle(display.getTitleBox().getText());
+            }
+        }));
     }
 
     public void rollBack() {
         portletPresenter.setTitle(data.getTitle());
 
-        portletPresenter.setTitleColor(data.getPreferences().get(
-                WebContentData.WC_TITLE_COLOR));
+        portletPresenter.setTitleColor(data.getPreferences().get(WebContentData.WC_TITLE_COLOR));
 
     }
 
     private void registerPreferencesSave() {
-        registerHandler(display.getSaveButton().addClickHandler(
-                new ClickHandler() {
-                    @SuppressWarnings("unchecked")
-                    public void onClick(ClickEvent event) {
-                        data.setTitle(display.getTitleBox().getText());
+        registerHandler(display.getSaveButton().addClickHandler(new ClickHandler() {
+            @SuppressWarnings("unchecked")
+            public void onClick(ClickEvent event) {
+                data.setTitle(display.getTitleBox().getText());
 
-                        data.addPreference(
-                                WebContentData.WC_TITLE_COLOR,
-                                ((ColorsPanelWidget) display.getTitleColors()).getSelectedColor().getColorAsString());
+                data.addPreference(WebContentData.WC_TITLE_COLOR,
+                        ((ColorsPanelWidget) display.getTitleColors()).getSelectedColor().getColorAsString());
 
-                        // TODO Should be done with any type of WebContentData !
-                        // To be improved ...
-                        if (data instanceof OpenSocialData) {
-                            for (Widget widget : prefsValues) {
-                                String name = ((HasName) widget).getName();
-                                String value = ((HasValue) widget).getValue().toString();
-                                UserPref userPref = ((OpenSocialData) data).getUserPrefByName(name);
-                                if (userPref != null)
-                                    userPref.setActualValue(value);
-                            }
-                        }
-
-                        model.updateWebContent(data.getId(), null);
-
-                        display.hidePopup();
+                // TODO Should be done with any type of WebContentData !
+                // To be improved ...
+                if (data instanceof OpenSocialData) {
+                    for (Widget widget : prefsValues) {
+                        String name = ((HasName) widget).getName();
+                        String value = ((HasValue) widget).getValue().toString();
+                        UserPref userPref = ((OpenSocialData) data).getUserPrefByName(name);
+                        if (userPref != null)
+                            userPref.setActualValue(value);
                     }
-                }));
+                }
+
+                model.updateWebContent(data.getId(), null);
+
+                display.hidePopup();
+            }
+        }));
     }
 
     private void registerPreferencesCancel() {
-        registerHandler(display.getCancelButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        rollBack();
-                        display.hidePopup();
-                    }
-                }));
+        registerHandler(display.getCancelButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                rollBack();
+                display.hidePopup();
+            }
+        }));
     }
 
     private void registerTitleColorChangement() {
-        registerHandler(display.getTitleColors().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent arg0) {
-                        String color = ((ColorsPanelWidget) display.getTitleColors()).getSelectedColor().getColorAsString();
-                        portletPresenter.setTitleColor(color);
-                    }
-                }));
+        registerHandler(display.getTitleColors().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent arg0) {
+                String color = ((ColorsPanelWidget) display.getTitleColors()).getSelectedColor().getColorAsString();
+                portletPresenter.setTitleColor(color);
+            }
+        }));
     }
 
     @Override

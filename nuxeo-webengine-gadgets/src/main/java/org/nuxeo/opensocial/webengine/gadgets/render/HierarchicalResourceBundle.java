@@ -13,8 +13,7 @@ public class HierarchicalResourceBundle extends PropertyResourceBundle {
         this.parent = getCommonBundle();
     }
 
-    protected static PropertyResourceBundle getCommonBundle()
-            throws IOException {
+    protected static PropertyResourceBundle getCommonBundle() throws IOException {
         if (commonBundle == null) {
             commonBundle = new PropertyResourceBundle(
                     HierarchicalResourceBundle.class.getClassLoader().getResourceAsStream(

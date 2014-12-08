@@ -22,8 +22,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * @author Stéphane Fourrier
  */
-public class WebContentRemovedEvent extends
-        GwtEvent<WebContentRemovedEventHandler> {
+public class WebContentRemovedEvent extends GwtEvent<WebContentRemovedEventHandler> {
     public static Type<WebContentRemovedEventHandler> TYPE = new Type<WebContentRemovedEventHandler>();
 
     String WebContentId;

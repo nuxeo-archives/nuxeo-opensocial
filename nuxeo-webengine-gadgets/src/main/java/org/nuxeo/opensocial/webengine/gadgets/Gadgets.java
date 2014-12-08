@@ -53,8 +53,8 @@ public class Gadgets extends ModuleRoot {
     }
 
     @GET
-    public Object getGallery(@QueryParam("cat") String category,
-            @QueryParam("mode") String mode, @QueryParam("language") String language) {
+    public Object getGallery(@QueryParam("cat") String category, @QueryParam("mode") String mode,
+            @QueryParam("language") String language) {
         if (language == null) {
             language = "en";
         }
@@ -83,8 +83,8 @@ public class Gadgets extends ModuleRoot {
         List<String> categories = gm.getGadgetCategory();
         categories.add(0, "all");
 
-        return getView(ftlName).arg("gadgets", gadgetList).arg("categories",
-                categories).arg("category", category).arg("mode", mode);
+        return getView(ftlName).arg("gadgets", gadgetList).arg("categories", categories).arg("category", category).arg(
+                "mode", mode);
     }
 
     @GET
@@ -112,8 +112,7 @@ public class Gadgets extends ModuleRoot {
     }
 
     @Path("{name}")
-    public Object getGadget(@PathParam("name") String gadgetName)
-            throws Exception {
+    public Object getGadget(@PathParam("name") String gadgetName) throws Exception {
 
         if (gm == null)
             return Response.ok(500).build();
@@ -136,8 +135,7 @@ public class Gadgets extends ModuleRoot {
         }
 
         Locale locale = getContext().getLocale();
-        String label = I18NUtils.getMessageString("messages", categoryKey,
-                null, locale);
+        String label = I18NUtils.getMessageString("messages", categoryKey, null, locale);
         if (categoryKey.equals(label)) {
             label = categoryKey.replace("gadget.category.", "");
             label = org.apache.commons.lang.StringUtils.capitalize(label);
@@ -159,8 +157,7 @@ public class Gadgets extends ModuleRoot {
 
         List<String> secureTokens = new ArrayList<String>();
         for (String gadgetSpecUrl : gadgetSpecUrls) {
-            secureTokens.add(SecureTokenBuilder.getSecureToken(principalName,
-                    principalName, gadgetSpecUrl, true)); // encode
+            secureTokens.add(SecureTokenBuilder.getSecureToken(principalName, principalName, gadgetSpecUrl, true)); // encode
         }
 
         return StringUtils.join(secureTokens, ",");

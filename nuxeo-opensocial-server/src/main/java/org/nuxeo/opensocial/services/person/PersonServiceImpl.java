@@ -37,8 +37,7 @@ import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.model.ComponentInstance;
 import org.nuxeo.runtime.model.DefaultComponent;
 
-public class PersonServiceImpl extends DefaultComponent implements
-        PersonService {
+public class PersonServiceImpl extends DefaultComponent implements PersonService {
 
     private PrincipalConverter converter = new DefaultPrincipalConverter();
 
@@ -47,8 +46,7 @@ public class PersonServiceImpl extends DefaultComponent implements
     private static final String NOT_IMPLEMENTED = "Not implemented";
 
     @Override
-    public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void registerContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if ("principalConverter".equals(extensionPoint)) {
             PrincipalConverterDescriptor converterDescriptor = (PrincipalConverterDescriptor) contribution;
 
@@ -68,8 +66,7 @@ public class PersonServiceImpl extends DefaultComponent implements
     }
 
     @Override
-    public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void unregisterContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         converter = new DefaultPrincipalConverter();
 
     }
@@ -78,8 +75,7 @@ public class PersonServiceImpl extends DefaultComponent implements
         return id.getUserId() == null ? id.getUserId(token) : id.getUserId();
     }
 
-    public Future<Person> getPerson(UserId id, Set<String> fields,
-            SecurityToken token) {
+    public Future<Person> getPerson(UserId id, Set<String> fields, SecurityToken token) {
         String userId = realUid(id, token);
 
         try {
@@ -87,14 +83,12 @@ public class PersonServiceImpl extends DefaultComponent implements
             NuxeoPrincipal principal = um.getPrincipal(userId);
             return ImmediateFuture.newInstance(converter.convert(principal));
         } catch (Exception e) {
-            throw new ProtocolException(500, "Unable to get user : "
-                    + e.getMessage(), e);
+            throw new ProtocolException(500, "Unable to get user : " + e.getMessage(), e);
         }
     }
 
-    public Future<RestfulCollection<Person>> getPeople(Set<UserId> userIds,
-            GroupId groupId, CollectionOptions collectionOptions,
-            Set<String> fields, SecurityToken token) throws ProtocolException {
+    public Future<RestfulCollection<Person>> getPeople(Set<UserId> userIds, GroupId groupId,
+            CollectionOptions collectionOptions, Set<String> fields, SecurityToken token) throws ProtocolException {
         throw new ProtocolException(500, NOT_IMPLEMENTED);
     }
 }

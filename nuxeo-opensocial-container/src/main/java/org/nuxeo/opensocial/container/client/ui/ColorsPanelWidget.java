@@ -33,8 +33,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 /**
  * @author Stéphane Fourrier
  */
-public class ColorsPanelWidget extends Composite implements HasClickHandlers,
-        HasValue<String>, HasName {
+public class ColorsPanelWidget extends Composite implements HasClickHandlers, HasValue<String>, HasName {
 
     private HorizontalPanel panel;
 
@@ -110,8 +109,7 @@ public class ColorsPanelWidget extends Composite implements HasClickHandlers,
         setValue(value);
     }
 
-    public HandlerRegistration addValueChangeHandler(
-            ValueChangeHandler<String> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
 

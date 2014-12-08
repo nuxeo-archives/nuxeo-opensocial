@@ -33,8 +33,7 @@ public class InitApplication extends AbstractAction<InitApplicationResult> {
         super();
     }
 
-    public InitApplication(ContainerContext containerContext,
-            String spaceProviderName, String spaceName) {
+    public InitApplication(ContainerContext containerContext, String spaceProviderName, String spaceName) {
         super(containerContext);
         this.spaceProviderName = spaceProviderName;
         this.spaceName = spaceName;

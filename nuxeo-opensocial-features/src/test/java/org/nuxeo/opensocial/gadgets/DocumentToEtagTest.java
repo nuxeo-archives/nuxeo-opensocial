@@ -74,16 +74,14 @@ public class DocumentToEtagTest {
         assertFalse(tag2.getValue().equals(tag1.getValue()));
     }
 
-    private DocumentModel createDocForFile(String name, String path,
-            CoreSession session) throws ClientException {
+    private DocumentModel createDocForFile(String name, String path, CoreSession session) throws ClientException {
         URL resource = getResource(path);
 
         DocumentModel doc = session.createDocumentModel("/", name, "File");
         // Updating known attributes (title, filename, content)
         doc.setProperty("dublincore", "title", path);
         doc.setProperty("file", "filename", path);
-        doc.setProperty("file", "content",
-                StreamingBlob.createFromURL(resource));
+        doc.setProperty("file", "content", StreamingBlob.createFromURL(resource));
 
         // writing the new document to the repository
         doc = session.createDocument(doc);
@@ -92,8 +90,7 @@ public class DocumentToEtagTest {
     }
 
     private static URL getResource(String resource) {
-        return Thread.currentThread().getContextClassLoader().getResource(
-                resource);
+        return Thread.currentThread().getContextClassLoader().getResource(resource);
     }
 
 }

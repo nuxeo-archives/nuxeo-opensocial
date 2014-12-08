@@ -97,14 +97,12 @@ public class DocSpaceImpl implements Space {
         return doc.getCoreSession();
     }
 
-    public Boolean hasPermission(String id, String permissionName)
-            throws ClientException {
+    public Boolean hasPermission(String id, String permissionName) throws ClientException {
         DocumentModel document = session().getDocument(new IdRef(id));
         return session().hasPermission(document.getRef(), permissionName);
     }
 
-    public List<String> getAvailableSecurityPermissions()
-            throws ClientException {
+    public List<String> getAvailableSecurityPermissions() throws ClientException {
         return session().getAvailableSecurityPermissions();
     }
 
@@ -144,8 +142,7 @@ public class DocSpaceImpl implements Space {
         session.removeDocument(doc.getRef());
     }
 
-    public WebContentData createWebContent(WebContentData data)
-            throws ClientException {
+    public WebContentData createWebContent(WebContentData data) throws ClientException {
         WebContentSaverService service;
         try {
             service = Framework.getService(WebContentSaverService.class);
@@ -162,8 +159,7 @@ public class DocSpaceImpl implements Space {
                 throw new ClientException("Unable to create web content", e);
             }
         } else {
-            throw new ClientException("Unable to find unit for id "
-                    + idRef.toString());
+            throw new ClientException("Unable to find unit for id " + idRef.toString());
         }
 
         return data;
@@ -201,23 +197,20 @@ public class DocSpaceImpl implements Space {
 
         List<WebContentData> webContentsList = new ArrayList<WebContentData>();
 
-        for (DocumentModel unitDoc : session().getChildren(
-                getDocument().getRef(), UNIT_DOCUMENT_TYPE)) {
-            for (DocumentModel webContentDoc : session().getChildren(
-                    unitDoc.getRef(), null, webContentFilter, webContentSorter)) {
+        for (DocumentModel unitDoc : session().getChildren(getDocument().getRef(), UNIT_DOCUMENT_TYPE)) {
+            for (DocumentModel webContentDoc : session().getChildren(unitDoc.getRef(), null, webContentFilter,
+                    webContentSorter)) {
                 try {
                     webContentsList.add(service.read(webContentDoc, session()));
                 } catch (Exception e) {
-                    throw new ClientException("Unable to get all web contents",
-                            e);
+                    throw new ClientException("Unable to get all web contents", e);
                 }
             }
         }
         return webContentsList;
     }
 
-    public WebContentData updateWebContent(WebContentData data)
-            throws ClientException {
+    public WebContentData updateWebContent(WebContentData data) throws ClientException {
         WebContentSaverService service = null;
 
         try {
@@ -253,33 +246,28 @@ public class DocSpaceImpl implements Space {
         getLayout().initLayout(layout);
     }
 
-    public void moveWebContent(WebContentData data, String dstUnitName)
-            throws ClientException {
+    public void moveWebContent(WebContentData data, String dstUnitName) throws ClientException {
         DocumentModel doc = getDocForData(data);
         session().move(doc.getRef(), new IdRef(dstUnitName), null);
     }
 
-    public DocumentModel getDocForData(WebContentData data)
-            throws ClientException {
+    public DocumentModel getDocForData(WebContentData data) throws ClientException {
         IdRef idRef = new IdRef(data.getId());
         if (session().exists(idRef)) {
             return session().getDocument(idRef);
         } else {
-            throw new ClientException("Enable to find data for id "
-                    + idRef.toString());
+            throw new ClientException("Enable to find data for id " + idRef.toString());
         }
     }
 
-    public WebContentData getWebContent(String webContentId)
-            throws ClientException {
+    public WebContentData getWebContent(String webContentId) throws ClientException {
         WebContentSaverService service;
         try {
             service = Framework.getService(WebContentSaverService.class);
         } catch (Exception e) {
             throw new ClientException("Unable to get WebContent saver service", e);
         }
-        DocumentModel webContentDoc = session().getDocument(
-                new IdRef(webContentId));
+        DocumentModel webContentDoc = session().getDocument(new IdRef(webContentId));
         try {
             return service.read(webContentDoc, session());
         } catch (Exception e) {
@@ -291,20 +279,17 @@ public class DocSpaceImpl implements Space {
         return (Calendar) doc.getPropertyValue("dc:valid");
     }
 
-    public void setPublicationDate(Calendar datePublication)
-            throws ClientException {
+    public void setPublicationDate(Calendar datePublication) throws ClientException {
         doc.setPropertyValue("dc:valid", datePublication);
     }
 
     // TODO ******************************************************************
 
-    public Map<String, Map<String, Boolean>> getPermissions()
-    throws ClientException {
+    public Map<String, Map<String, Boolean>> getPermissions() throws ClientException {
         return getPermissions((List<WebContentData>) null);
     }
 
-    public Map<String, Map<String, Boolean>> getPermissions(List<WebContentData> list)
-            throws ClientException {
+    public Map<String, Map<String, Boolean>> getPermissions(List<WebContentData> list) throws ClientException {
         Map<String, Map<String, Boolean>> rights = new HashMap<String, Map<String, Boolean>>();
 
         // Look permissions for current space
@@ -324,8 +309,7 @@ public class DocSpaceImpl implements Space {
         return rights;
     }
 
-    public Map<String, Boolean> getPermissions(String id)
-            throws ClientException {
+    public Map<String, Boolean> getPermissions(String id) throws ClientException {
         // TODO Stub for everything we need we assign the space's permission
         id = doc.getId();
 

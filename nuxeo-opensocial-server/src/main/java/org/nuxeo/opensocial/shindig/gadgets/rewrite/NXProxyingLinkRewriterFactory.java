@@ -25,8 +25,7 @@ import org.apache.shindig.gadgets.rewrite.ProxyingLinkRewriterFactory;
 
 import com.google.inject.Inject;
 
-public class NXProxyingLinkRewriterFactory implements
-        ProxyingLinkRewriterFactory {
+public class NXProxyingLinkRewriterFactory implements ProxyingLinkRewriterFactory {
 
     private final ContentRewriterUris rewriterUris;
 
@@ -35,10 +34,8 @@ public class NXProxyingLinkRewriterFactory implements
         this.rewriterUris = rewriterUris;
     }
 
-    public ProxyingLinkRewriter create(Uri gadgetUri,
-            ContentRewriterFeature rewriterFeature, String container,
+    public ProxyingLinkRewriter create(Uri gadgetUri, ContentRewriterFeature rewriterFeature, String container,
             boolean debug, boolean ignoreCache) {
-        return new NXLinkRewriter(rewriterUris, gadgetUri, rewriterFeature,
-                container, debug, ignoreCache);
+        return new NXLinkRewriter(rewriterUris, gadgetUri, rewriterFeature, container, debug, ignoreCache);
     }
 }

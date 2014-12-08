@@ -24,8 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * @author Stéphane Fourrier
  */
-public class ClosePortletEvent extends GwtEvent<ClosePortletEventHandler>
-        implements HasId {
+public class ClosePortletEvent extends GwtEvent<ClosePortletEventHandler> implements HasId {
     public static Type<ClosePortletEventHandler> TYPE = new Type<ClosePortletEventHandler>();
 
     private String webContentId;

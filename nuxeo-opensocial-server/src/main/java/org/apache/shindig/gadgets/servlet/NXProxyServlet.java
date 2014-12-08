@@ -18,8 +18,7 @@ public class NXProxyServlet extends InjectedServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         proxyHandler.fetch(new ProxyServletRequest(request), response);
     }
 }

@@ -30,14 +30,12 @@ public class PictureAdapter extends AbstractWebContentAdapter<PictureData> {
             Serializable pictureFile = data.getFiles().get(0);
             doc.setPropertyValue("file:content", pictureFile);
         } else if (doc.getPropertyValue("file:content") == null) {
-            InputStream resourceAsStream = getClass().getResourceAsStream(
-                    "/gadget/picture/thumbnail.png");
+            InputStream resourceAsStream = getClass().getResourceAsStream("/gadget/picture/thumbnail.png");
             try {
                 Blob file = new FileBlob(resourceAsStream);
                 doc.setPropertyValue("file:content", (Serializable) file);
             } catch (IOException e) {
-                throw new ClientException("Cannot get default picture !",
-                        e.getCause());
+                throw new ClientException("Cannot get default picture !", e.getCause());
             }
         }
     }

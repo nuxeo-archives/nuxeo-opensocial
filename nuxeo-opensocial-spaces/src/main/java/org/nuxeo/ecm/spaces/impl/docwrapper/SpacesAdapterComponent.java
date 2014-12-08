@@ -34,8 +34,7 @@ import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.model.ComponentInstance;
 import org.nuxeo.runtime.model.DefaultComponent;
 
-public class SpacesAdapterComponent extends DefaultComponent implements
-        DocumentAdapterFactory {
+public class SpacesAdapterComponent extends DefaultComponent implements DocumentAdapterFactory {
 
     public static final String NAME = SpacesAdapterComponent.class.getName();
 
@@ -44,8 +43,7 @@ public class SpacesAdapterComponent extends DefaultComponent implements
     Map<String, Class<? extends DocumentAdapterFactory>> factories = new HashMap<String, Class<? extends DocumentAdapterFactory>>();
 
     @Override
-    public void registerContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void registerContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if ("factory".equals(extensionPoint)) {
             SpaceFactoryDescriptor desc = (SpaceFactoryDescriptor) contribution;
             factories.put(desc.getType(), desc.getKlass());
@@ -53,8 +51,7 @@ public class SpacesAdapterComponent extends DefaultComponent implements
     }
 
     @Override
-    public void unregisterContribution(Object contribution,
-            String extensionPoint, ComponentInstance contributor) {
+    public void unregisterContribution(Object contribution, String extensionPoint, ComponentInstance contributor) {
         if ("factory".equals(extensionPoint)) {
             SpaceFactoryDescriptor desc = (SpaceFactoryDescriptor) contribution;
             if (factories.containsKey(desc.getType())) {
@@ -67,8 +64,7 @@ public class SpacesAdapterComponent extends DefaultComponent implements
     public Object getAdapter(DocumentModel doc, Class itf) {
         if (Space.class.isAssignableFrom(itf)) {
             return getSpaceFactory(doc, itf);
-        } else if (doc.getType().equals(DocGadgetImpl.TYPE)
-                && Gadget.class.isAssignableFrom(itf)) {
+        } else if (doc.getType().equals(DocGadgetImpl.TYPE) && Gadget.class.isAssignableFrom(itf)) {
             return new DocGadgetImpl(doc);
         }
         return null;
@@ -83,9 +79,7 @@ public class SpacesAdapterComponent extends DefaultComponent implements
             try {
                 factory = factoryKlass.newInstance();
             } catch (Exception e) {
-                log.error(
-                        "Unable to instanciate factory : "
-                                + factoryKlass.getCanonicalName(), e);
+                log.error("Unable to instanciate factory : " + factoryKlass.getCanonicalName(), e);
                 return null;
             }
             return factory.getAdapter(doc, itf);

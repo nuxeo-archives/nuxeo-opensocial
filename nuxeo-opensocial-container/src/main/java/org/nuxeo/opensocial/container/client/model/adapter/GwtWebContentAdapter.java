@@ -45,8 +45,7 @@ public class GwtWebContentAdapter {
         this.data = webContentData;
         this.eventBus = eventBus;
 
-        Presenter webContentPresenter = injector.getGadgetFactory().getPresenterFor(
-                webContentData);
+        Presenter webContentPresenter = injector.getGadgetFactory().getPresenterFor(webContentData);
 
         webContentPresenter.bind();
 

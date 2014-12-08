@@ -27,8 +27,7 @@ import net.customware.gwt.presenter.client.EventBus;
 /**
  * @author Stéphane Fourrier
  */
-abstract public class AbstractContainerAsyncCallback<T> implements
-        AsyncCallback<T> {
+abstract public class AbstractContainerAsyncCallback<T> implements AsyncCallback<T> {
     private String errorMessage;
 
     private EventBus eventBus;

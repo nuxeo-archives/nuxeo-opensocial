@@ -35,8 +35,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 /**
  * @author Stéphane Fourrier
  */
-public class OpenSocialPresenter extends
-        WidgetPresenter<OpenSocialPresenter.Display> {
+public class OpenSocialPresenter extends WidgetPresenter<OpenSocialPresenter.Display> {
 
     public static final String OS_LANG_ATTRIBUTE = "lang";
 
@@ -60,8 +59,7 @@ public class OpenSocialPresenter extends
 
     private OpenSocialModel model;
 
-    public OpenSocialPresenter(Display display, EventBus eventBus,
-            OpenSocialModel model) {
+    public OpenSocialPresenter(Display display, EventBus eventBus, OpenSocialModel model) {
         super(display, eventBus);
 
         this.model = model;
@@ -93,9 +91,7 @@ public class OpenSocialPresenter extends
         if (userLanguage != null && !userLanguage.isEmpty()) {
             locale = userLanguage;
         }
-        model.getData().setFrameUrl(
-                changeParam(model.getData().getFrameUrl(), OS_LANG_ATTRIBUTE,
-                        locale));
+        model.getData().setFrameUrl(changeParam(model.getData().getFrameUrl(), OS_LANG_ATTRIBUTE, locale));
     }
 
     public void setPermissions() {
@@ -110,21 +106,17 @@ public class OpenSocialPresenter extends
             permissionsStr.deleteCharAt(permissionsStr.length() - 1);
         }
         model.getData().setFrameUrl(
-                changeParam(model.getData().getFrameUrl(),
-                        OS_PERMISSIONS_ATTRIBUTE,
-                        "[" + permissionsStr.toString() + "]"));
+                changeParam(model.getData().getFrameUrl(), OS_PERMISSIONS_ATTRIBUTE, "[" + permissionsStr.toString()
+                        + "]"));
     }
 
     public void setView(String view) {
-        model.getData().setFrameUrl(
-                changeParam(model.getData().getFrameUrl(), OS_VIEW_ATTRIBUTE,
-                        view));
+        model.getData().setFrameUrl(changeParam(model.getData().getFrameUrl(), OS_VIEW_ATTRIBUTE, view));
     }
 
     public void setParent() {
         model.getData().setFrameUrl(
-                changeParam(model.getData().getFrameUrl(), OS_PARENT_ATTRIBUTE,
-                        ContainerConfiguration.getBaseUrl()));
+                changeParam(model.getData().getFrameUrl(), OS_PARENT_ATTRIBUTE, ContainerConfiguration.getBaseUrl()));
     }
 
     // Make this method static in order to be easily tested !
@@ -140,14 +132,8 @@ public class OpenSocialPresenter extends
     }
 
     /*
-     * RFC3986 2.2
-     *
-     * reserved = gen-delims / sub-delims
-     *
-     * gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"
-     *
-     * sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" /
-     * "="
+     * RFC3986 2.2 reserved = gen-delims / sub-delims gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@" sub-delims =
+     * "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
      */
     public static String escapeQueryReserved(String s) {
         s = s.replace(":", "%3A");
@@ -179,7 +165,7 @@ public class OpenSocialPresenter extends
             try {
                 int height = Integer.parseInt(heightPref);
                 display.setHeight(height);
-            } catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 // do nothing
             }
         }

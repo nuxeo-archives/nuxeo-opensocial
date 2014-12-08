@@ -36,8 +36,7 @@ public interface OpenSocialService {
     void setInjector(Injector injector);
 
     /**
-     * Returns a file handle to the base64 encoded key that is used to sign
-     * internal requests.
+     * Returns a file handle to the base64 encoded key that is used to sign internal requests.
      */
     File getSigningStateKeyFile();
 
@@ -47,49 +46,42 @@ public interface OpenSocialService {
     byte[] getSigningStateKeyBytes();
 
     /**
-     * Get a list of the configured external service providers that we want to
-     * communicate with.
+     * Get a list of the configured external service providers that we want to communicate with.
      */
     OAuthServiceDescriptor[] getOAuthServices();
 
     /**
-     * PortalConfig array that represents the contribution from the user in the
-     * opensocial xp. This is normally null.
+     * PortalConfig array that represents the contribution from the user in the opensocial xp. This is normally null.
      */
     PortalConfig[] getPortalConfig();
 
     /**
-     * Where the Oauth "return callback" should go. This has to be configured to
-     * the name (and path) that other servers see the nuxeo instance as.
+     * Where the Oauth "return callback" should go. This has to be configured to the name (and path) that other servers
+     * see the nuxeo instance as.
      */
     String getOAuthCallbackUrl();
 
     /**
-     * Return a list of hosts that can be considered as trusted : i.e : we can
-     * use internal sign fetch or propagate JSESSIONID
+     * Return a list of hosts that can be considered as trusted : i.e : we can use internal sign fetch or propagate
+     * JSESSIONID
      */
     String[] getTrustedHosts();
 
     /**
-     * Returns {@code true} if the given host is a trusted host, {@code false}
-     * otherwise.
+     * Returns {@code true} if the given host is a trusted host, {@code false} otherwise.
      */
     boolean isTrustedHost(String host);
 
     /**
-     * We have had to make this public because it must be called at exactly the
-     * right time the initialization sequence. This should be called BEFORE
-     * guice initialization of shindig happens.
+     * We have had to make this public because it must be called at exactly the right time the initialization sequence.
+     * This should be called BEFORE guice initialization of shindig happens.
      */
     void setupOpenSocial() throws Exception;
 
     /**
-     * For communication between Shindig and Nuxeo we have 2 options : - use
-     * Signed Fetch based on a dynamically generated shared key - propagate the
-     * JSESSIONID
-     *
-     * Since propagating JSESSIONID is a "hack" and requires specific code in
-     * the gadget JS, the default is false.
+     * For communication between Shindig and Nuxeo we have 2 options : - use Signed Fetch based on a dynamically
+     * generated shared key - propagate the JSESSIONID Since propagating JSESSIONID is a "hack" and requires specific
+     * code in the gadget JS, the default is false.
      *
      * @return
      */

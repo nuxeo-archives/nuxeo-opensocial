@@ -50,15 +50,12 @@ public class ClientModule extends AbstractPresenterModule {
         bind(AppPresenter.Display.class).to(AppWidget.class).in(Singleton.class);
 
         bind(MessagePresenter.class).in(Singleton.class);
-        bind(MessagePresenter.Display.class).to(MessageWidget.class).in(
-                Singleton.class);
+        bind(MessagePresenter.Display.class).to(MessageWidget.class).in(Singleton.class);
 
         bind(ContainerPresenter.class).in(Singleton.class);
-        bind(ContainerPresenter.Display.class).to(ContainerWidget.class).in(
-                Singleton.class);
+        bind(ContainerPresenter.Display.class).to(ContainerWidget.class).in(Singleton.class);
 
         bind(ContainerBuilderPresenter.class).in(Singleton.class);
-        bind(ContainerBuilderPresenter.Display.class).to(
-                ContainerBuilderWidget.class).in(Singleton.class);
+        bind(ContainerBuilderPresenter.Display.class).to(ContainerBuilderWidget.class).in(Singleton.class);
     }
 }

@@ -22,8 +22,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * @author Stéphane Fourrier
  */
-public class WebContentUpdatedEvent extends
-        GwtEvent<WebContentUpdatedEventHandler> {
+public class WebContentUpdatedEvent extends GwtEvent<WebContentUpdatedEventHandler> {
     public static Type<WebContentUpdatedEventHandler> TYPE = new Type<WebContentUpdatedEventHandler>();
 
     private String webContentId;

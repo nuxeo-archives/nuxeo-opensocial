@@ -34,12 +34,9 @@ public class NuxeoServiceModule extends AbstractModule {
     protected final void configure() {
 
         try {
-            bind(PersonService.class).toInstance(
-                    Framework.getService(PersonService.class));
-            bind(ActivityService.class).toInstance(
-                    Framework.getService(ActivityService.class));
-            bind(AppDataService.class).toInstance(
-                    Framework.getService(AppDataService.class));
+            bind(PersonService.class).toInstance(Framework.getService(PersonService.class));
+            bind(ActivityService.class).toInstance(Framework.getService(ActivityService.class));
+            bind(AppDataService.class).toInstance(Framework.getService(AppDataService.class));
 
         } catch (Exception e) {
             LOG.error("Unable to bind Shindig services to Nuxeo components");

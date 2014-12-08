@@ -28,13 +28,10 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 /**
  * @author Stéphane Fourrier
  */
-public class DeleteWebContentHandler extends
-        AbstractActionHandler<DeleteWebContent, DeleteWebContentResult> {
-    protected DeleteWebContentResult doExecute(DeleteWebContent action,
-            ExecutionContext context, CoreSession session)
+public class DeleteWebContentHandler extends AbstractActionHandler<DeleteWebContent, DeleteWebContentResult> {
+    protected DeleteWebContentResult doExecute(DeleteWebContent action, ExecutionContext context, CoreSession session)
             throws ClientException {
-        getSpaceFromId(action.getSpaceId(), session).deleteWebContent(
-                action.getData());
+        getSpaceFromId(action.getSpaceId(), session).deleteWebContent(action.getData());
         return new DeleteWebContentResult();
     }
 

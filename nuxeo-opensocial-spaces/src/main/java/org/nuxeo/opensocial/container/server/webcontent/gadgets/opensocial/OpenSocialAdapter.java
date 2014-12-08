@@ -51,8 +51,7 @@ import org.nuxeo.runtime.api.Framework;
 /**
  * @author Stéphane Fourrier
  */
-public class OpenSocialAdapter extends
-        AbstractWebContentAdapter<OpenSocialData> {
+public class OpenSocialAdapter extends AbstractWebContentAdapter<OpenSocialData> {
 
     private static final Log log = LogFactory.getLog(OpenSocialAdapter.class);
 
@@ -63,8 +62,7 @@ public class OpenSocialAdapter extends
     }
 
     public void setGadgetDefUrl(String gadgetDefUrl) throws ClientException {
-        doc.setPropertyValue(WC_OPEN_SOCIAL_GADGET_DEF_URL_PROPERTY,
-                gadgetDefUrl);
+        doc.setPropertyValue(WC_OPEN_SOCIAL_GADGET_DEF_URL_PROPERTY, gadgetDefUrl);
     }
 
     public void setGadgetName(String gadgetDefUrl) throws ClientException {
@@ -110,15 +108,13 @@ public class OpenSocialAdapter extends
         savedUserPrefs.clear();
         savedUserPrefs.addAll(tmpMap.values());
 
-        doc.setPropertyValue(WC_OPEN_SOCIAL_USER_PREFS_PROPERTY,
-                (Serializable) savedUserPrefs);
+        doc.setPropertyValue(WC_OPEN_SOCIAL_USER_PREFS_PROPERTY, (Serializable) savedUserPrefs);
 
         setFrameUrlFor(data);
     }
 
     private void setFrameUrlFor(OpenSocialData data) throws ClientException {
-        data.setFrameUrl(UrlBuilder.buildShindigUrl(data,
-                        OpenSocialGadgetHelper.getGadgetsBaseUrl(true) + SEPARATOR));
+        data.setFrameUrl(UrlBuilder.buildShindigUrl(data, OpenSocialGadgetHelper.getGadgetsBaseUrl(true) + SEPARATOR));
     }
 
     @SuppressWarnings("unchecked")
@@ -153,14 +149,12 @@ public class OpenSocialAdapter extends
 
             for (UserPref openSocialUserPref : gadgetSpec.getUserPrefs()) {
                 org.nuxeo.opensocial.container.shared.webcontent.UserPref dataPref = new org.nuxeo.opensocial.container.shared.webcontent.UserPref(
-                        openSocialUserPref.getName(),
-                        DataType.valueOf(openSocialUserPref.getDataType().toString()));
+                        openSocialUserPref.getName(), DataType.valueOf(openSocialUserPref.getDataType().toString()));
 
                 Map<String, String> enumValues = new LinkedHashMap<String, String>();
 
                 for (EnumValuePair osprefValue : openSocialUserPref.getOrderedEnumValues()) {
-                    enumValues.put(osprefValue.getDisplayValue(),
-                            osprefValue.getValue());
+                    enumValues.put(osprefValue.getDisplayValue(), osprefValue.getValue());
                 }
 
                 dataPref.setEnumValues(enumValues);

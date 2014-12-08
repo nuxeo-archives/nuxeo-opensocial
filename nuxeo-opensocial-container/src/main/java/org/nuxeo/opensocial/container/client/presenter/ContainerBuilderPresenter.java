@@ -61,8 +61,7 @@ import com.google.inject.Inject;
 /**
  * @author Stéphane Fourrier
  */
-public class ContainerBuilderPresenter extends
-        WidgetPresenter<ContainerBuilderPresenter.Display> {
+public class ContainerBuilderPresenter extends WidgetPresenter<ContainerBuilderPresenter.Display> {
     public interface Display extends WidgetDisplay {
         HasMultipleValue<String> getContainerSizeListBox();
 
@@ -129,8 +128,7 @@ public class ContainerBuilderPresenter extends
     private AppModel model;
 
     @Inject
-    public ContainerBuilderPresenter(Display display, EventBus eventBus,
-            AppModel model) {
+    public ContainerBuilderPresenter(Display display, EventBus eventBus, AppModel model) {
         super(display, eventBus);
         this.model = model;
 
@@ -157,12 +155,10 @@ public class ContainerBuilderPresenter extends
             int position = 0;
 
             for (YUISize size : sizeValues) {
-                display.getContainerSizeListBox().addValue(
-                        size.getDescription(), size.name());
+                display.getContainerSizeListBox().addValue(size.getDescription(), size.name());
             }
 
-            display.getContainerSizeListBox().addValue(constants.customSize(),
-                    constants.customSize());
+            display.getContainerSizeListBox().addValue(constants.customSize(), constants.customSize());
 
             YUIBodySize bodySize = model.getLayout().getBodySize();
 
@@ -170,21 +166,17 @@ public class ContainerBuilderPresenter extends
                 for (YUISize size : sizeValues) {
                     if (bodySize.getSize() == size.getSize()) {
                         display.setSizePanelVisible(false);
-                        display.getContainerSizeListBox().setItemSelected(
-                                position);
+                        display.getContainerSizeListBox().setItemSelected(position);
                     }
                     position++;
                 }
             } else if (bodySize instanceof YUICustomBodySize) {
-                display.getContainerSizeListBox().setItemSelected(
-                        display.getContainerSizeListBox().getItemCount() - 1);
+                display.getContainerSizeListBox().setItemSelected(display.getContainerSizeListBox().getItemCount() - 1);
                 display.setSizePanelVisible(true);
                 if (bodySize.getSize() == -1) {
-                    display.getCustomSizeTextBox().setValue(
-                            String.valueOf(constants.unknown()));
+                    display.getCustomSizeTextBox().setValue(String.valueOf(constants.unknown()));
                 } else {
-                    display.getCustomSizeTextBox().setValue(
-                            String.valueOf(bodySize.getSize()));
+                    display.getCustomSizeTextBox().setValue(String.valueOf(bodySize.getSize()));
                 }
             }
 
@@ -202,11 +194,9 @@ public class ContainerBuilderPresenter extends
             int position = 0;
 
             for (YUISideBarStyle sideBar : sideBarValues) {
-                display.getSideBarPositionListBox().addValue(
-                        sideBar.getDescription(), sideBar.name());
+                display.getSideBarPositionListBox().addValue(sideBar.getDescription(), sideBar.name());
                 if (model.getLayout().getSidebarStyle().equals(sideBar)) {
-                    display.getSideBarPositionListBox().setItemSelected(
-                            position);
+                    display.getSideBarPositionListBox().setItemSelected(position);
                 }
                 position++;
             }
@@ -227,8 +217,7 @@ public class ContainerBuilderPresenter extends
             int templateIndex = 0;
 
             for (YUITemplate template : templateValues) {
-                display.getZone(zoneIndex).addValue(template.getDescription(),
-                        template.name());
+                display.getZone(zoneIndex).addValue(template.getDescription(), template.name());
                 if (((YUIComponentZoneImpl) zone).getTemplate() == template) {
                     display.getZone(zoneIndex).setItemSelected(templateIndex);
                 }
@@ -313,221 +302,190 @@ public class ContainerBuilderPresenter extends
     }
 
     private void registerDisplayEventContainerSizeChangement() {
-        registerHandler(display.getContainerSizeListBox().addValueChangeHandler(
-                new ValueChangeHandler<String>() {
-                    public void onValueChange(ValueChangeEvent<String> event) {
-                        String selectedValue = event.getValue();
+        registerHandler(display.getContainerSizeListBox().addValueChangeHandler(new ValueChangeHandler<String>() {
+            public void onValueChange(ValueChangeEvent<String> event) {
+                String selectedValue = event.getValue();
 
-                        try {
-                            YUISize.valueOf(selectedValue);
+                try {
+                    YUISize.valueOf(selectedValue);
 
-                            model.setBodySize(new YUIFixedBodySize(
-                                    YUISize.valueOf(selectedValue)));
-                        } catch (IllegalArgumentException iae) {
-                            long width = model.getLayout().getBodySize().getSize();
-                            YUICustomBodySize bodySize = new YUICustomBodySize(
-                                    width);
+                    model.setBodySize(new YUIFixedBodySize(YUISize.valueOf(selectedValue)));
+                } catch (IllegalArgumentException iae) {
+                    long width = model.getLayout().getBodySize().getSize();
+                    YUICustomBodySize bodySize = new YUICustomBodySize(width);
 
-                            model.setBodySize(bodySize);
+                    model.setBodySize(bodySize);
 
-                            display.setSizePanelVisible(true);
-                            if (bodySize.getSize() == -1) {
-                                display.getCustomSizeTextBox().setValue(
-                                        String.valueOf("unknown"));
-                            } else {
-                                display.getCustomSizeTextBox().setValue(
-                                        String.valueOf(bodySize.getSize()));
-                            }
-                        }
+                    display.setSizePanelVisible(true);
+                    if (bodySize.getSize() == -1) {
+                        display.getCustomSizeTextBox().setValue(String.valueOf("unknown"));
+                    } else {
+                        display.getCustomSizeTextBox().setValue(String.valueOf(bodySize.getSize()));
                     }
-                }));
+                }
+            }
+        }));
     }
 
     private void registerDisplayEventCustomSizeValidation() {
-        registerHandler(display.getValidCustomSizeButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        try {
-                            model.setBodySize(new YUICustomBodySize(
-                                    Integer.parseInt(display.getCustomSizeTextBox().getValue())));
+        registerHandler(display.getValidCustomSizeButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                try {
+                    model.setBodySize(new YUICustomBodySize(Integer.parseInt(display.getCustomSizeTextBox().getValue())));
 
-                        } catch (NumberFormatException e) {
-                            eventBus.fireEvent(new SendMessageEvent(
-                                    "Please enter a number !", Severity.ERROR));
-                        }
-                    }
-                }));
+                } catch (NumberFormatException e) {
+                    eventBus.fireEvent(new SendMessageEvent("Please enter a number !", Severity.ERROR));
+                }
+            }
+        }));
     }
 
     private void registerDisplayEventSideBarChangement() {
-        registerHandler(display.getSideBarPositionListBox().addValueChangeHandler(
-                new ValueChangeHandler<String>() {
-                    public void onValueChange(ValueChangeEvent<String> event) {
-                        if (!model.setSideBar(YUISideBarStyle.valueOf(event.getValue()))) {
-                            YUISideBarStyle[] sidebarValues = YUISideBarStyle.values();
+        registerHandler(display.getSideBarPositionListBox().addValueChangeHandler(new ValueChangeHandler<String>() {
+            public void onValueChange(ValueChangeEvent<String> event) {
+                if (!model.setSideBar(YUISideBarStyle.valueOf(event.getValue()))) {
+                    YUISideBarStyle[] sidebarValues = YUISideBarStyle.values();
+                    int templateIndex = 0;
+
+                    for (YUISideBarStyle temp : sidebarValues) {
+                        if (model.getLayout().getSidebarStyle().equals(temp)) {
+                            display.getSideBarPositionListBox().setItemSelected(templateIndex);
+                        }
+                        templateIndex++;
+                    }
+                }
+            }
+        }));
+    }
+
+    private void registerDisplayEventRowAddition() {
+        registerHandler(display.getAddRowButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                model.createZone();
+            }
+        }));
+    }
+
+    private void registerDisplayEventListOfZoneClick() {
+        registerHandler(display.getListOfZonePanel().addClickHandler(new ClickHandler() {
+            @SuppressWarnings("unchecked")
+            public void onClick(ClickEvent event) {
+                Map properties = (HashMap) display.getEventFromCustomContentPanel(event);
+                if (!properties.isEmpty() && properties.size() == 3) {
+                    int rowIndex = (Integer) properties.get("cellIndex");
+                    int cellIndex = (Integer) properties.get("rowIndex");
+                    int zoneIndex = rowIndex - 1;
+                    String template = (String) properties.get("template");
+
+                    if (cellIndex == 0) {
+                        if (model.getLayout().getContent().getComponents().size() > 1) {
+                            model.deleteZone(zoneIndex);
+                        } else {
+                            eventBus.fireEvent(new SendMessageEvent(constants.cantDeleteLastZoneError(), Severity.ERROR));
+                        }
+
+                    } else if (cellIndex == 1) {
+                        if (!model.updateZoneTemplate(zoneIndex, YUITemplate.valueOf(template))) {
+                            YUITemplate[] templateValues = YUITemplate.values();
                             int templateIndex = 0;
 
-                            for (YUISideBarStyle temp : sidebarValues) {
-                                if (model.getLayout().getSidebarStyle().equals(
-                                        temp)) {
-                                    display.getSideBarPositionListBox().setItemSelected(
-                                            templateIndex);
+                            for (YUITemplate temp : templateValues) {
+                                if (((YUIComponentZoneImpl) model.getLayout().getContent().getComponents().get(
+                                        zoneIndex)).getTemplate() == temp) {
+                                    display.getZone(zoneIndex).setItemSelected(templateIndex);
                                 }
                                 templateIndex++;
                             }
                         }
                     }
-                }));
-    }
-
-    private void registerDisplayEventRowAddition() {
-        registerHandler(display.getAddRowButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        model.createZone();
-                    }
-                }));
-    }
-
-    private void registerDisplayEventListOfZoneClick() {
-        registerHandler(display.getListOfZonePanel().addClickHandler(
-                new ClickHandler() {
-                    @SuppressWarnings("unchecked")
-                    public void onClick(ClickEvent event) {
-                        Map properties = (HashMap) display.getEventFromCustomContentPanel(event);
-                        if (!properties.isEmpty() && properties.size() == 3) {
-                            int rowIndex = (Integer) properties.get("cellIndex");
-                            int cellIndex = (Integer) properties.get("rowIndex");
-                            int zoneIndex = rowIndex - 1;
-                            String template = (String) properties.get("template");
-
-                            if (cellIndex == 0) {
-                                if (model.getLayout().getContent().getComponents().size() > 1) {
-                                    model.deleteZone(zoneIndex);
-                                } else {
-                                    eventBus.fireEvent(new SendMessageEvent(
-                                            constants.cantDeleteLastZoneError(),
-                                            Severity.ERROR));
-                                }
-
-                            } else if (cellIndex == 1) {
-                                if (!model.updateZoneTemplate(zoneIndex,
-                                        YUITemplate.valueOf(template))) {
-                                    YUITemplate[] templateValues = YUITemplate.values();
-                                    int templateIndex = 0;
-
-                                    for (YUITemplate temp : templateValues) {
-                                        if (((YUIComponentZoneImpl) model.getLayout().getContent().getComponents().get(
-                                                zoneIndex)).getTemplate() == temp) {
-                                            display.getZone(zoneIndex).setItemSelected(
-                                                    templateIndex);
-                                        }
-                                        templateIndex++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }));
+                }
+            }
+        }));
     }
 
     private void registerDisplayEventHeaderSelection() {
-        registerHandler(display.getHeaderSelectionCheckBox().addValueChangeHandler(
-                new ValueChangeHandler<Boolean>() {
-                    public void onValueChange(ValueChangeEvent<Boolean> event) {
-                        if (!model.setHasHeader(event.getValue())) {
-                            display.getHeaderSelectionCheckBox().setValue(
-                                    !event.getValue());
-                        }
-                    }
-                }));
+        registerHandler(display.getHeaderSelectionCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+                if (!model.setHasHeader(event.getValue())) {
+                    display.getHeaderSelectionCheckBox().setValue(!event.getValue());
+                }
+            }
+        }));
     }
 
     private void registerDisplayEventFooterSelection() {
-        registerHandler(display.getFooterSelectionCheckBox().addValueChangeHandler(
-                new ValueChangeHandler<Boolean>() {
-                    public void onValueChange(ValueChangeEvent<Boolean> event) {
-                        if (!model.setHasFooter(event.getValue())) {
-                            display.getFooterSelectionCheckBox().setValue(
-                                    !event.getValue());
-                        }
-                    }
-                }));
+        registerHandler(display.getFooterSelectionCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+                if (!model.setHasFooter(event.getValue())) {
+                    display.getFooterSelectionCheckBox().setValue(!event.getValue());
+                }
+            }
+        }));
     }
 
     private void registerDisplayEventCodeViewer() {
-        registerHandler(display.getShowCodeButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        display.showHTMLCode(new YUILayoutHtmlAdapter(
-                                model.getLayout()).toHtml());
-                    }
-                }));
+        registerHandler(display.getShowCodeButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                display.showHTMLCode(new YUILayoutHtmlAdapter(model.getLayout()).toHtml());
+            }
+        }));
     }
 
     private void registerDisplayEventBuilderClose() {
-        registerHandler(display.getCloseBuilderButton().addClickHandler(
-                new ClickHandler() {
-                    public void onClick(ClickEvent arg0) {
-                        display.hidePopup();
-                    }
-                }));
+        registerHandler(display.getCloseBuilderButton().addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent arg0) {
+                display.hidePopup();
+            }
+        }));
     }
 
     private void registerBusEventRowDeleted() {
-        registerHandler(eventBus.addHandler(ZoneDeletedEvent.TYPE,
-                new ZoneRowDeletedEventHandler() {
-                    public void onRowDeleted(ZoneDeletedEvent event) {
-                        display.removeZone(event.getId());
-                    }
-                }));
+        registerHandler(eventBus.addHandler(ZoneDeletedEvent.TYPE, new ZoneRowDeletedEventHandler() {
+            public void onRowDeleted(ZoneDeletedEvent event) {
+                display.removeZone(event.getId());
+            }
+        }));
     }
 
     private void registerBusEventContainerSizeChangement() {
-        registerHandler(eventBus.addHandler(ContainerSizeChangedEvent.TYPE,
-                new ContainerSizeChangedEventHandler() {
-                    public void onChangeContainerSize(
-                            ContainerSizeChangedEvent event) {
-                        if (model.getLayout().getBodySize() instanceof YUIFixedBodySize) {
-                            display.setSizePanelVisible(false);
-                        } else if (model.getLayout().getBodySize() instanceof YUICustomBodySize) {
-                            YUICustomBodySize bodySize = (YUICustomBodySize) model.getLayout().getBodySize();
+        registerHandler(eventBus.addHandler(ContainerSizeChangedEvent.TYPE, new ContainerSizeChangedEventHandler() {
+            public void onChangeContainerSize(ContainerSizeChangedEvent event) {
+                if (model.getLayout().getBodySize() instanceof YUIFixedBodySize) {
+                    display.setSizePanelVisible(false);
+                } else if (model.getLayout().getBodySize() instanceof YUICustomBodySize) {
+                    YUICustomBodySize bodySize = (YUICustomBodySize) model.getLayout().getBodySize();
 
-                            display.setSizePanelVisible(true);
-                            if (bodySize.getSize() == -1) {
-                                display.getCustomSizeTextBox().setValue("");
-                            } else {
-                                display.getCustomSizeTextBox().setValue(
-                                        String.valueOf(bodySize.getSize()));
-                            }
-                        }
+                    display.setSizePanelVisible(true);
+                    if (bodySize.getSize() == -1) {
+                        display.getCustomSizeTextBox().setValue("");
+                    } else {
+                        display.getCustomSizeTextBox().setValue(String.valueOf(bodySize.getSize()));
                     }
-                }));
+                }
+            }
+        }));
     }
 
     private void registerBusEventRowAddition() {
-        registerHandler(eventBus.addHandler(ZoneAddedEvent.TYPE,
-                new ZoneAddedEventHandler() {
-                    public void onAddRow(ZoneAddedEvent event) {
-                        List<YUIComponent> zones = model.getLayout().getContent().getComponents();
+        registerHandler(eventBus.addHandler(ZoneAddedEvent.TYPE, new ZoneAddedEventHandler() {
+            public void onAddRow(ZoneAddedEvent event) {
+                List<YUIComponent> zones = model.getLayout().getContent().getComponents();
 
-                        YUITemplate zoneTemplate = ((YUIComponentZoneImpl) zones.get(zones.size() - 1)).getTemplate();
+                YUITemplate zoneTemplate = ((YUIComponentZoneImpl) zones.get(zones.size() - 1)).getTemplate();
 
-                        int zoneIndex = display.addZone();
+                int zoneIndex = display.addZone();
 
-                        int templateIndex = 0;
-                        YUITemplate[] templateValues = YUITemplate.values();
+                int templateIndex = 0;
+                YUITemplate[] templateValues = YUITemplate.values();
 
-                        for (YUITemplate template : templateValues) {
-                            display.getZone(zoneIndex).addValue(
-                                    template.getDescription(), template.name());
-                            if (zoneTemplate == template) {
-                                display.getZone(zoneIndex).setItemSelected(
-                                        templateIndex);
-                            }
-                            templateIndex++;
-                        }
+                for (YUITemplate template : templateValues) {
+                    display.getZone(zoneIndex).addValue(template.getDescription(), template.name());
+                    if (zoneTemplate == template) {
+                        display.getZone(zoneIndex).setItemSelected(templateIndex);
                     }
-                }));
+                    templateIndex++;
+                }
+            }
+        }));
     }
 }

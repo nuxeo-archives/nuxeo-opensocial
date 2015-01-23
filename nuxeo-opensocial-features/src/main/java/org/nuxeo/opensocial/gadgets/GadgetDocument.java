@@ -221,7 +221,6 @@ public class GadgetDocument extends DocumentObject {
     protected Blob getCroppedBlob(Blob blob, int newWidth, int newHeight) throws IOException, ConversionException,
             ClientException {
         String fileName = blob.getFilename();
-        blob.persist();
 
         Map<String, Serializable> options = new HashMap<String, Serializable>();
         ImageInfo imageInfo = getImagingService().getImageInfo(blob);
@@ -264,7 +263,6 @@ public class GadgetDocument extends DocumentObject {
 
     protected Blob getResizedBlobl(Blob blob, int newWidth) throws ClientException, IOException {
         String fileName = blob.getFilename();
-        blob.persist();
         BlobHolder bh = new SimpleBlobHolder(blob);
 
         Map<String, Serializable> options = new HashMap<String, Serializable>();

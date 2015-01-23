@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.impl.blob.StreamingBlob;
+import org.nuxeo.ecm.core.api.impl.blob.URLBlob;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
@@ -81,7 +81,7 @@ public class DocumentToEtagTest {
         // Updating known attributes (title, filename, content)
         doc.setProperty("dublincore", "title", path);
         doc.setProperty("file", "filename", path);
-        doc.setProperty("file", "content", StreamingBlob.createFromURL(resource));
+        doc.setProperty("file", "content", new URLBlob(resource));
 
         // writing the new document to the repository
         doc = session.createDocument(doc);

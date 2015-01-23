@@ -31,15 +31,13 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreInstance;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.impl.blob.StreamingBlob;
+import org.nuxeo.ecm.core.api.impl.blob.ByteArrayBlob;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.spaces.api.Space;
 import org.nuxeo.ecm.spaces.api.SpaceManager;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.opensocial.container.client.rpc.AbstractAction;
 import org.nuxeo.runtime.api.Framework;
-import org.nuxeo.runtime.services.streaming.ByteArraySource;
-import org.nuxeo.runtime.services.streaming.InputStreamSource;
-import org.nuxeo.runtime.services.streaming.StreamSource;
 import org.nuxeo.runtime.transaction.TransactionHelper;
 
 /**
@@ -88,24 +86,21 @@ public abstract class AbstractActionHandler<T extends AbstractAction<R>, R exten
     }
 
     protected static Blob getBlob(FileItem item) {
-        StreamSource src;
+        String ctype = item.getContentType();
+        if (ctype == null) {
+            ctype = "application/octet-stream";
+        }
+        Blob blob;
         if (item.isInMemory()) {
-            src = new ByteArraySource(item.get());
+            blob = new ByteArrayBlob(item.get(), ctype);
         } else {
             try {
-                src = new InputStreamSource(item.getInputStream());
+                blob = new FileBlob(item.getInputStream(), ctype);
             } catch (IOException e) {
                 throw WebException.wrap("Failed to get blob data", e);
             }
         }
-        String ctype = item.getContentType();
-        StreamingBlob blob = new StreamingBlob(src, ctype == null ? "application/octet-stream" : ctype);
         blob.setFilename(item.getName());
-        try {
-            blob.persist();
-        } catch (IOException e) {
-            throw WebException.wrap("Failed to persist blob data", e);
-        }
         return blob;
     }
 

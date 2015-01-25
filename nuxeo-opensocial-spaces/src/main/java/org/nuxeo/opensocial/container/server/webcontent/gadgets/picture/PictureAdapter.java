@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.opensocial.container.server.webcontent.abs.AbstractWebContentAdapter;
 import org.nuxeo.opensocial.container.shared.webcontent.PictureData;
 
@@ -32,7 +32,7 @@ public class PictureAdapter extends AbstractWebContentAdapter<PictureData> {
         } else if (doc.getPropertyValue("file:content") == null) {
             Blob file;
             try (InputStream resourceAsStream = getClass().getResourceAsStream("/gadget/picture/thumbnail.png")) {
-                file = new FileBlob(resourceAsStream);
+                file = Blobs.createBlob(resourceAsStream);
             } catch (IOException e) {
                 throw new ClientException("Cannot get default picture !", e.getCause());
             }

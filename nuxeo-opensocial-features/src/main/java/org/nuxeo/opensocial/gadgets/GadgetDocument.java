@@ -33,12 +33,12 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.blobholder.SimpleBlobHolder;
-import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 import org.nuxeo.ecm.core.api.model.Property;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.convert.api.ConversionException;
@@ -178,7 +178,7 @@ public class GadgetDocument extends DocumentObject {
                         try {
                             String htmlContent = form.getFormProperty(key);
                             String filename = strings[1];
-                            Blob file = new StringBlob(htmlContent);
+                            Blob file = Blobs.createBlob(htmlContent);
                             ArrayList<Map<String, Serializable>> files = (ArrayList<Map<String, Serializable>>) doc.getPropertyValue(FILES_FILES);
                             boolean isUpdated = false;
                             for (Map<String, Serializable> map : files) {

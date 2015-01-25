@@ -28,11 +28,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreInstance;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.impl.blob.ByteArrayBlob;
-import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.spaces.api.Space;
 import org.nuxeo.ecm.spaces.api.SpaceManager;
 import org.nuxeo.ecm.webengine.WebException;
@@ -95,7 +95,7 @@ public abstract class AbstractActionHandler<T extends AbstractAction<R>, R exten
             blob = new ByteArrayBlob(item.get(), ctype);
         } else {
             try {
-                blob = new FileBlob(item.getInputStream(), ctype);
+                blob = Blobs.createBlob(item.getInputStream(), ctype);
             } catch (IOException e) {
                 throw WebException.wrap("Failed to get blob data", e);
             }

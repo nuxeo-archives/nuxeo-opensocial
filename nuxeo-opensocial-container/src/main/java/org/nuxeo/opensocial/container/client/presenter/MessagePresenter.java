@@ -17,6 +17,8 @@
 
 package org.nuxeo.opensocial.container.client.presenter;
 
+import javax.inject.Inject;
+
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
@@ -29,7 +31,6 @@ import org.nuxeo.opensocial.container.client.event.priv.app.SendMessageEvent;
 import org.nuxeo.opensocial.container.client.event.priv.app.SendMessageEventHandler;
 
 import com.google.gwt.user.client.ui.HasText;
-import com.google.inject.Inject;
 
 /**
  * @author Stéphane Fourrier

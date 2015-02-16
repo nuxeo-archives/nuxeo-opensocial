@@ -7,6 +7,8 @@ import static org.nuxeo.ecm.spaces.api.Constants.UNIT_DOCUMENT_TYPE;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -22,8 +24,6 @@ import org.nuxeo.opensocial.container.shared.webcontent.PictureData;
 import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-
-import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(OpenSocialContainerFeature.class)

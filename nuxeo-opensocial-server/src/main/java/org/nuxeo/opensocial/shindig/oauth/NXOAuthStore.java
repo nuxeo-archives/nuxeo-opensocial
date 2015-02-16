@@ -17,6 +17,8 @@
 
 package org.nuxeo.opensocial.shindig.oauth;
 
+import javax.inject.Singleton;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shindig.auth.SecurityToken;
@@ -30,8 +32,6 @@ import org.nuxeo.ecm.platform.oauth.tokens.NuxeoOAuthToken;
 import org.nuxeo.ecm.platform.oauth.tokens.OAuthTokenStore;
 import org.nuxeo.opensocial.service.api.OpenSocialService;
 import org.nuxeo.runtime.api.Framework;
-
-import com.google.inject.Singleton;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthConsumer;

@@ -19,6 +19,8 @@ package org.nuxeo.opensocial.container.client.utils;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.nuxeo.opensocial.container.client.external.html.HTMLGadget;
 import org.nuxeo.opensocial.container.client.external.html.HTMLModel;
 import org.nuxeo.opensocial.container.client.external.html.HTMLPresenter;
@@ -33,8 +35,6 @@ import org.nuxeo.opensocial.container.shared.webcontent.HTMLData;
 import org.nuxeo.opensocial.container.shared.webcontent.OpenSocialData;
 import org.nuxeo.opensocial.container.shared.webcontent.PictureData;
 import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
-
-import com.google.inject.Inject;
 
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.Presenter;

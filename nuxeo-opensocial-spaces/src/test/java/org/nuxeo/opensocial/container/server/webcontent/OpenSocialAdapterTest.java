@@ -1,14 +1,13 @@
 package org.nuxeo.opensocial.container.server.webcontent;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +25,6 @@ import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
 import org.nuxeo.opensocial.container.shared.webcontent.enume.DataType;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-
-import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(OpenSocialContainerFeature.class)

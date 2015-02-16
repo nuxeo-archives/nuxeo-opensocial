@@ -20,6 +20,8 @@ package org.nuxeo.opensocial.container.server.handler.webcontent;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.servlet.http.HttpServletRequest;
 
 import org.nuxeo.ecm.core.api.ClientException;
@@ -32,9 +34,6 @@ import org.nuxeo.opensocial.container.client.rpc.webcontent.action.UpdateWebCont
 import org.nuxeo.opensocial.container.client.rpc.webcontent.result.UpdateWebContentResult;
 import org.nuxeo.opensocial.container.server.handler.AbstractActionHandler;
 import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
-
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import net.customware.gwt.dispatch.server.ExecutionContext;
 

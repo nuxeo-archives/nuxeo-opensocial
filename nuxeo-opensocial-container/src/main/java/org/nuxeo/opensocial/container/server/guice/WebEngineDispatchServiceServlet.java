@@ -24,6 +24,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +37,6 @@ import org.nuxeo.ecm.webengine.gwt.WebEngineGwtServlet;
 
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.SerializationPolicyLoader;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import net.customware.gwt.dispatch.server.Dispatch;
 import net.customware.gwt.dispatch.server.service.DispatchServiceServlet;

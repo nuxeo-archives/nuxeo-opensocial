@@ -17,13 +17,13 @@
 
 package org.nuxeo.opensocial.shindig.gadgets.rewrite;
 
+import javax.inject.Inject;
+
 import org.apache.shindig.common.uri.Uri;
 import org.apache.shindig.gadgets.rewrite.ContentRewriterFeature;
 import org.apache.shindig.gadgets.rewrite.ContentRewriterUris;
 import org.apache.shindig.gadgets.rewrite.ProxyingLinkRewriter;
 import org.apache.shindig.gadgets.rewrite.ProxyingLinkRewriterFactory;
-
-import com.google.inject.Inject;
 
 public class NXProxyingLinkRewriterFactory implements ProxyingLinkRewriterFactory {
 

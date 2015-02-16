@@ -26,6 +26,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
+import javax.inject.Named;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -50,7 +52,6 @@ import org.nuxeo.opensocial.helper.ProxyHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 /**
  * We have to copy BasicHttpFetcher because we must override the way proxy is used (it's not handling authentication),

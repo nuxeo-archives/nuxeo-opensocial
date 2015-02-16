@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.inject.Inject;
+
 import org.nuxeo.opensocial.container.client.AppInfoMessages;
 import org.nuxeo.opensocial.container.client.Container;
 import org.nuxeo.opensocial.container.client.ContainerConfiguration;
@@ -92,7 +94,6 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.Presenter;

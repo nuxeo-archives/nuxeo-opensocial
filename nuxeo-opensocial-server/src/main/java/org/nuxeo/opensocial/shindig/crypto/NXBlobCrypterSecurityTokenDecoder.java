@@ -19,6 +19,8 @@ package org.nuxeo.opensocial.shindig.crypto;
 
 import java.io.FileReader;
 
+import javax.inject.Inject;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,8 +33,6 @@ import org.apache.shindig.gadgets.oauth.OAuthStore;
 import org.nuxeo.ecm.platform.oauth.providers.OAuthServiceProviderRegistry;
 import org.nuxeo.opensocial.service.api.OpenSocialService;
 import org.nuxeo.runtime.api.Framework;
-
-import com.google.inject.Inject;
 
 public class NXBlobCrypterSecurityTokenDecoder extends BlobCrypterSecurityTokenDecoder {
 

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.nuxeo.ecm.spaces.api.Constants.UNIT_DOCUMENT_TYPE;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -19,8 +21,6 @@ import org.nuxeo.opensocial.container.server.webcontent.gadgets.html.HTMLAdapter
 import org.nuxeo.opensocial.container.shared.webcontent.HTMLData;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-
-import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(OpenSocialContainerFeature.class)

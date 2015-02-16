@@ -22,6 +22,7 @@ import static org.junit.Assert.assertFalse;
 
 import java.net.URL;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.EntityTag;
 
 import org.junit.Test;
@@ -34,8 +35,6 @@ import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-
-import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)

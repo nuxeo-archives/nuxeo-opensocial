@@ -17,6 +17,8 @@
 
 package org.nuxeo.opensocial.shindig.oauth;
 
+import javax.inject.Singleton;
+
 import org.apache.shindig.gadgets.oauth.BasicOAuthStoreConsumerKeyAndSecret;
 import org.apache.shindig.gadgets.oauth.BasicOAuthStoreConsumerKeyAndSecret.KeyType;
 import org.apache.shindig.gadgets.oauth.OAuthStore;
@@ -25,7 +27,6 @@ import org.nuxeo.opensocial.service.api.OpenSocialService;
 import org.nuxeo.runtime.api.Framework;
 
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 /**
  * This class is used to plug Nuxeo OAuth Store into Shindig

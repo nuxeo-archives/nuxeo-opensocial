@@ -20,6 +20,8 @@ package org.nuxeo.opensocial.servlet;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -40,10 +42,8 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.google.inject.Binder;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Stage;
 import com.google.inject.tools.jmx.Manager;
 import com.google.inject.util.Modules;

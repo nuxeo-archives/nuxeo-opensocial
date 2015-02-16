@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.inject.Inject;
+
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
@@ -50,7 +52,6 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 
 /**
  * @author Stéphane Fourrier

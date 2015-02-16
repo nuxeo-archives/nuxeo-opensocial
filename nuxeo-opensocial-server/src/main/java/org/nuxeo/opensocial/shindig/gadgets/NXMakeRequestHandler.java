@@ -20,6 +20,8 @@ package org.nuxeo.opensocial.shindig.gadgets;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -36,9 +38,6 @@ import org.apache.shindig.gadgets.servlet.MakeRequestHandler;
 import org.apache.shindig.gadgets.servlet.ProxyBase;
 import org.nuxeo.opensocial.service.api.OpenSocialService;
 import org.nuxeo.runtime.api.Framework;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author cusgu Patch FeedProcessor in order to retrieve extra elements from RSS 2.0 feeds : - enclosure

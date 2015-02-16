@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import org.apache.shindig.common.servlet.HttpUtil;
 import org.apache.shindig.common.servlet.InjectedServlet;
 import org.apache.shindig.gadgets.GadgetException;
-
-import com.google.inject.Inject;
 
 public class NXConcatProxyServlet extends InjectedServlet {
 

@@ -17,11 +17,12 @@
 
 package org.nuxeo.opensocial.container.client.presenter;
 
+import javax.inject.Inject;
+
 import org.nuxeo.opensocial.container.client.ui.api.HasId;
 import org.nuxeo.opensocial.container.shared.webcontent.WebContentData;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.Presenter;

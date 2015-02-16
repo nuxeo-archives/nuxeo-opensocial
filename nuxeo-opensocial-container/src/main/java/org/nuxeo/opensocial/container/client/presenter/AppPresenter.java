@@ -20,6 +20,9 @@ package org.nuxeo.opensocial.container.client.presenter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
@@ -51,8 +54,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 /**
  * @author Stéphane Fourrier

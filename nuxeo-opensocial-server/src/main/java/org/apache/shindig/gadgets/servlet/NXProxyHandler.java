@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,9 +25,6 @@ import org.apache.shindig.gadgets.http.HttpResponse;
 import org.apache.shindig.gadgets.http.RequestPipeline;
 import org.apache.shindig.gadgets.rewrite.RequestRewriterRegistry;
 import org.apache.shindig.gadgets.rewrite.RewritingException;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 @Singleton
 public class NXProxyHandler extends ProxyBase {

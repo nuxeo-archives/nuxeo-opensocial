@@ -17,6 +17,8 @@
 
 package org.nuxeo.opensocial.container.client.presenter;
 
+import javax.inject.Inject;
+
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.Presenter;
 import net.customware.gwt.presenter.client.place.Place;
@@ -39,7 +41,6 @@ import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseUpHandlers;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 
 /**
  * @author Stéphane Fourrier

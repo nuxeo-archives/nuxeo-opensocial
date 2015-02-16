@@ -16,6 +16,8 @@
  */
 package org.nuxeo.opensocial.shindig.oauth;
 
+import javax.inject.Inject;
+
 import org.apache.shindig.auth.SecurityToken;
 import org.apache.shindig.gadgets.GadgetSpecFactory;
 import org.apache.shindig.gadgets.oauth.AccessorInfo;
@@ -31,8 +33,6 @@ import org.apache.shindig.gadgets.oauth.OAuthStore.ConsumerInfo;
 import org.nuxeo.ecm.platform.oauth.keys.OAuthServerKeyManager;
 import org.nuxeo.opensocial.service.api.OpenSocialService;
 import org.nuxeo.runtime.api.Framework;
-
-import com.google.inject.Inject;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthConsumer;

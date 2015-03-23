@@ -51,7 +51,7 @@ public class Gadgeti18n {
     protected static final String EMPTY_I18N_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><messagebundle></messagebundle>";
 
     protected static final String[] LANGS = { "en", "fr", "de", "it", "es", "pt", "pl", "eu", "ru", "ar", "cn", "ja",
-            "vn" };
+            "vn", "nl" };
 
     protected static final List<Locale> SUPPORTED_LOCALES = new ArrayList<Locale>();
 

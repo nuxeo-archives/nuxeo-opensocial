@@ -38,7 +38,7 @@ jQuery(document).ready(function(){
   if(perm) jQuery("#perm").show();
 
   jQuery('#upload').click(function(){
-    jQuery('#richtext').val(jQuery('.nicEdit-main').html());
+    jQuery('#richtext').val(jQuery('.nicEdit-main').text()); // text not html to prevent XSS
     jQuery('#formUpload').ajaxSubmit({
       success:function(){
         savePrefs();
@@ -157,7 +157,7 @@ function loadHtml(id){
 
 function setHtml(content) {
   if(_isSet(content)){
-    jQuery(".nicEdit-main").html(content);
+    jQuery(".nicEdit-main").text(content); // text not html to prevent XSS
     jQuery("#pictureContainer").append(content);
     gadgets.window.adjustHeight();
   }
